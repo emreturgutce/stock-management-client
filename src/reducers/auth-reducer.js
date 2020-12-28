@@ -22,19 +22,14 @@ export function authReducer(state = initialState, action) {
             };
         case AuthActionTypes.AUTH_SUCCESS:
         case AuthActionTypes.LOGIN_SUCCESS:
-        case AuthActionTypes.REGISTER_SUCCESS:
             return {
                 ...state,
-                user: {
-                    id: action.payload?.id,
-                    name: action.payload?.name,
-                },
+                user: action.payload,
                 isAuthenticated: true,
                 isLoading: false,
             };
         case AuthActionTypes.AUTH_FAIL:
         case AuthActionTypes.LOGIN_FAIL:
-        case AuthActionTypes.REGISTER_FAIL:
         case AuthActionTypes.LOGOUT_SUCCESS:
             return {
                 ...state,
