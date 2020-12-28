@@ -11,15 +11,27 @@ export const loginUser = (data) => (dispatch) => {
         body: JSON.stringify(data),
     })
         .then((res) => res.json())
-        .then(({ data }) => {
-            dispatch({
-                type: AuthActionTypes.LOGIN_SUCCESS,
-                payload: data[0],
-            });
+        .then((res) => {
+            if (res.data) {
+                dispatch({
+                    type: AuthActionTypes.LOGIN_SUCCESS,
+                    payload: res.data[0],
+                });
+            } else {
+                dispatch({
+                    type: AuthActionTypes.LOGIN_FAIL,
+                    payload: {
+                        error: res.error,
+                    },
+                });
+            }
         })
         .catch((err) => {
             dispatch({
                 type: AuthActionTypes.LOGIN_FAIL,
+                payload: {
+                    error: err,
+                },
             });
         });
 };
