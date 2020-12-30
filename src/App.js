@@ -7,6 +7,8 @@ import Home from './pages/home';
 import Login from './pages/login';
 import PrivateRoute from './components/private-route';
 import Navbar from './components/navbar';
+import CarDetail from './pages/car-detail';
+import CarAdd from './pages/car-add';
 import { getUser } from './actions/auth/get-user';
 
 const App = () => {
@@ -40,8 +42,10 @@ const App = () => {
                 </div>
             ) : (
                 <Switch>
-                    <PrivateRoute exact path='/' Children={Home} />
                     <Route exact path='/login' component={Login} />
+                    <PrivateRoute exact path='/' Children={Home} />
+                    <PrivateRoute exact path='/:id' Children={CarDetail} />
+                    <PrivateRoute exact path='/cars/add' Children={CarAdd} />
                 </Switch>
             )}
         </Router>

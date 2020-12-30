@@ -7,3 +7,9 @@ export const AuthActionTypes = {
     AUTH_FAIL: 'AUTH_FAIL',
     AUTH_SUCCESS: 'AUTH_SUCCESS',
 };
+
+export const CarActionTypes = {
+    CARS_LOADING: 'CARS_LOADING',
+    CARS_LOADED: 'CARS_LOADED',
+    CARS_FAIL: 'CARS_FAIL',
+};
