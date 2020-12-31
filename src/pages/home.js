@@ -6,7 +6,7 @@ import { getCars } from '../actions/cars/get-cars';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -93,7 +93,13 @@ const Home = () => {
 
     const data = {
         columns: [
-            { field: 'id', width: 300 },
+            { field: 'id', width: 300, hide: true },
+            {
+                field: 'image',
+                renderCell: (params) => (
+                    <img src='/araba.jpg' height='75' alt='araba' />
+                ),
+            },
             {
                 field: 'title',
                 width: 350,
@@ -112,7 +118,7 @@ const Home = () => {
             { field: 'year', width: 120 },
             { field: 'is_new', width: 120 },
         ],
-        rows: cars,
+        rows: cars.map((car) => ({ ...car, id: car.car_id })),
     };
 
     const getCarsCb = useCallback(() => dispatch(getCars()), [
@@ -138,6 +144,7 @@ const Home = () => {
                 components={{
                     noRowsOverlay: CustomNoRowsOverlay,
                 }}
+                rowHeight={75}
                 loading={isLoading}
                 autoPageSize
                 {...data}
