@@ -342,7 +342,7 @@ export default function AddressForm() {
                                                     key={supplier.id}
                                                     value={supplier.id}
                                                 >
-                                                    {supplier.first_name}
+                                                    {`${supplier.first_name} ${supplier.last_name}`}
                                                 </option>
                                             ))}
                                     </Select>
