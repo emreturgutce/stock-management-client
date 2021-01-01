@@ -14,13 +14,19 @@ export const getUser = (data) => (dispatch) => {
             credentials: 'include',
         })
             .then((res) => res.json())
-            .then(({ data }) => {
-                setTimeout(() => {
+            .then((res) => {
+                if (res.data) {
+                    setTimeout(() => {
+                        dispatch({
+                            type: AuthActionTypes.AUTH_SUCCESS,
+                            payload: res.data[0],
+                        });
+                    }, 2000);
+                } else {
                     dispatch({
-                        type: AuthActionTypes.AUTH_SUCCESS,
-                        payload: data[0],
+                        type: AuthActionTypes.AUTH_FAIL,
                     });
-                }, 2000);
+                }
             })
             .catch((err) => {
                 dispatch({

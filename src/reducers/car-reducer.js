@@ -5,6 +5,7 @@ const initialState = {
     cars: [],
     manufacturers: [],
     suppliers: [],
+    colors: [],
     errors: [],
 };
 
@@ -60,6 +61,25 @@ export function carReducer(state = initialState, action) {
                 suppliers: action.payload,
             };
         case CarActionTypes.SUPPLIERS_FAIL:
+            return {
+                ...state,
+                isLoading: false,
+                errors: action.payload?.error
+                    ? [action.payload?.error]
+                    : state.errors,
+            };
+        case CarActionTypes.COLORS_LOADING:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case CarActionTypes.COLORS_LOADED:
+            return {
+                ...state,
+                isLoading: false,
+                colors: action.payload,
+            };
+        case CarActionTypes.COLORS_FAIL:
             return {
                 ...state,
                 isLoading: false,

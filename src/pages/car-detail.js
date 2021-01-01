@@ -134,10 +134,12 @@ const CarDetail = () => {
         history.push('/');
     };
 
-    const formatPrice = () =>
-        new Intl.NumberFormat({
+    const formatPrice = (price) =>
+        new Intl.NumberFormat('tr-TR', {
             style: 'currency',
-        }).format(car.sale_price);
+            currency: 'TRY',
+            minimumFractionDigits: 2,
+        }).format(price);
 
     const renderSuccessAlert = () => {
         return (
@@ -183,7 +185,7 @@ const CarDetail = () => {
                             <Grid container>
                                 <Grid item xs={6}>
                                     <Typography variant='h6' component='h6'>
-                                        {formatPrice()} ₺
+                                        {formatPrice(car.sale_price)}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={4}>
@@ -208,7 +210,7 @@ const CarDetail = () => {
                                     aria-describedby='alert-dialog-description'
                                 >
                                     <DialogTitle id='alert-dialog-title'>
-                                        {'Are you sure ?'}
+                                        {'Emin misiniz?'}
                                     </DialogTitle>
                                     <DialogContent>
                                         <DialogContentText id='alert-dialog-description'>
@@ -226,14 +228,14 @@ const CarDetail = () => {
                                             onClick={handleStockClose}
                                             color='primary'
                                         >
-                                            Disagree
+                                            Reddet
                                         </Button>
                                         <Button
                                             onClick={handleRemoveStock}
                                             color='primary'
                                             autoFocus
                                         >
-                                            Agree
+                                            Kabul et
                                         </Button>
                                     </DialogActions>
                                 </Dialog>
@@ -251,8 +253,8 @@ const CarDetail = () => {
                                         }
                                     >
                                         {car.is_sold === 'SOLD'
-                                            ? 'Sold'
-                                            : 'Sell'}
+                                            ? 'Satıldı'
+                                            : 'Sat'}
                                     </Button>
                                 </Grid>
                                 <Dialog
@@ -268,7 +270,7 @@ const CarDetail = () => {
                                             autoFocus
                                             margin='dense'
                                             id='first_name'
-                                            label='First name'
+                                            label='Ad'
                                             fullWidth
                                             value={firstName}
                                             onChange={(e) =>
@@ -279,7 +281,7 @@ const CarDetail = () => {
                                             autoFocus
                                             margin='dense'
                                             id='last_name'
-                                            label='Last name'
+                                            label='Soyad'
                                             fullWidth
                                             value={lastName}
                                             onChange={(e) =>
@@ -292,13 +294,13 @@ const CarDetail = () => {
                                             onClick={handleClose}
                                             color='primary'
                                         >
-                                            Cancel
+                                            İptal
                                         </Button>
                                         <Button
                                             onClick={onSubmit}
                                             color='primary'
                                         >
-                                            Save
+                                            Kaydet
                                         </Button>
                                     </DialogActions>
                                 </Dialog>
@@ -307,23 +309,39 @@ const CarDetail = () => {
                             <hr />
                             <Grid container spacing={2}>
                                 <ListItem name='Model' val={car.model} />
-                                <ListItem name='Year' val={car.year} />
-                                <ListItem name='Is new' val={car.is_new} />
+                                <ListItem name='Yıl' val={car.year} />
                                 <ListItem
-                                    name='Enter Date'
-                                    val={car.enter_date}
+                                    name='Yeni mi'
+                                    val={
+                                        car.is_new === 'NEW'
+                                            ? 'Sıfır'
+                                            : 'İkinci el'
+                                    }
                                 />
                                 <ListItem
-                                    name='Purchase Price'
-                                    val={car.purchase_price}
+                                    name='Giriş tarihi'
+                                    val={new Date(
+                                        car.enter_date,
+                                    ).toLocaleDateString('tr-TR')}
                                 />
-                                <ListItem name='Is sold' val={car.is_sold} />
-                                <ListItem name='Brand' val={car.car_brand} />
-                                <ListItem name='Color' val={car.car_color} />
+                                <ListItem
+                                    name='Alış fiyatı'
+                                    val={formatPrice(car.purchase_price)}
+                                />
+                                <ListItem
+                                    name='Satıldı mı'
+                                    val={
+                                        car.is_sold === 'SOLD'
+                                            ? 'Satıldı'
+                                            : 'Satılmadı'
+                                    }
+                                />
+                                <ListItem name='Marka' val={car.car_brand} />
+                                <ListItem name='Renk' val={car.car_color} />
                             </Grid>
                         </Grid>
                         <Grid item xs={12}>
-                            <strong>Description</strong>
+                            <strong>Açıklama</strong>
                         </Grid>
                         <Grid item xs={12}>
                             {car.car_description}

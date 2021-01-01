@@ -54,9 +54,9 @@ export default function LetterAvatar({ firstLetter }) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleLout}>Logout</MenuItem>
+                <MenuItem onClick={handleClose}>Profil</MenuItem>
+                <MenuItem onClick={handleClose}>Hesabım</MenuItem>
+                <MenuItem onClick={handleLout}>Çıkış</MenuItem>
             </Menu>
         </div>
     );

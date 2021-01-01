@@ -71,7 +71,9 @@ export default function AddressForm() {
     const [manufacturer, setManufacturer] = useState('');
     const [supplier, setSupplier] = useState('');
     const [files, setFiles] = useState([]);
-    const { manufacturers, suppliers } = useSelector((state) => state.car);
+    const { manufacturers, suppliers, colors } = useSelector(
+        (state) => state.car,
+    );
     const {
         user: { id },
     } = useSelector((state) => state.auth);
@@ -119,7 +121,7 @@ export default function AddressForm() {
                     </Typography>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <Typography variant='h6' gutterBottom>
-                            Car Information
+                            Araba Bilgileri
                         </Typography>
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={12}>
@@ -127,7 +129,7 @@ export default function AddressForm() {
                                     required
                                     id='title'
                                     name='title'
-                                    label='Title'
+                                    label='Başlık'
                                     fullWidth
                                     autoComplete='title'
                                     variant='outlined'
@@ -139,7 +141,7 @@ export default function AddressForm() {
                                 <TextField
                                     fullWidth
                                     id='outlined-description-static'
-                                    label='Description'
+                                    label='Açıklama'
                                     multiline
                                     required
                                     rows={4}
@@ -154,7 +156,7 @@ export default function AddressForm() {
                             <Grid item xs={12} sm={6}>
                                 <FormControl fullWidth variant='outlined'>
                                     <InputLabel htmlFor='outlined-adornment-amount'>
-                                        Sale Price
+                                        Satış Fiyatı
                                     </InputLabel>
                                     <OutlinedInput
                                         id='outlined-adornment-amount'
@@ -175,7 +177,7 @@ export default function AddressForm() {
                             <Grid item xs={12} sm={6}>
                                 <FormControl fullWidth variant='outlined'>
                                     <InputLabel htmlFor='outlined-adornment-amount'>
-                                        Purchase Price
+                                        Alış Fiyatı
                                     </InputLabel>
                                     <OutlinedInput
                                         required
@@ -202,7 +204,7 @@ export default function AddressForm() {
                                     format='MM/dd/yyyy'
                                     margin='normal'
                                     id='enter_date'
-                                    label='Enter Date'
+                                    label='Giriş Tarihi'
                                     value={selectedDate}
                                     onChange={handleDateChange}
                                     KeyboardButtonProps={{
@@ -215,7 +217,7 @@ export default function AddressForm() {
                                     fullWidth
                                     required
                                     id='outlined-basic'
-                                    label='Year'
+                                    label='Yıl'
                                     variant='outlined'
                                     value={year}
                                     onChange={(e) => setYear(e.target.value)}
@@ -235,7 +237,7 @@ export default function AddressForm() {
                             <Grid item xs={6}>
                                 <FormControl variant='outlined' fullWidth>
                                     <InputLabel htmlFor='filled-age-native-simple'>
-                                        Is New ?
+                                        Yeni Mi?
                                     </InputLabel>
                                     <Select
                                         native
@@ -258,7 +260,7 @@ export default function AddressForm() {
                             <Grid item xs={6}>
                                 <FormControl variant='outlined' fullWidth>
                                     <InputLabel htmlFor='filled-age-native-simple'>
-                                        Color
+                                        Renk
                                     </InputLabel>
                                     <Select
                                         native
@@ -273,37 +275,18 @@ export default function AddressForm() {
                                         }}
                                     >
                                         <option aria-label='None' value='' />
-                                        <option value={true}>Bej</option>
-                                        <option value={false}>Beyaz</option>
-                                        <option value={false}>Bordo</option>
-                                        <option value={false}>Füme</option>
-                                        <option value={false}>Gri</option>
-                                        <option value={false}>Gümüş Gri</option>
-                                        <option value={false}>
-                                            Kahverengi
-                                        </option>
-                                        <option value='dbfae870-f0c4-42d3-8c66-17d56d2928f4'>
-                                            Kırmızı
-                                        </option>
-                                        <option value={false}>Lacivert</option>
-                                        <option value={false}>Mavi</option>
-                                        <option value='51d96ebf-3c5f-41b7-937d-ab12649eca8e'>
-                                            Mor
-                                        </option>
-                                        <option value={false}>Pembe</option>
-                                        <option value={false}>Sarı</option>
-                                        <option value={false}>Siyah</option>
-                                        <option value={false}>Şampanya</option>
-                                        <option value={false}>Turkuaz</option>
-                                        <option value={false}>Turuncu</option>
-                                        <option value={false}>Yeşil</option>
+                                        {colors.map((color) => (
+                                            <option value={color.id}>
+                                                {color.name}
+                                            </option>
+                                        ))}
                                     </Select>
                                 </FormControl>
                             </Grid>
                             <Grid item xs={6}>
                                 <FormControl variant='outlined' fullWidth>
                                     <InputLabel htmlFor='filled-age-native-simple'>
-                                        Manufacturer
+                                        Üretici Firma
                                     </InputLabel>
                                     <Select
                                         fullWidth
@@ -337,7 +320,7 @@ export default function AddressForm() {
                             <Grid item xs={6}>
                                 <FormControl variant='outlined' fullWidth>
                                     <InputLabel htmlFor='filled-supplier-native-simple'>
-                                        Supplier
+                                        Tedarikçi
                                     </InputLabel>
                                     <Select
                                         variant='outlined'
@@ -384,7 +367,7 @@ export default function AddressForm() {
                                 className={classes.button}
                                 onClick={onSubmit}
                             >
-                                Save
+                                Kaydet
                             </Button>
                         </div>
                     </MuiPickersUtilsProvider>

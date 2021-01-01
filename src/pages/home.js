@@ -96,12 +96,14 @@ const Home = () => {
             { field: 'id', width: 300, hide: true },
             {
                 field: 'image',
+                headerName: 'Resim',
                 renderCell: (params) => (
                     <img src='/araba.jpg' height='75' alt='araba' />
                 ),
             },
             {
                 field: 'title',
+                headerName: 'Başlık',
                 width: 350,
                 renderCell: (params) => (
                     <Link onClick={(e) => e.preventDefault()}>
@@ -111,12 +113,34 @@ const Home = () => {
                     </Link>
                 ),
             },
-            { field: 'sale_price', width: 120 },
-            { field: 'purchase_price', width: 120 },
-            { field: 'is_sold', width: 120 },
+            {
+                field: 'sale_price',
+                headerName: 'Satış Fiyatı',
+                width: 120,
+                valueFormatter: (params) => formatPrice(params.value),
+            },
+            {
+                field: 'purchase_price',
+                headerName: 'Alış Fiyatı',
+                width: 120,
+                valueFormatter: (params) => formatPrice(params.value),
+            },
+            {
+                headerName: 'Satıldı Mı',
+                field: 'is_sold',
+                width: 120,
+                valueFormatter: (params) =>
+                    params.value === 'SOLD' ? 'Satıldı' : 'Satılmadı',
+            },
             { field: 'model', width: 120 },
-            { field: 'year', width: 120 },
-            { field: 'is_new', width: 120 },
+            { field: 'year', width: 120, headerName: 'Yıl' },
+            {
+                field: 'is_new',
+                headerName: 'Yeni Mi',
+                width: 120,
+                valueFormatter: (params) =>
+                    params.value === 'NEW' ? 'Sıfır' : 'İkinci el',
+            },
         ],
         rows: cars.map((car) => ({ ...car, id: car.car_id })),
     };
@@ -125,6 +149,13 @@ const Home = () => {
         dispatch,
         getCars,
     ]);
+
+    const formatPrice = (price) =>
+        new Intl.NumberFormat('tr-TR', {
+            style: 'currency',
+            currency: 'TRY',
+            minimumFractionDigits: 2,
+        }).format(price);
 
     useEffect(() => {
         getCarsCb();
@@ -138,7 +169,7 @@ const Home = () => {
                 to='/cars/add'
                 component={RouterLink}
             >
-                Add New Car
+                Yeni Araba Ekle
             </Button>
             <DataGrid
                 components={{

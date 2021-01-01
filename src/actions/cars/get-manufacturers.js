@@ -11,7 +11,6 @@ export const getManufacturers = () => (dispatch) => {
     })
         .then((res) => res.json())
         .then((res) => {
-            console.log(res);
             if (res.data) {
                 setTimeout(() => {
                     dispatch({

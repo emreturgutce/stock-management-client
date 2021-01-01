@@ -1,11 +1,11 @@
 import { CarActionTypes } from '../types';
 
-export const getCars = () => (dispatch) => {
+export const getColors = () => (dispatch) => {
     dispatch({
-        type: CarActionTypes.CARS_LOADING,
+        type: CarActionTypes.COLORS_LOADING,
     });
 
-    fetch('http://localhost:8080/api/cars', {
+    fetch('http://localhost:8080/api/cars/colors', {
         method: 'GET',
         credentials: 'include',
     })
@@ -14,19 +14,19 @@ export const getCars = () => (dispatch) => {
             if (data) {
                 setTimeout(() => {
                     dispatch({
-                        type: CarActionTypes.CARS_LOADED,
+                        type: CarActionTypes.COLORS_LOADED,
                         payload: data,
                     });
                 }, 2000);
             } else {
                 dispatch({
-                    type: CarActionTypes.CARS_FAIL,
+                    type: CarActionTypes.COLORS_FAIL,
                 });
             }
         })
         .catch((err) => {
             dispatch({
-                type: CarActionTypes.CARS_FAIL,
+                type: CarActionTypes.COLORS_FAIL,
             });
         });
 };
