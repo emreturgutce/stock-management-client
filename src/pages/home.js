@@ -122,13 +122,13 @@ const Home = () => {
             {
                 field: 'sale_price',
                 headerName: 'Satış Fiyatı',
-                width: 120,
+                width: 140,
                 valueFormatter: (params) => formatPrice(params.value),
             },
             {
                 field: 'purchase_price',
                 headerName: 'Alış Fiyatı',
-                width: 120,
+                width: 140,
                 valueFormatter: (params) => formatPrice(params.value),
             },
             {

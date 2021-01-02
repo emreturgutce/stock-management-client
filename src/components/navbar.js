@@ -58,7 +58,7 @@ const Navbar = () => {
 
     return (
         <div className={classes.root}>
-            <AppBar position='static'>
+            <AppBar position='static' style={{ background: '#616161e6' }}>
                 <Container>
                     <Toolbar className={classes.flex}>
                         <RouterLink to='/'>

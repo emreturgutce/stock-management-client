@@ -180,7 +180,7 @@ const CarDetail = () => {
                         </Grid>
                         <Grid item xs={7}>
                             <img
-                                src={car.image_url || '/araba.jpg'}
+                                src={car.image_url || '/araba2.jpg'}
                                 alt='araba'
                                 width='85%'
                             />
