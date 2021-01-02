@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function AddressForm() {
+export default function CarForm() {
     const classes = useStyles();
     const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
     const [title, setTitle] = useState('');
@@ -295,7 +295,10 @@ export default function AddressForm() {
                                     >
                                         <option aria-label='None' value='' />
                                         {colors.map((color) => (
-                                            <option value={color.id}>
+                                            <option
+                                                key={color.id}
+                                                value={color.id}
+                                            >
                                                 {color.name}
                                             </option>
                                         ))}

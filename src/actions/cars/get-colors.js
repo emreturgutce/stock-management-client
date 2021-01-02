@@ -6,17 +6,17 @@ export const getColors = () => (dispatch) => {
         type: CarActionTypes.COLORS_LOADING,
     });
 
-    fetch(`${BASE_URL}/cars/colors`, {
+    fetch(`${BASE_URL}/api/cars/colors`, {
         method: 'GET',
         credentials: 'include',
     })
         .then((res) => res.json())
-        .then(({ data }) => {
-            if (data) {
+        .then((res) => {
+            if (res.data) {
                 setTimeout(() => {
                     dispatch({
                         type: CarActionTypes.COLORS_LOADED,
-                        payload: data,
+                        payload: res.data,
                     });
                 }, 2000);
             } else {

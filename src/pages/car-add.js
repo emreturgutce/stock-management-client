@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import Helmet from 'react-helmet';
-import AddressForm from '../components/address-form';
+import CarForm from '../components/car-form';
 import { getManufacturers } from '../actions/cars/get-manufacturers';
 import { getSuppliers } from '../actions/cars/get-suppliers';
 import { getColors } from '../actions/cars/get-colors';
@@ -28,7 +28,7 @@ const CarAdd = () => {
             <Helmet>
                 <title>Araba Ekleme - Stock Management System</title>
             </Helmet>
-            <AddressForm />
+            <CarForm />
         </>
     );
 };
