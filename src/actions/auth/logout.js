@@ -1,7 +1,8 @@
+import { BASE_URL } from '../../constants/index';
 import { AuthActionTypes } from '../types';
 
 export const logout = () => (dispatch) => {
-    fetch('http://localhost:8080/api/personels/logout', {
+    fetch(`${BASE_URL}/api/personels/logout`, {
         method: 'GET',
         credentials: 'include',
     })

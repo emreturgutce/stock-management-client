@@ -1,3 +1,4 @@
+import { BASE_URL } from '../../constants/index';
 import { CarActionTypes } from '../types';
 
 export const getColors = () => (dispatch) => {
@@ -5,7 +6,7 @@ export const getColors = () => (dispatch) => {
         type: CarActionTypes.COLORS_LOADING,
     });
 
-    fetch('http://localhost:8080/api/cars/colors', {
+    fetch(`${BASE_URL}/cars/colors`, {
         method: 'GET',
         credentials: 'include',
     })

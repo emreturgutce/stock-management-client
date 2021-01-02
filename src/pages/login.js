@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, Redirect } from 'react-router-dom';
+import Helmet from 'react-helmet';
 import validator from 'validator';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,9 +15,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Alert, AlertTitle } from '@material-ui/lab';
-import Collapse from '@material-ui/core/Collapse';
 import { loginUser } from '../actions/auth/login';
+import ErrorAlert from '../components/error-alert';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -41,17 +41,16 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [closeError, setCloseError] = useState(true);
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
-    const { isAuthenticated: isAuth, isLoading, errors } = useSelector(
+    const { isAuthenticated: isAuth, errors } = useSelector(
         (state) => state.auth,
     );
 
     const login = useCallback(
         (email, password) => dispatch(loginUser({ email, password })),
-        [dispatch, loginUser],
+        [dispatch],
     );
 
     const onSubmit = (e) => {
@@ -61,106 +60,106 @@ export default function SignIn() {
             validator.isLength(password, { min: 6 })
         ) {
             login(email, password);
-            console.log('REDIRECTING TO HOMEPAGE');
+
             history.push('/');
         }
     };
 
     const renderErrors = () => {
         if (errors && errors.length > 0) {
-            return (
-                <Collapse in={closeError}>
-                    <Alert
-                        severity='error'
-                        onClose={() => setCloseError(false)}
-                    >
-                        <AlertTitle>Error</AlertTitle>
-                        {errors.map((error) => error)}
-                    </Alert>
-                </Collapse>
-            );
+            return <ErrorAlert errors={errors} />;
         }
     };
 
     return (
         <>
             {!isAuth ? (
-                <Container component='main' maxWidth='xs'>
-                    <CssBaseline />
-                    <div className={classes.paper}>
-                        <Avatar className={classes.avatar}>
-                            <LockOutlinedIcon />
-                        </Avatar>
-                        <Typography component='h1' variant='h5'>
-                            Giriş Yap
-                        </Typography>
-                        <form
-                            className={classes.form}
-                            noValidate
-                            onSubmit={onSubmit}
-                        >
-                            {renderErrors()}
-                            <TextField
-                                variant='outlined'
-                                margin='normal'
-                                required
-                                fullWidth
-                                id='email'
-                                label='Email Adresi'
-                                name='email'
-                                autoComplete='email'
-                                autoFocus
-                                error={
-                                    email !== '' && !validator.isEmail(email)
-                                }
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                            <TextField
-                                variant='outlined'
-                                margin='normal'
-                                required
-                                fullWidth
-                                name='password'
-                                label='Şifre'
-                                type='password'
-                                id='password'
-                                error={
-                                    password !== '' &&
-                                    !validator.isLength(password, { min: 6 })
-                                }
-                                autoComplete='current-password'
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        value='remember'
-                                        color='primary'
-                                    />
-                                }
-                                label='Beni hatırla'
-                            />
-                            <Button
-                                type='submit'
-                                fullWidth
-                                variant='contained'
-                                color='primary'
-                                className={classes.submit}
+                <>
+                    <Helmet>
+                        <title>Anasayfa - Stock Management System</title>
+                    </Helmet>
+                    <Container component='main' maxWidth='xs'>
+                        <CssBaseline />
+                        <div className={classes.paper}>
+                            <Avatar className={classes.avatar}>
+                                <LockOutlinedIcon />
+                            </Avatar>
+                            <Typography component='h1' variant='h5'>
+                                Giriş Yap
+                            </Typography>
+                            <form
+                                className={classes.form}
+                                noValidate
+                                onSubmit={onSubmit}
                             >
-                                Giriş yap
-                            </Button>
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link href='#' variant='body2'>
-                                        Şifreni mi unuttun?
-                                    </Link>
+                                {renderErrors()}
+                                <TextField
+                                    variant='outlined'
+                                    margin='normal'
+                                    required
+                                    fullWidth
+                                    id='email'
+                                    label='Email Adresi'
+                                    name='email'
+                                    autoComplete='email'
+                                    autoFocus
+                                    error={
+                                        email !== '' &&
+                                        !validator.isEmail(email)
+                                    }
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                                <TextField
+                                    variant='outlined'
+                                    margin='normal'
+                                    required
+                                    fullWidth
+                                    name='password'
+                                    label='Şifre'
+                                    type='password'
+                                    id='password'
+                                    error={
+                                        password !== '' &&
+                                        !validator.isLength(password, {
+                                            min: 6,
+                                        })
+                                    }
+                                    autoComplete='current-password'
+                                    value={password}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            value='remember'
+                                            color='primary'
+                                        />
+                                    }
+                                    label='Beni hatırla'
+                                />
+                                <Button
+                                    type='submit'
+                                    fullWidth
+                                    variant='contained'
+                                    color='primary'
+                                    className={classes.submit}
+                                >
+                                    Giriş yap
+                                </Button>
+                                <Grid container>
+                                    <Grid item xs>
+                                        <Link href='#' variant='body2'>
+                                            Şifreni mi unuttun?
+                                        </Link>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </form>
-                    </div>
-                </Container>
+                            </form>
+                        </div>
+                    </Container>
+                </>
             ) : (
                 <Redirect to='/' />
             )}

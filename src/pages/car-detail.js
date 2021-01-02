@@ -13,12 +13,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
-import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
+import { Delete } from '@material-ui/icons';
 import { Helmet } from 'react-helmet';
+import { BASE_URL } from '../constants/index';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -65,7 +66,7 @@ const CarDetail = () => {
             birth_date: new Date(Date.now()),
         };
 
-        const customerRes = await fetch('http://localhost:8080/api/customers', {
+        const customerRes = await fetch(`${BASE_URL}/api/customers`, {
             method: 'POST',
             body: JSON.stringify(customerBody),
             headers: {
@@ -80,17 +81,14 @@ const CarDetail = () => {
             serial_number: Math.floor(Math.random() * 10000),
             price: car.sale_price,
         };
-        const invoiceRes = await fetch(
-            'http://localhost:8080/api/sales/invoices',
-            {
-                method: 'POST',
-                body: JSON.stringify(invoiceBody),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include',
+        const invoiceRes = await fetch(`${BASE_URL}/api/sales/invoices`, {
+            method: 'POST',
+            body: JSON.stringify(invoiceBody),
+            headers: {
+                'Content-Type': 'application/json',
             },
-        );
+            credentials: 'include',
+        });
 
         const invoiceResJson = await invoiceRes.json();
 
@@ -102,7 +100,7 @@ const CarDetail = () => {
             sale_date: new Date(Date.now()),
         };
 
-        const saleRes = await fetch('http://localhost:8080/api/sales', {
+        const saleRes = await fetch(`${BASE_URL}/api/sales`, {
             method: 'POST',
             body: JSON.stringify(saleBody),
             headers: {
@@ -123,7 +121,7 @@ const CarDetail = () => {
     };
 
     const handleRemoveStock = async () => {
-        await fetch(`http://localhost:8080/api/cars/${car.car_id}`, {
+        await fetch(`${BASE_URL}/api/cars/${car.car_id}`, {
             method: 'DELETE',
             credentials: 'include',
             headers: {
@@ -187,127 +185,142 @@ const CarDetail = () => {
                         </Grid>
                         <Grid item xs={5}>
                             <Grid container>
-                                <Grid item xs={6}>
+                                <Grid item xs={5}>
                                     <Typography variant='h6' component='h6'>
                                         {formatPrice(car.sale_price)}
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={4}>
-                                    <Button
-                                        variant='contained'
-                                        color='secondary'
-                                        className={classes.button}
-                                        onClick={handleStockClickOpen}
-                                        disabled={
-                                            car.is_sold === 'SOLD'
-                                                ? true
-                                                : false
-                                        }
+                                <Grid item xs={7}>
+                                    <Grid
+                                        container
+                                        justify='flex-end'
+                                        spacing={1}
                                     >
-                                        Stoktan çıkar
-                                    </Button>
+                                        <Grid item>
+                                            <Button
+                                                variant='contained'
+                                                color='secondary'
+                                                className={classes.button}
+                                                onClick={handleStockClickOpen}
+                                                startIcon={<Delete />}
+                                                disabled={
+                                                    car.is_sold === 'SOLD'
+                                                        ? true
+                                                        : false
+                                                }
+                                            >
+                                                Stoktan çıkar
+                                            </Button>
+                                        </Grid>
+                                        <Dialog
+                                            open={openStock}
+                                            onClose={handleStockClose}
+                                            aria-labelledby='alert-dialog-title'
+                                            aria-describedby='alert-dialog-description'
+                                        >
+                                            <DialogTitle id='alert-dialog-title'>
+                                                {'Emin misiniz?'}
+                                            </DialogTitle>
+                                            <DialogContent>
+                                                <DialogContentText id='alert-dialog-description'>
+                                                    Lorem ipsum dolor sit amet
+                                                    consectetur adipisicing
+                                                    elit. Ea tenetur temporibus
+                                                    voluptatem aperiam est
+                                                    voluptate enim ut explicabo
+                                                    quis? Beatae, deserunt
+                                                    aperiam! Veniam, accusantium
+                                                    alias in iusto non nostrum
+                                                    esse.
+                                                </DialogContentText>
+                                            </DialogContent>
+                                            <DialogActions>
+                                                <Button
+                                                    onClick={handleStockClose}
+                                                    color='primary'
+                                                >
+                                                    Reddet
+                                                </Button>
+                                                <Button
+                                                    onClick={handleRemoveStock}
+                                                    color='primary'
+                                                    autoFocus
+                                                >
+                                                    Kabul et
+                                                </Button>
+                                            </DialogActions>
+                                        </Dialog>
+                                        {/* SELL BUTTON */}
+                                        <Grid item>
+                                            <Button
+                                                variant='contained'
+                                                color='secondary'
+                                                className={classes.button}
+                                                onClick={handleClickOpen}
+                                                disabled={
+                                                    car.is_sold === 'SOLD'
+                                                        ? true
+                                                        : false
+                                                }
+                                            >
+                                                {car.is_sold === 'SOLD'
+                                                    ? 'Satıldı'
+                                                    : 'Sat'}
+                                            </Button>
+                                        </Grid>
+                                        <Dialog
+                                            open={open}
+                                            onClose={handleClose}
+                                            aria-labelledby='form-dialog-title'
+                                        >
+                                            <DialogTitle id='form-dialog-title'>
+                                                Müşteri Bilgileri
+                                            </DialogTitle>
+                                            <DialogContent>
+                                                <TextField
+                                                    autoFocus
+                                                    margin='dense'
+                                                    id='first_name'
+                                                    label='Ad'
+                                                    fullWidth
+                                                    value={firstName}
+                                                    onChange={(e) =>
+                                                        setFirstName(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                />
+                                                <TextField
+                                                    autoFocus
+                                                    margin='dense'
+                                                    id='last_name'
+                                                    label='Soyad'
+                                                    fullWidth
+                                                    value={lastName}
+                                                    onChange={(e) =>
+                                                        setLastName(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                />
+                                            </DialogContent>
+                                            <DialogActions>
+                                                <Button
+                                                    onClick={handleClose}
+                                                    color='primary'
+                                                >
+                                                    İptal
+                                                </Button>
+                                                <Button
+                                                    onClick={onSubmit}
+                                                    color='primary'
+                                                >
+                                                    Kaydet
+                                                </Button>
+                                            </DialogActions>
+                                        </Dialog>
+                                    </Grid>
                                 </Grid>
-                                <Dialog
-                                    open={openStock}
-                                    onClose={handleStockClose}
-                                    aria-labelledby='alert-dialog-title'
-                                    aria-describedby='alert-dialog-description'
-                                >
-                                    <DialogTitle id='alert-dialog-title'>
-                                        {'Emin misiniz?'}
-                                    </DialogTitle>
-                                    <DialogContent>
-                                        <DialogContentText id='alert-dialog-description'>
-                                            Lorem ipsum dolor sit amet
-                                            consectetur adipisicing elit. Ea
-                                            tenetur temporibus voluptatem
-                                            aperiam est voluptate enim ut
-                                            explicabo quis? Beatae, deserunt
-                                            aperiam! Veniam, accusantium alias
-                                            in iusto non nostrum esse.
-                                        </DialogContentText>
-                                    </DialogContent>
-                                    <DialogActions>
-                                        <Button
-                                            onClick={handleStockClose}
-                                            color='primary'
-                                        >
-                                            Reddet
-                                        </Button>
-                                        <Button
-                                            onClick={handleRemoveStock}
-                                            color='primary'
-                                            autoFocus
-                                        >
-                                            Kabul et
-                                        </Button>
-                                    </DialogActions>
-                                </Dialog>
-                                {/* SELL BUTTON */}
-                                <Grid item xs={2}>
-                                    <Button
-                                        variant='contained'
-                                        color='secondary'
-                                        className={classes.button}
-                                        onClick={handleClickOpen}
-                                        disabled={
-                                            car.is_sold === 'SOLD'
-                                                ? true
-                                                : false
-                                        }
-                                    >
-                                        {car.is_sold === 'SOLD'
-                                            ? 'Satıldı'
-                                            : 'Sat'}
-                                    </Button>
-                                </Grid>
-                                <Dialog
-                                    open={open}
-                                    onClose={handleClose}
-                                    aria-labelledby='form-dialog-title'
-                                >
-                                    <DialogTitle id='form-dialog-title'>
-                                        Müşteri Bilgileri
-                                    </DialogTitle>
-                                    <DialogContent>
-                                        <TextField
-                                            autoFocus
-                                            margin='dense'
-                                            id='first_name'
-                                            label='Ad'
-                                            fullWidth
-                                            value={firstName}
-                                            onChange={(e) =>
-                                                setFirstName(e.target.value)
-                                            }
-                                        />
-                                        <TextField
-                                            autoFocus
-                                            margin='dense'
-                                            id='last_name'
-                                            label='Soyad'
-                                            fullWidth
-                                            value={lastName}
-                                            onChange={(e) =>
-                                                setLastName(e.target.value)
-                                            }
-                                        />
-                                    </DialogContent>
-                                    <DialogActions>
-                                        <Button
-                                            onClick={handleClose}
-                                            color='primary'
-                                        >
-                                            İptal
-                                        </Button>
-                                        <Button
-                                            onClick={onSubmit}
-                                            color='primary'
-                                        >
-                                            Kaydet
-                                        </Button>
-                                    </DialogActions>
-                                </Dialog>
                             </Grid>
 
                             <hr />

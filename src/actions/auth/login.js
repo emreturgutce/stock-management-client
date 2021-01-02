@@ -1,8 +1,8 @@
-import Cookies from 'js-cookie';
+import { BASE_URL } from '../../constants/index';
 import { AuthActionTypes } from '../types';
 
 export const loginUser = (data) => (dispatch) => {
-    fetch('http://localhost:8080/api/personels/login', {
+    fetch(`${BASE_URL}/api/personels/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

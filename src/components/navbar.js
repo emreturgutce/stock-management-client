@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -58,7 +58,7 @@ const Navbar = () => {
 
     return (
         <div className={classes.root}>
-            <AppBar position='static' style={{ background: '#616161e6' }}>
+            <AppBar position='static'>
                 <Container>
                     <Toolbar className={classes.flex}>
                         <RouterLink to='/'>

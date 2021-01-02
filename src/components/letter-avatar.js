@@ -24,10 +24,7 @@ export default function LetterAvatar({ firstLetter }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const history = useHistory();
 
-    const handleLogout = useCallback(() => dispatch(logout()), [
-        dispatch,
-        logout,
-    ]);
+    const handleLogout = useCallback(() => dispatch(logout()), [dispatch]);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);

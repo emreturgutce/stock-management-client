@@ -1,12 +1,13 @@
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Helmet from 'react-helmet';
 import { Link as RouterLink } from 'react-router-dom';
 import { DataGrid, GridOverlay } from '@material-ui/data-grid';
 import { getCars } from '../actions/cars/get-cars';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
+import { Add } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -97,14 +98,13 @@ const Home = () => {
             {
                 field: 'image_url',
                 headerName: 'Resim',
+                width: 130,
                 renderCell: (params) => (
-                    <>
-                        <img
-                            src={params.value || '/araba2.jpg'}
-                            height='75'
-                            alt='araba'
-                        />
-                    </>
+                    <img
+                        src={params.value || '/araba2.jpg'}
+                        height='75'
+                        alt='araba'
+                    />
                 ),
             },
             {
@@ -119,6 +119,7 @@ const Home = () => {
                     </Link>
                 ),
             },
+            { field: 'model', headerName: 'Model', width: 120 },
             {
                 field: 'sale_price',
                 headerName: 'Satış Fiyatı',
@@ -131,6 +132,14 @@ const Home = () => {
                 width: 140,
                 valueFormatter: (params) => formatPrice(params.value),
             },
+            { field: 'year', width: 100, headerName: 'Yıl' },
+            {
+                field: 'is_new',
+                headerName: 'Yeni Mi',
+                width: 100,
+                valueFormatter: (params) =>
+                    params.value === 'NEW' ? 'Sıfır' : 'İkinci el',
+            },
             {
                 headerName: 'Satıldı Mı',
                 field: 'is_sold',
@@ -138,23 +147,18 @@ const Home = () => {
                 valueFormatter: (params) =>
                     params.value === 'SOLD' ? 'Satıldı' : 'Satılmadı',
             },
-            { field: 'model', width: 120 },
-            { field: 'year', width: 120, headerName: 'Yıl' },
             {
-                field: 'is_new',
-                headerName: 'Yeni Mi',
-                width: 120,
+                field: 'enter_date',
+                width: 130,
+                headerName: 'Giriş Tarihi',
                 valueFormatter: (params) =>
-                    params.value === 'NEW' ? 'Sıfır' : 'İkinci el',
+                    new Date(params.value).toLocaleDateString('tr-TR'),
             },
         ],
         rows: cars.map((car) => ({ ...car, id: car.car_id })),
     };
 
-    const getCarsCb = useCallback(() => dispatch(getCars()), [
-        dispatch,
-        getCars,
-    ]);
+    const getCarsCb = useCallback(() => dispatch(getCars()), [dispatch]);
 
     const formatPrice = (price) =>
         new Intl.NumberFormat('tr-TR', {
@@ -165,28 +169,46 @@ const Home = () => {
 
     useEffect(() => {
         getCarsCb();
-    }, []);
+    }, [getCarsCb]);
 
     return (
-        <div style={{ height: '80%', width: '100%' }}>
-            <Button
-                variant='contained'
-                color='primary'
-                to='/cars/add'
-                component={RouterLink}
-            >
-                Yeni Araba Ekle
-            </Button>
-            <DataGrid
-                components={{
-                    noRowsOverlay: CustomNoRowsOverlay,
+        <>
+            <Helmet>
+                <title>Anasayfa - Stock Management System</title>
+            </Helmet>
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    width: '90%',
+                    margin: '30px auto',
                 }}
-                rowHeight={75}
-                loading={isLoading}
-                autoPageSize
-                {...data}
-            />
-        </div>
+            >
+                <div style={{ alignSelf: 'flex-end' }}>
+                    <Button
+                        variant='contained'
+                        color='secondary'
+                        to='/cars/add'
+                        startIcon={<Add />}
+                        component={RouterLink}
+                    >
+                        Yeni Araba Ekle
+                    </Button>
+                </div>
+                <div style={{ height: 720, width: '100%', marginTop: 30 }}>
+                    <DataGrid
+                        components={{
+                            noRowsOverlay: CustomNoRowsOverlay,
+                        }}
+                        pageSize={5}
+                        rowHeight={120}
+                        loading={isLoading}
+                        {...data}
+                    />
+                </div>
+            </div>
+        </>
     );
 };
 

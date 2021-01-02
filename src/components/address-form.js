@@ -20,6 +20,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { DropzoneArea } from 'material-ui-dropzone';
+import { BASE_URL } from '../constants/index';
+import { Save } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -104,7 +106,7 @@ export default function AddressForm() {
             car_color_code: color,
         };
 
-        const res = await fetch('http://localhost:8080/api/cars', {
+        const res = await fetch(`${BASE_URL}/api/cars`, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -118,7 +120,7 @@ export default function AddressForm() {
         history.push('/');
 
         await axios.post(
-            `http://localhost:8080/api/cars/${dataJson.data[0].id}/images`,
+            `${BASE_URL}/api/cars/${dataJson.data[0].id}/images`,
             formData,
             {
                 headers: {
@@ -381,6 +383,7 @@ export default function AddressForm() {
                             <Button
                                 variant='contained'
                                 color='primary'
+                                startIcon={<Save />}
                                 className={classes.button}
                                 onClick={onSubmit}
                             >

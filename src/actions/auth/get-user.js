@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import { AuthActionTypes } from '../types';
+import { BASE_URL } from '../../constants/index';
 
 export const getUser = (data) => (dispatch) => {
     const authToken = Cookies.get('auth_token');
@@ -9,7 +10,7 @@ export const getUser = (data) => (dispatch) => {
     } else {
         dispatch({ type: AuthActionTypes.USER_LOADING });
 
-        fetch('http://localhost:8080/api/personels/current', {
+        fetch(`${BASE_URL}/api/personels/current`, {
             method: 'GET',
             credentials: 'include',
         })
