@@ -7,7 +7,7 @@ import { getCars } from '../actions/cars/get-cars';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
-import { Add } from '@material-ui/icons';
+import { Add, Refresh } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -186,6 +186,16 @@ const Home = () => {
                 }}
             >
                 <div style={{ alignSelf: 'flex-end' }}>
+                    <Button
+                        variant='contained'
+                        style={{
+                            marginRight: 5,
+                        }}
+                        onClick={() => getCarsCb()}
+                        startIcon={<Refresh />}
+                    >
+                        Yenile
+                    </Button>
                     <Button
                         variant='contained'
                         color='secondary'

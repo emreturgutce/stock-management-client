@@ -17,7 +17,7 @@ import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
-import { Delete } from '@material-ui/icons';
+import { Delete, Refresh } from '@material-ui/icons';
 import { Helmet } from 'react-helmet';
 import { BASE_URL } from '../constants/index';
 
@@ -40,6 +40,7 @@ const CarDetail = () => {
     const [lastName, setLastName] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
     const history = useHistory();
+    const [car, setCar] = useState(cars.find((car) => car.car_id === id));
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -57,7 +58,9 @@ const CarDetail = () => {
         setOpenStock(false);
     };
 
-    const car = cars.find((car) => car.car_id === id);
+    const handleRefresh = () => {
+        setCar(cars.find((car) => car.car_id === id));
+    };
 
     const onSubmit = async () => {
         const customerBody = {
@@ -185,17 +188,25 @@ const CarDetail = () => {
                         </Grid>
                         <Grid item xs={5}>
                             <Grid container>
-                                <Grid item xs={5}>
+                                <Grid item xs={4}>
                                     <Typography variant='h6' component='h6'>
                                         {formatPrice(car.sale_price)}
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={7}>
+                                <Grid item xs={8}>
                                     <Grid
                                         container
                                         justify='flex-end'
+                                        alignItems='center'
                                         spacing={1}
                                     >
+                                        <Grid item>
+                                            <Button
+                                                variant='outlined'
+                                                size='small'
+                                                children={<Refresh />}
+                                            />
+                                        </Grid>
                                         <Grid item>
                                             <Button
                                                 variant='contained'

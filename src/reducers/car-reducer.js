@@ -15,6 +15,7 @@ export function carReducer(state = initialState, action) {
             return {
                 ...state,
                 isLoading: true,
+                cars: [],
             };
         case CarActionTypes.CARS_LOADED:
             return {
