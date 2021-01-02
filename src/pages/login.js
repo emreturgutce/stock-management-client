@@ -92,7 +92,7 @@ export default function SignIn() {
                             <LockOutlinedIcon />
                         </Avatar>
                         <Typography component='h1' variant='h5'>
-                            Sign in
+                            Giriş Yap
                         </Typography>
                         <form
                             className={classes.form}
@@ -106,7 +106,7 @@ export default function SignIn() {
                                 required
                                 fullWidth
                                 id='email'
-                                label='Email Address'
+                                label='Email Adresi'
                                 name='email'
                                 autoComplete='email'
                                 autoFocus
@@ -122,7 +122,7 @@ export default function SignIn() {
                                 required
                                 fullWidth
                                 name='password'
-                                label='Password'
+                                label='Şifre'
                                 type='password'
                                 id='password'
                                 error={
@@ -140,7 +140,7 @@ export default function SignIn() {
                                         color='primary'
                                     />
                                 }
-                                label='Remember me'
+                                label='Beni hatırla'
                             />
                             <Button
                                 type='submit'
@@ -149,17 +149,12 @@ export default function SignIn() {
                                 color='primary'
                                 className={classes.submit}
                             >
-                                Sign In
+                                Giriş yap
                             </Button>
                             <Grid container>
                                 <Grid item xs>
                                     <Link href='#' variant='body2'>
-                                        Forgot password?
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Link href='#' variant='body2'>
-                                        {"Don't have an account? Sign Up"}
+                                        Şifreni mi unuttun?
                                     </Link>
                                 </Grid>
                             </Grid>

@@ -1,6 +1,7 @@
 import 'date-fns';
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -84,6 +85,9 @@ export default function AddressForm() {
     const history = useHistory();
 
     const onSubmit = async () => {
+        const formData = new FormData();
+        formData.append('avatar', files[0]);
+
         const data = {
             title,
             sale_price: salePrice,
@@ -100,7 +104,7 @@ export default function AddressForm() {
             car_color_code: color,
         };
 
-        await fetch('http://localhost:8080/api/cars', {
+        const res = await fetch('http://localhost:8080/api/cars', {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -109,7 +113,20 @@ export default function AddressForm() {
             method: 'POST',
         });
 
+        const dataJson = await res.json();
+
         history.push('/');
+
+        await axios.post(
+            `http://localhost:8080/api/cars/${dataJson.data[0].id}/images`,
+            formData,
+            {
+                headers: {
+                    'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+                },
+                withCredentials: true,
+            },
+        );
     };
 
     return (

@@ -51,7 +51,7 @@ const Navbar = () => {
 
         return (
             <RouterLink to='/login'>
-                <Button variant='contained'>Login</Button>
+                <Button variant='contained'>Giriş Yap</Button>
             </RouterLink>
         );
     };

@@ -179,7 +179,11 @@ const CarDetail = () => {
                             </Typography>
                         </Grid>
                         <Grid item xs={7}>
-                            <img src='/araba.jpg' alt='araba' width='85%' />
+                            <img
+                                src={car.image_url || '/araba.jpg'}
+                                alt='araba'
+                                width='85%'
+                            />
                         </Grid>
                         <Grid item xs={5}>
                             <Grid container>

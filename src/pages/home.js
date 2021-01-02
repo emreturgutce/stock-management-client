@@ -95,10 +95,16 @@ const Home = () => {
         columns: [
             { field: 'id', width: 300, hide: true },
             {
-                field: 'image',
+                field: 'image_url',
                 headerName: 'Resim',
                 renderCell: (params) => (
-                    <img src='/araba.jpg' height='75' alt='araba' />
+                    <>
+                        <img
+                            src={params.value || '/araba2.jpg'}
+                            height='75'
+                            alt='araba'
+                        />
+                    </>
                 ),
             },
             {
