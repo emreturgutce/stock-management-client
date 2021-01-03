@@ -13,12 +13,10 @@ export const getManufacturers = () => (dispatch) => {
         .then((res) => res.json())
         .then((res) => {
             if (res.data) {
-                setTimeout(() => {
-                    dispatch({
-                        type: CarActionTypes.MANUFACTURERS_LOADED,
-                        payload: res.data,
-                    });
-                }, 2000);
+                dispatch({
+                    type: CarActionTypes.MANUFACTURERS_LOADED,
+                    payload: res.data,
+                });
             } else {
                 dispatch({
                     type: CarActionTypes.MANUFACTURERS_FAIL,

@@ -112,11 +112,9 @@ const Home = () => {
                 headerName: 'Başlık',
                 width: 350,
                 renderCell: (params) => (
-                    <Link onClick={(e) => e.preventDefault()}>
-                        <RouterLink to={params.getValue('id') || ''}>
-                            {params.value}
-                        </RouterLink>
-                    </Link>
+                    <RouterLink to={params.getValue('id') || ''}>
+                        {params.value}
+                    </RouterLink>
                 ),
             },
             { field: 'model', headerName: 'Model', width: 120 },
@@ -174,7 +172,7 @@ const Home = () => {
     return (
         <>
             <Helmet>
-                <title>Anasayfa - Stock Management System</title>
+                <title>Anasayfa - Stok Yönetim Sistemi</title>
             </Helmet>
             <div
                 style={{

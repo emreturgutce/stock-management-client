@@ -76,7 +76,7 @@ export default function SignIn() {
             {!isAuth ? (
                 <>
                     <Helmet>
-                        <title>Anasayfa - Stock Management System</title>
+                        <title>Anasayfa - Stok Yönetim Sistemi</title>
                     </Helmet>
                     <Container component='main' maxWidth='xs'>
                         <CssBaseline />

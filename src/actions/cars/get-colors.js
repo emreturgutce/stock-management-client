@@ -13,12 +13,10 @@ export const getColors = () => (dispatch) => {
         .then((res) => res.json())
         .then((res) => {
             if (res.data) {
-                setTimeout(() => {
-                    dispatch({
-                        type: CarActionTypes.COLORS_LOADED,
-                        payload: res.data,
-                    });
-                }, 2000);
+                dispatch({
+                    type: CarActionTypes.COLORS_LOADED,
+                    payload: res.data,
+                });
             } else {
                 dispatch({
                     type: CarActionTypes.COLORS_FAIL,

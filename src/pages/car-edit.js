@@ -28,7 +28,7 @@ const CarEdit = () => {
     return (
         <>
             <Helmet>
-                <title>Araba Güncelleme - Stock Management System</title>
+                <title>Araba Güncelleme - Stok Yönetim Sistemi</title>
             </Helmet>
             <CarForm car={location.state.car} />
         </>

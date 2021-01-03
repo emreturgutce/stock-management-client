@@ -73,6 +73,7 @@ export default function CarForm({ car }) {
     const [selectedDate, setSelectedDate] = useState(
         car ? car.enter_date : new Date(Date.now()),
     );
+    const history = useHistory();
     const [title, setTitle] = useState(car ? car.title : '');
     const [description, setDescription] = useState(car ? car.description : '');
     const [salePrice, setSalePrice] = useState(
@@ -103,7 +104,6 @@ export default function CarForm({ car }) {
     const handleDateChange = (date) => {
         setSelectedDate(date);
     };
-    const history = useHistory();
 
     const onSubmit = async () => {
         const formData = new FormData();
@@ -465,8 +465,8 @@ export default function CarForm({ car }) {
                                         'image/jpeg',
                                         'image/png',
                                     ]}
-                                    onChange={(files) => setFiles(files)}
                                     showFileNames
+                                    onChange={(f) => setFiles(f)}
                                     dropzoneText='Resimleri buraya sürükleyin veya seçmek için tıklayın'
                                     showAlerts={false}
                                     filesLimit={20}

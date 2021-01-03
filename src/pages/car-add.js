@@ -26,7 +26,7 @@ const CarAdd = () => {
     return (
         <>
             <Helmet>
-                <title>Araba Ekleme - Stock Management System</title>
+                <title>Araba Ekleme - Stok Yönetim Sistemi</title>
             </Helmet>
             <CarForm />
         </>

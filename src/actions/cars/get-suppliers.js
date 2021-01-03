@@ -13,12 +13,10 @@ export const getSuppliers = () => (dispatch) => {
         .then((res) => res.json())
         .then(({ data }) => {
             if (data) {
-                setTimeout(() => {
-                    dispatch({
-                        type: CarActionTypes.SUPPLIERS_LOADED,
-                        payload: data,
-                    });
-                }, 2000);
+                dispatch({
+                    type: CarActionTypes.SUPPLIERS_LOADED,
+                    payload: data,
+                });
             } else {
                 dispatch({
                     type: CarActionTypes.SUPPLIERS_FAIL,

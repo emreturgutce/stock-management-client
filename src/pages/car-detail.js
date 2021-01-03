@@ -165,7 +165,7 @@ const CarDetail = () => {
     return (
         <>
             <Helmet>
-                <title>{car.title} - Stock Management System</title>
+                <title>{car.title} - Stok Yönetim Sistemi</title>
             </Helmet>
             <Container maxWidth='lg'>
                 <div className={classes.root}>
