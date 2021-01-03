@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -20,6 +20,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { Delete, Refresh, Edit } from '@material-ui/icons';
 import { Helmet } from 'react-helmet';
 import { BASE_URL } from '../constants/index';
+import { getCars } from '../actions/cars/get-cars';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -34,13 +35,17 @@ const CarDetail = () => {
     const { user } = useSelector((state) => state.auth);
     const { id } = useParams();
     const classes = useStyles();
+    const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
     const [openStock, setOpenStock] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
+    const [isError, setIsError] = useState(false);
     const history = useHistory();
     const [car, setCar] = useState(cars.find((car) => car.car_id === id));
+
+    const getCarsCb = useCallback(() => dispatch(getCars()), [dispatch]);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -59,68 +64,36 @@ const CarDetail = () => {
     };
 
     const handleRefresh = () => {
+        getCarsCb();
         setCar(cars.find((car) => car.car_id === id));
     };
 
     const onSubmit = async () => {
-        const customerBody = {
-            first_name: firstName,
-            last_name: lastName,
-            birth_date: new Date(Date.now()),
-        };
-
-        const customerRes = await fetch(`${BASE_URL}/api/customers`, {
-            method: 'POST',
-            body: JSON.stringify(customerBody),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-        });
-
-        const customerResJson = await customerRes.json();
-
-        const invoiceBody = {
-            serial_number: Math.floor(Math.random() * 10000),
-            price: car.sale_price,
-        };
-        const invoiceRes = await fetch(`${BASE_URL}/api/sales/invoices`, {
-            method: 'POST',
-            body: JSON.stringify(invoiceBody),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-        });
-
-        const invoiceResJson = await invoiceRes.json();
-
-        const saleBody = {
-            customer_id: customerResJson.data[0].id,
-            personel_id: user.id,
-            car_id: car.car_id,
-            invoice_id: invoiceResJson.data[0].id,
-            sale_date: new Date(Date.now()),
-        };
-
         const saleRes = await fetch(`${BASE_URL}/api/sales`, {
             method: 'POST',
-            body: JSON.stringify(saleBody),
+            body: JSON.stringify({
+                first_name: firstName,
+                last_name: lastName,
+                birth_date: new Date(Date.now()),
+                serial_number: Math.floor(Math.random() * 10000),
+                price: car.sale_price,
+                personel_id: user.id,
+                car_id: car.car_id,
+                sale_date: new Date(Date.now()),
+            }),
             headers: {
                 'Content-Type': 'application/json',
             },
             credentials: 'include',
         });
-
-        await saleRes.json();
 
         handleClose();
 
-        setIsSuccess(true);
-
-        setTimeout(() => {
-            history.push(`/${car.car_id}`);
-        }, 2000);
+        if (saleRes.ok) {
+            setIsSuccess(true);
+        } else {
+            setIsError(true);
+        }
     };
 
     const handleRemoveStock = async () => {
@@ -143,24 +116,46 @@ const CarDetail = () => {
         }).format(price);
 
     const renderSuccessAlert = () => {
-        return (
-            <Collapse in={isSuccess}>
-                <Alert
-                    action={
-                        <IconButton
-                            aria-label='close'
-                            color='inherit'
-                            size='small'
-                            onClick={() => setIsSuccess(false)}
-                        >
-                            <CloseIcon fontSize='inherit' />
-                        </IconButton>
-                    }
-                >
-                    Başarılı !
-                </Alert>
-            </Collapse>
-        );
+        if (isSuccess) {
+            return (
+                <Collapse in={isSuccess}>
+                    <Alert
+                        action={
+                            <IconButton
+                                aria-label='close'
+                                color='inherit'
+                                size='small'
+                                onClick={() => setIsSuccess(false)}
+                            >
+                                <CloseIcon fontSize='inherit' />
+                            </IconButton>
+                        }
+                    >
+                        Başarılı !
+                    </Alert>
+                </Collapse>
+            );
+        } else if (isError) {
+            return (
+                <Collapse in={isError}>
+                    <Alert
+                        severity='error'
+                        action={
+                            <IconButton
+                                aria-label='close'
+                                color='inherit'
+                                size='small'
+                                onClick={() => setIsError(false)}
+                            >
+                                <CloseIcon fontSize='inherit' />
+                            </IconButton>
+                        }
+                    >
+                        Bir Hata oluştu !
+                    </Alert>
+                </Collapse>
+            );
+        }
     };
 
     const handleEditClick = () => {

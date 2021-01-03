@@ -21,7 +21,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { BASE_URL } from '../constants/index';
-import { Save } from '@material-ui/icons';
+import { Save, Cancel } from '@material-ui/icons';
 import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
@@ -161,14 +161,16 @@ export default function CarForm({ car }) {
                 method: 'PUT',
             });
 
-            console.log(res);
-
             if (res.ok) {
                 setIsSuccess(true);
             } else {
                 setIsError(true);
             }
         }
+    };
+
+    const handleCancel = () => {
+        history.goBack();
     };
 
     const renderSuccessAlert = () => {
@@ -474,8 +476,17 @@ export default function CarForm({ car }) {
 
                         <div className={classes.buttons}>
                             <Button
-                                variant='contained'
+                                variant='outlined'
                                 color='primary'
+                                startIcon={<Cancel />}
+                                className={classes.button}
+                                onClick={handleCancel}
+                            >
+                                İptal et
+                            </Button>
+                            <Button
+                                variant='contained'
+                                color='secondary'
                                 startIcon={<Save />}
                                 className={classes.button}
                                 onClick={onSubmit}
