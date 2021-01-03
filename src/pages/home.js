@@ -1,12 +1,12 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link as RouterLink } from 'react-router-dom';
 import { DataGrid, GridOverlay } from '@material-ui/data-grid';
 import { getCars } from '../actions/cars/get-cars';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
+import { TextField } from '@material-ui/core';
 import { Add, Refresh } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) =>
@@ -91,6 +91,9 @@ function CustomNoRowsOverlay() {
 const Home = () => {
     const dispatch = useDispatch();
     const { isLoading, cars } = useSelector((state) => state.car);
+    const [searchInput, setSearchInput] = useState('');
+    const getCarsCb = useCallback(() => dispatch(getCars()), [dispatch]);
+    const [carsState, setCarsState] = useState(cars);
 
     const data = {
         columns: [
@@ -153,10 +156,8 @@ const Home = () => {
                     new Date(params.value).toLocaleDateString('tr-TR'),
             },
         ],
-        rows: cars.map((car) => ({ ...car, id: car.car_id })),
+        rows: carsState.map((car) => ({ ...car, id: car.car_id })),
     };
-
-    const getCarsCb = useCallback(() => dispatch(getCars()), [dispatch]);
 
     const formatPrice = (price) =>
         new Intl.NumberFormat('tr-TR', {
@@ -168,6 +169,12 @@ const Home = () => {
     useEffect(() => {
         getCarsCb();
     }, [getCarsCb]);
+
+    useEffect(() => {
+        setCarsState(
+            cars.filter((car) => car.title.toLowerCase().includes(searchInput)),
+        );
+    }, [cars, searchInput]);
 
     return (
         <>
@@ -183,26 +190,46 @@ const Home = () => {
                     margin: '30px auto',
                 }}
             >
-                <div style={{ alignSelf: 'flex-end' }}>
-                    <Button
-                        variant='contained'
-                        style={{
-                            marginRight: 5,
-                        }}
-                        onClick={() => getCarsCb()}
-                        startIcon={<Refresh />}
-                    >
-                        Yenile
-                    </Button>
-                    <Button
-                        variant='contained'
-                        color='secondary'
-                        to='/cars/add'
-                        startIcon={<Add />}
-                        component={RouterLink}
-                    >
-                        Yeni Araba Ekle
-                    </Button>
+                <div
+                    style={{
+                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                    }}
+                >
+                    <div>
+                        <TextField
+                            size='small'
+                            id='filled-search'
+                            label='Ara'
+                            type='search'
+                            variant='outlined'
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <Button
+                            variant='contained'
+                            style={{
+                                marginRight: 5,
+                            }}
+                            onClick={() => getCarsCb()}
+                            startIcon={<Refresh />}
+                        >
+                            Yenile
+                        </Button>
+                        <Button
+                            variant='contained'
+                            color='secondary'
+                            to='/cars/add'
+                            startIcon={<Add />}
+                            component={RouterLink}
+                        >
+                            Yeni Araba Ekle
+                        </Button>
+                    </div>
                 </div>
                 <div style={{ height: 720, width: '100%', marginTop: 30 }}>
                     <DataGrid
