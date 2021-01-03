@@ -17,7 +17,7 @@ import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
-import { Delete, Refresh } from '@material-ui/icons';
+import { Delete, Refresh, Edit } from '@material-ui/icons';
 import { Helmet } from 'react-helmet';
 import { BASE_URL } from '../constants/index';
 
@@ -157,10 +157,14 @@ const CarDetail = () => {
                         </IconButton>
                     }
                 >
-                    Close me!
+                    Başarılı !
                 </Alert>
             </Collapse>
         );
+    };
+
+    const handleEditClick = () => {
+        history.push(`/${car.id}/edit`, { car });
     };
 
     return (
@@ -204,24 +208,30 @@ const CarDetail = () => {
                                             <Button
                                                 variant='outlined'
                                                 size='small'
+                                                children={<Edit />}
+                                                onClick={handleEditClick}
+                                            />
+                                        </Grid>
+                                        <Grid item>
+                                            <Button
+                                                variant='outlined'
+                                                size='small'
                                                 children={<Refresh />}
+                                                onClick={handleRefresh}
                                             />
                                         </Grid>
                                         <Grid item>
                                             <Button
                                                 variant='contained'
                                                 color='secondary'
-                                                className={classes.button}
                                                 onClick={handleStockClickOpen}
-                                                startIcon={<Delete />}
+                                                children={<Delete />}
                                                 disabled={
                                                     car.is_sold === 'SOLD'
                                                         ? true
                                                         : false
                                                 }
-                                            >
-                                                Stoktan çıkar
-                                            </Button>
+                                            />
                                         </Grid>
                                         <Dialog
                                             open={openStock}
@@ -266,7 +276,6 @@ const CarDetail = () => {
                                             <Button
                                                 variant='contained'
                                                 color='secondary'
-                                                className={classes.button}
                                                 onClick={handleClickOpen}
                                                 disabled={
                                                     car.is_sold === 'SOLD'

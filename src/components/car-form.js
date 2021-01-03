@@ -22,6 +22,10 @@ import Select from '@material-ui/core/Select';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { BASE_URL } from '../constants/index';
 import { Save } from '@material-ui/icons';
+import Alert from '@material-ui/lab/Alert';
+import IconButton from '@material-ui/core/IconButton';
+import Collapse from '@material-ui/core/Collapse';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -36,13 +40,17 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: 'auto',
             marginRight: 'auto',
         },
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     paper: {
-        marginTop: theme.spacing(3),
+        marginTop: theme.spacing(2),
         marginBottom: theme.spacing(3),
         padding: theme.spacing(2),
         [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-            marginTop: theme.spacing(6),
+            marginTop: theme.spacing(4),
             marginBottom: theme.spacing(6),
             padding: theme.spacing(3),
         },
@@ -60,23 +68,34 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function CarForm() {
+export default function CarForm({ car }) {
     const classes = useStyles();
-    const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [salePrice, setSalePrice] = useState(0);
-    const [purchasePrice, setPurchasePrice] = useState(0);
-    const [year, setYear] = useState(2020);
-    const [model, setModel] = useState('');
-    const [color, setColor] = useState('');
-    const [is_new, setIs_new] = useState('');
-    const [manufacturer, setManufacturer] = useState('');
-    const [supplier, setSupplier] = useState('');
+    const [selectedDate, setSelectedDate] = useState(
+        car ? car.enter_date : new Date(Date.now()),
+    );
+    const [title, setTitle] = useState(car ? car.title : '');
+    const [description, setDescription] = useState(car ? car.description : '');
+    const [salePrice, setSalePrice] = useState(
+        car ? parseInt(car.sale_price, 10) : 0,
+    );
+    const [purchasePrice, setPurchasePrice] = useState(
+        car ? parseInt(car.purchase_price, 10) : 0,
+    );
+    const [year, setYear] = useState(car ? car.year : 2020);
+    const [model, setModel] = useState(car ? car.model : '');
+    const [color, setColor] = useState(car ? car.car_color_code : '');
+    const [is_new, setIs_new] = useState(car ? car.is_new === 'NEW' : '');
+    const [manufacturer, setManufacturer] = useState(
+        car ? car.car_manufacturer_id : '',
+    );
+    const [supplier, setSupplier] = useState(car ? car.supplier_id : '');
     const [files, setFiles] = useState([]);
     const { manufacturers, suppliers, colors } = useSelector(
         (state) => state.car,
     );
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [isError, setIsError] = useState(false);
+
     const {
         user: { id },
     } = useSelector((state) => state.auth);
@@ -96,47 +115,114 @@ export default function CarForm() {
             purchase_price: purchasePrice,
             is_sold: 'NOT SOLD',
             description,
-            model: '123456',
+            model,
             year,
             is_new: is_new ? 'NEW' : 'NOT NEW',
             enter_date: selectedDate,
             supplier_id: supplier,
-            personel_id: id,
             car_manufacturer_id: manufacturer,
             car_color_code: color,
         };
 
-        const res = await fetch(`${BASE_URL}/api/cars`, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify(data),
-            method: 'POST',
-        });
-
-        const dataJson = await res.json();
-
-        history.push('/');
-
-        await axios.post(
-            `${BASE_URL}/api/cars/${dataJson.data[0].id}/images`,
-            formData,
-            {
+        if (!car) {
+            const res = await fetch(`${BASE_URL}/api/cars`, {
                 headers: {
-                    'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+                    'Content-Type': 'application/json',
                 },
-                withCredentials: true,
-            },
-        );
+                credentials: 'include',
+                body: JSON.stringify({
+                    ...data,
+                    personel_id: id,
+                }),
+                method: 'POST',
+            });
+
+            const dataJson = await res.json();
+
+            history.push('/');
+
+            await axios.post(
+                `${BASE_URL}/api/cars/${dataJson.data[0].id}/images`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+                    },
+                    withCredentials: true,
+                },
+            );
+        } else {
+            const res = await fetch(`${BASE_URL}/api/cars/${car.car_id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify(data),
+                method: 'PUT',
+            });
+
+            console.log(res);
+
+            if (res.ok) {
+                setIsSuccess(true);
+            } else {
+                setIsError(true);
+            }
+        }
+    };
+
+    const renderSuccessAlert = () => {
+        if (isSuccess) {
+            return (
+                <Collapse in={isSuccess}>
+                    <Alert
+                        action={
+                            <IconButton
+                                aria-label='close'
+                                color='inherit'
+                                size='small'
+                                onClick={() => setIsSuccess(false)}
+                            >
+                                <CloseIcon fontSize='inherit' />
+                            </IconButton>
+                        }
+                    >
+                        Araba başarılı bir şekilde güncellendi !
+                    </Alert>
+                </Collapse>
+            );
+        } else if (isError) {
+            return (
+                <Collapse in={isError}>
+                    <Alert
+                        severity='error'
+                        action={
+                            <IconButton
+                                aria-label='close'
+                                color='inherit'
+                                size='small'
+                                onClick={() => setIsError(false)}
+                            >
+                                <CloseIcon fontSize='inherit' />
+                            </IconButton>
+                        }
+                    >
+                        Araba güncellenirken bir hata oluştu !
+                    </Alert>
+                </Collapse>
+            );
+        }
     };
 
     return (
         <React.Fragment>
             <main className={classes.layout}>
+                <div style={{ width: '100%', marginTop: 20 }}>
+                    {renderSuccessAlert()}
+                </div>
                 <Paper className={classes.paper}>
                     <Typography component='h1' variant='h4' align='center'>
-                        Araba Ekle
+                        {car ? 'Araba Güncelle' : 'Araba Ekle'}
                     </Typography>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <Typography variant='h6' gutterBottom>
@@ -271,8 +357,8 @@ export default function CarForm() {
                                         }}
                                     >
                                         <option aria-label='None' value='' />
-                                        <option value={true}>New</option>
-                                        <option value={false}>Not New</option>
+                                        <option value={true}>Sıfır</option>
+                                        <option value={false}>İkinci El</option>
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -372,7 +458,11 @@ export default function CarForm() {
                             </Grid>
                             <Grid item xs={12}>
                                 <DropzoneArea
-                                    acceptedFiles={['image/*']}
+                                    acceptedFiles={[
+                                        'image/jpg',
+                                        'image/jpeg',
+                                        'image/png',
+                                    ]}
                                     onChange={(files) => setFiles(files)}
                                     showFileNames
                                     dropzoneText='Resimleri buraya sürükleyin veya seçmek için tıklayın'
