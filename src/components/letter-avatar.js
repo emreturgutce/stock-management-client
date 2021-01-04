@@ -36,7 +36,7 @@ export default function LetterAvatar({ firstLetter }) {
 
     const handleLout = () => {
         handleLogout();
-        history.push('/');
+        history.push('/login');
     };
 
     return (

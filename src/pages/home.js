@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Helmet from 'react-helmet';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Redirect } from 'react-router-dom';
 import { DataGrid, GridOverlay } from '@material-ui/data-grid';
 import { getCars } from '../actions/cars/get-cars';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
@@ -91,6 +91,7 @@ function CustomNoRowsOverlay() {
 const Home = () => {
     const dispatch = useDispatch();
     const { isLoading, cars } = useSelector((state) => state.car);
+    const { isAuthenticated } = useSelector((state) => state.auth);
     const [searchInput, setSearchInput] = useState('');
     const getCarsCb = useCallback(() => dispatch(getCars()), [dispatch]);
     const [carsState, setCarsState] = useState(cars);
@@ -178,71 +179,85 @@ const Home = () => {
 
     return (
         <>
-            <Helmet>
-                <title>Anasayfa - Stok Yönetim Sistemi</title>
-            </Helmet>
-            <div
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    width: '90%',
-                    margin: '30px auto',
-                }}
-            >
-                <div
-                    style={{
-                        width: '100%',
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                    }}
-                >
-                    <div>
-                        <TextField
-                            size='small'
-                            id='filled-search'
-                            label='Ara'
-                            type='search'
-                            variant='outlined'
-                            value={searchInput}
-                            onChange={(e) => setSearchInput(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <Button
-                            variant='contained'
-                            style={{
-                                marginRight: 5,
-                            }}
-                            onClick={() => getCarsCb()}
-                            startIcon={<Refresh />}
-                        >
-                            Yenile
-                        </Button>
-                        <Button
-                            variant='contained'
-                            color='secondary'
-                            to='/cars/add'
-                            startIcon={<Add />}
-                            component={RouterLink}
-                        >
-                            Yeni Araba Ekle
-                        </Button>
-                    </div>
-                </div>
-                <div style={{ height: 720, width: '100%', marginTop: 30 }}>
-                    <DataGrid
-                        components={{
-                            noRowsOverlay: CustomNoRowsOverlay,
+            {isAuthenticated ? (
+                <>
+                    <Helmet>
+                        <title>Anasayfa - Stok Yönetim Sistemi</title>
+                    </Helmet>
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            width: '90%',
+                            margin: '30px auto',
                         }}
-                        pageSize={5}
-                        rowHeight={120}
-                        loading={isLoading}
-                        {...data}
-                    />
-                </div>
-            </div>
+                    >
+                        <div
+                            style={{
+                                width: '100%',
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                            }}
+                        >
+                            <div>
+                                <TextField
+                                    size='small'
+                                    id='filled-search'
+                                    label='Ara'
+                                    type='search'
+                                    variant='outlined'
+                                    value={searchInput}
+                                    onChange={(e) =>
+                                        setSearchInput(e.target.value)
+                                    }
+                                />
+                            </div>
+                            <div>
+                                <Button
+                                    variant='contained'
+                                    style={{
+                                        marginRight: 5,
+                                    }}
+                                    onClick={() => getCarsCb()}
+                                    startIcon={<Refresh />}
+                                >
+                                    Yenile
+                                </Button>
+                                <Button
+                                    variant='contained'
+                                    color='secondary'
+                                    to='/cars/add'
+                                    startIcon={<Add />}
+                                    component={RouterLink}
+                                >
+                                    Yeni Araba Ekle
+                                </Button>
+                            </div>
+                        </div>
+                        <div
+                            style={{
+                                height: 720,
+                                width: '100%',
+                                marginTop: 30,
+                            }}
+                        >
+                            <DataGrid
+                                components={{
+                                    noRowsOverlay: CustomNoRowsOverlay,
+                                }}
+                                pageSize={5}
+                                rowHeight={120}
+                                loading={isLoading}
+                                {...data}
+                            />
+                        </div>
+                    </div>
+                </>
+            ) : (
+                <Redirect to='/login' />
+            )}
         </>
     );
 };

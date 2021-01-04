@@ -6,8 +6,7 @@ export const logout = () => (dispatch) => {
         method: 'GET',
         credentials: 'include',
     })
-        .then((res) => res.json())
-        .then((data) => {
+        .then(() => {
             dispatch({
                 type: AuthActionTypes.LOGOUT_SUCCESS,
             });
