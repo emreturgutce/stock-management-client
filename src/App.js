@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/home';
@@ -10,9 +10,10 @@ import CarDetail from './pages/car-detail';
 import CarAdd from './pages/car-add';
 import CarEdit from './pages/car-edit';
 import { getUser } from './actions/auth/get-user';
+import { useAuthState } from './hooks';
 
 const App = () => {
-	const { isLoading } = useSelector((state) => state.auth);
+	const { isLoading } = useAuthState();
 	const dispatch = useDispatch();
 
 	const getUserCb = useCallback(() => dispatch(getUser()), [dispatch]);

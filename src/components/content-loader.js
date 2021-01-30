@@ -1,6 +1,6 @@
 import ContentLoader from 'react-content-loader';
 
-const Loader = ({ header, rowCount, rowWidth, rowHeight }) => {
+const Loader = ({ header, rowCount, rowWidth, rowHeight, name }) => {
 	function renderRows() {
 		let top = header ? 10 : 0;
 		const arr = [];
@@ -22,7 +22,7 @@ const Loader = ({ header, rowCount, rowWidth, rowHeight }) => {
 	}
 
 	return (
-		<ContentLoader viewBox={`0 0 430 ${20 * rowCount}`}>
+		<ContentLoader viewBox={`0 0 430 ${20 * rowCount}`} key={name}>
 			{header && <rect x='0' y='0' rx='3' ry='3' width='80' height='8' />}
 			{renderRows()}
 		</ContentLoader>

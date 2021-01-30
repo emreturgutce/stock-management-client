@@ -1,9 +1,9 @@
-import { useSelector } from 'react-redux';
 import ListItem from './list-item';
 import Loader from './content-loader';
+import { useCarState } from '../hooks';
 
 const CarDetailRow = ({ name, value }) => {
-	const { isLoading } = useSelector((state) => state.car);
+	const { isLoading } = useCarState();
 
 	return (
 		<ListItem
@@ -11,6 +11,7 @@ const CarDetailRow = ({ name, value }) => {
 			val={
 				isLoading ? (
 					<Loader
+						name={name}
 						header={false}
 						rowCount={1}
 						rowWidth='40%'

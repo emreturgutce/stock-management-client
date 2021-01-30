@@ -1,11 +1,10 @@
 import { useState, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import ListItem from '../components/list-item';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -23,6 +22,7 @@ import { BASE_URL } from '../constants/index';
 import { getCars } from '../actions/cars/get-cars';
 import Loader from '../components/content-loader';
 import CarDetailRow from '../components/car-detail-row';
+import { useCarState, useAuthState } from '../hooks';
 
 const useStyles = makeStyles((theme) =>
 	createStyles({
@@ -33,8 +33,8 @@ const useStyles = makeStyles((theme) =>
 );
 
 const CarDetail = () => {
-	const { cars, isLoading } = useSelector((state) => state.car);
-	const { user } = useSelector((state) => state.auth);
+	const { cars, isLoading } = useCarState();
+	const { user } = useAuthState()
 	const { id } = useParams();
 	const classes = useStyles();
 	const dispatch = useDispatch();

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory, Redirect } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import validator from 'validator';
@@ -17,6 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { loginUser } from '../actions/auth/login';
 import ErrorAlert from '../components/error-alert';
+import {useAuthState} from '../hooks'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -44,9 +45,7 @@ export default function SignIn() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
-    const { isAuthenticated: isAuth, errors } = useSelector(
-        (state) => state.auth,
-    );
+    const { isAuthenticated: isAuth, errors } = useAuthState();
 
     const login = useCallback(
         (email, password) => dispatch(loginUser({ email, password })),
