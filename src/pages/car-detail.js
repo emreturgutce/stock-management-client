@@ -1,5 +1,4 @@
-import { useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -19,10 +18,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import { Delete, Refresh, Edit } from '@material-ui/icons';
 import { Helmet } from 'react-helmet';
 import { BASE_URL } from '../constants/index';
-import { getCars } from '../actions/cars/get-cars';
 import Loader from '../components/content-loader';
 import CarDetailRow from '../components/car-detail-row';
-import { useCarState, useAuthState } from '../hooks';
+import { useCarState, useAuthState, useGetCars } from '../hooks';
 
 const useStyles = makeStyles((theme) =>
 	createStyles({
@@ -34,10 +32,9 @@ const useStyles = makeStyles((theme) =>
 
 const CarDetail = () => {
 	const { cars, isLoading } = useCarState();
-	const { user } = useAuthState()
+	const { user } = useAuthState();
 	const { id } = useParams();
 	const classes = useStyles();
-	const dispatch = useDispatch();
 	const [open, setOpen] = useState(false);
 	const [openStock, setOpenStock] = useState(false);
 	const [firstName, setFirstName] = useState('');
@@ -46,24 +43,11 @@ const CarDetail = () => {
 	const [isError, setIsError] = useState(false);
 	const history = useHistory();
 	const [car, setCar] = useState(cars.find((car) => car.car_id === id));
+	const getCarsCb = useGetCars();
 
-	const getCarsCb = useCallback(() => dispatch(getCars()), [dispatch]);
+	const handleClose = () => setOpen(false);
 
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
-	const handleStockClickOpen = () => {
-		setOpenStock(true);
-	};
-
-	const handleStockClose = () => {
-		setOpenStock(false);
-	};
+	const handleStockClose = () => setOpenStock(false);
 
 	const handleRefresh = () => {
 		getCarsCb();
@@ -160,9 +144,7 @@ const CarDetail = () => {
 		}
 	};
 
-	const handleEditClick = () => {
-		history.push(`/${car.id}/edit`, { car });
-	};
+	const handleEditClick = () => history.push(`/${car.id}/edit`, { car });
 
 	return (
 		<>
@@ -222,8 +204,8 @@ const CarDetail = () => {
 												<Button
 													variant='contained'
 													color='secondary'
-													onClick={
-														handleStockClickOpen
+													onClick={() =>
+														setOpenStock(true)
 													}
 													children={<Delete />}
 													disabled={
@@ -282,7 +264,9 @@ const CarDetail = () => {
 												<Button
 													variant='contained'
 													color='secondary'
-													onClick={handleClickOpen}
+													onClick={() =>
+														setOpen(true)
+													}
 													disabled={
 														car.is_sold === 'SOLD'
 															? true

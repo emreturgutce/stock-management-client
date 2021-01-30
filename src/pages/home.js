@@ -1,14 +1,12 @@
-import { useEffect, useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
 import Helmet from 'react-helmet';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 import { DataGrid, GridOverlay } from '@material-ui/data-grid';
-import { getCars } from '../actions/cars/get-cars';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { TextField } from '@material-ui/core';
 import { Add, Refresh } from '@material-ui/icons';
-import { useCarState, useAuthState } from '../hooks';
+import { useCarState, useAuthState, useGetCars } from '../hooks';
 
 const useStyles = makeStyles((theme) =>
 	createStyles({
@@ -90,11 +88,10 @@ function CustomNoRowsOverlay() {
 }
 
 const Home = () => {
-	const dispatch = useDispatch();
+	const getCarsCb = useGetCars()
 	const { isLoading, cars } = useCarState();
 	const { isAuthenticated } = useAuthState();
 	const [searchInput, setSearchInput] = useState('');
-	const getCarsCb = useCallback(() => dispatch(getCars()), [dispatch]);
 	const [carsState, setCarsState] = useState(cars);
 
 	const data = {
@@ -167,10 +164,6 @@ const Home = () => {
 			currency: 'TRY',
 			minimumFractionDigits: 2,
 		}).format(price);
-
-	useEffect(() => {
-		getCarsCb();
-	}, [getCarsCb]);
 
 	useEffect(() => {
 		setCarsState(
