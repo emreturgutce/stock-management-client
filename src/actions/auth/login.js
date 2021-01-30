@@ -27,6 +27,7 @@ export const loginUser = (data) => (dispatch) => {
             }
         })
         .catch((err) => {
+            console.log(err)
             dispatch({
                 type: AuthActionTypes.LOGIN_FAIL,
                 payload: {
