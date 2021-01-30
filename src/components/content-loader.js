@@ -22,7 +22,7 @@ const Loader = ({ header, rowCount, rowWidth, rowHeight, name }) => {
 	}
 
 	return (
-		<ContentLoader viewBox={`0 0 430 ${20 * rowCount}`} key={name}>
+		<ContentLoader viewBox={`0 0 430 ${20 * rowCount}`}>
 			{header && <rect x='0' y='0' rx='3' ry='3' width='80' height='8' />}
 			{renderRows()}
 		</ContentLoader>
