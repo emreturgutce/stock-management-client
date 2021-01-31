@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
 import Container from '@material-ui/core/Container';
+import { Add, Equalizer } from '@material-ui/icons';
 import LetterAvatar from './letter-avatar';
 import { useAuthState } from '../hooks';
 
@@ -41,9 +42,44 @@ const Navbar = () => {
 
 		if (isAuth) {
 			return (
-				<LetterAvatar
-					firstLetter={user.first_name.toUpperCase().charAt(0) || 'U'}
-				/>
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'row',
+						justifyContent: 'center',
+					}}
+				>
+					<div style={{ margin: 'auto' }}>
+						<RouterLink to='/cars/chart'>
+							<IconButton
+								edge='start'
+								className={classes.menuButton}
+								color='inherit'
+								aria-label='menu'
+							>
+								<Equalizer
+									style={{ fill: '#EEE' }}
+									width='125%'
+								/>
+							</IconButton>
+						</RouterLink>
+						<RouterLink to='/cars/add'>
+							<IconButton
+								edge='start'
+								className={classes.menuButton}
+								color='inherit'
+								aria-label='menu'
+							>
+								<Add style={{ fill: '#EEE' }} width='125%' />
+							</IconButton>
+						</RouterLink>
+					</div>
+					<LetterAvatar
+						firstLetter={
+							user.first_name.toUpperCase().charAt(0) || 'U'
+						}
+					/>
+				</div>
 			);
 		}
 
