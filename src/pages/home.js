@@ -5,7 +5,7 @@ import { DataGrid, GridOverlay } from '@material-ui/data-grid';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { TextField } from '@material-ui/core';
-import { Add, Refresh } from '@material-ui/icons';
+import { Add, Refresh, Equalizer } from '@material-ui/icons';
 import { useCarState, useAuthState, useGetCars } from '../hooks';
 
 const useStyles = makeStyles((theme) =>
@@ -88,7 +88,7 @@ function CustomNoRowsOverlay() {
 }
 
 const Home = () => {
-	const getCarsCb = useGetCars()
+	const getCarsCb = useGetCars();
 	const { isLoading, cars } = useCarState();
 	const { isAuthenticated } = useAuthState();
 	const [searchInput, setSearchInput] = useState('');
@@ -209,6 +209,17 @@ const Home = () => {
 								/>
 							</div>
 							<div>
+								<Button
+									variant='contained'
+									to='/cars/chart'
+									style={{
+										marginRight: 5,
+									}}
+									startIcon={<Equalizer />}
+									component={RouterLink}
+								>
+									Satış Grafiğini Gör
+								</Button>
 								<Button
 									variant='contained'
 									style={{

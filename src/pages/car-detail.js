@@ -77,6 +77,8 @@ const CarDetail = () => {
 
 		if (saleRes.ok) {
 			setIsSuccess(true);
+			setTimeout(handleRefresh, 5000);
+			setTimeout(() => setIsSuccess(false), 5000);
 		} else {
 			setIsError(true);
 		}
@@ -117,7 +119,7 @@ const CarDetail = () => {
 							</IconButton>
 						}
 					>
-						Başarılı !
+						Satış İşlemi Başarılı !
 					</Alert>
 				</Collapse>
 			);
@@ -154,7 +156,7 @@ const CarDetail = () => {
 			<Container maxWidth='lg'>
 				<div className={classes.root}>
 					<Grid container spacing={2}>
-						<Grid item xs={12}>
+						<Grid item xs={12} style={{ marginTop: 12 }}>
 							{isSuccess && renderSuccessAlert()}
 						</Grid>
 						<Grid item xs={12}>
@@ -301,7 +303,6 @@ const CarDetail = () => {
 														}
 													/>
 													<TextField
-														autoFocus
 														margin='dense'
 														id='last_name'
 														label='Soyad'
@@ -353,14 +354,12 @@ const CarDetail = () => {
 									/>
 									<CarDetailRow
 										name={'Giriş tarihi'}
-										value={
-											car.is_new === 'NEW'
-												? 'Sıfır'
-												: 'İkinci el'
-										}
+										value={new Date(car.enter_date)
+											.toLocaleString('tr-TR')
+											.replace(/03:00:00/, '')}
 									/>
 									<CarDetailRow
-										name='Alış tarihi'
+										name='Alış Fiyatı'
 										value={formatPrice(car.purchase_price)}
 									/>
 									<CarDetailRow
