@@ -12,6 +12,7 @@ import CarAdd from './pages/car-add';
 import CarEdit from './pages/car-edit';
 import Chart from './pages/chart';
 import Profile from './pages/profile';
+import NotFound from './pages/not-found';
 import { getUser } from './actions/auth/get-user';
 import { useAuthState } from './hooks';
 
@@ -53,6 +54,7 @@ const App = () => {
 						path='/personels/profile'
 						Children={Profile}
 					/>
+					<Route path="*" component={NotFound} />
 				</Switch>
 			)}
 			<Footer />

@@ -1,4 +1,5 @@
 import Helmet from 'react-helmet';
+import React from 'react';
 
 const Profile = () => {
 	return (
@@ -23,7 +24,7 @@ const Profile = () => {
 						justifyContent: 'space-between',
 					}}
 				>
-					<h1>Profile</h1>
+					Profil
 				</div>
 			</div>
 		</>
