@@ -21,7 +21,12 @@ import { Helmet } from 'react-helmet';
 import { BASE_URL } from '../constants/index';
 import Loader from '../components/content-loader';
 import CarDetailRow from '../components/car-detail-row';
+import DateFnsUtils from '@date-io/date-fns';
 import { useCarState, useAuthState, useGetCars } from '../hooks';
+import {
+	MuiPickersUtilsProvider,
+	KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme) =>
 	createStyles({
@@ -48,7 +53,12 @@ const CarDetail = () => {
 	const [openModal, setOpenModal] = useState(false);
 	const history = useHistory();
 	const [car, setCar] = useState(cars.find((car) => car.car_id === id));
+	const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
 	const getCarsCb = useGetCars();
+
+	const handleDateChange = (date) => {
+		setSelectedDate(new Date(date).toISOString().split('T')[0]);
+	};
 
 	const handleClose = () => setOpen(false);
 
@@ -70,7 +80,7 @@ const CarDetail = () => {
 				price: car.sale_price,
 				personel_id: user.id,
 				car_id: car.car_id,
-				sale_date: new Date(Date.now()),
+				sale_date: selectedDate,
 			}),
 			headers: {
 				'Content-Type': 'application/json',
@@ -158,284 +168,322 @@ const CarDetail = () => {
 			<Helmet>
 				<title>{car.title} - Stok Yönetim Sistemi</title>
 			</Helmet>
-			<Container maxWidth='lg'>
-				<div className={classes.root}>
-					<Grid container spacing={2}>
-						<Grid item xs={12} style={{ marginTop: 12 }}>
-							{isSuccess && renderSuccessAlert()}
-						</Grid>
-						<Grid item xs={12}>
-							<Typography variant='h5' component='h5'>
-								{car.title}
-							</Typography>
-						</Grid>
-						<Grid item xs={7}>
-							<img
-								onClick={() => setOpenModal(true)}
-								src={car.image_url || '/araba2.jpg'}
-								alt='araba'
-								width='85%'
-								style={{
-									cursor: 'pointer',
-									'&hover': { opacity: 0.8 },
-								}}
-							/>
-							<Modal
-								open={openModal}
-								onClose={() => setOpenModal(false)}
-								disableAutoFocus={true}
-								aria-labelledby='simple-modal-title'
-								aria-describedby='simple-modal-description'
-							>
-								<div
-									className={classes.paper}
+			<MuiPickersUtilsProvider utils={DateFnsUtils}>
+				<Container maxWidth='lg'>
+					<div className={classes.root}>
+						<Grid container spacing={2}>
+							<Grid item xs={12} style={{ marginTop: 12 }}>
+								{isSuccess && renderSuccessAlert()}
+							</Grid>
+							<Grid item xs={12}>
+								<Typography variant='h5' component='h5'>
+									{car.title}
+								</Typography>
+							</Grid>
+							<Grid item xs={7}>
+								<img
+									onClick={() => setOpenModal(true)}
+									src={car.image_url || '/araba2.jpg'}
+									alt='araba'
+									width='85%'
 									style={{
-										borderRadius: 4,
-										width: '50%',
-										top: `50%`,
-										left: `50%`,
-										transform: `translate(-50%, -50%)`,
+										cursor: 'pointer',
+										'&hover': { opacity: 0.8 },
 									}}
+								/>
+								<Modal
+									open={openModal}
+									onClose={() => setOpenModal(false)}
+									disableAutoFocus={true}
+									aria-labelledby='simple-modal-title'
+									aria-describedby='simple-modal-description'
 								>
-									<img
-										src={car.image_url || '/araba2.jpg'}
-										alt='araba modal'
-										width='100%'
-									/>
-								</div>
-							</Modal>
-						</Grid>
-						<>
-							<Grid item xs={5}>
-								<Grid container>
-									<Grid item xs={4}>
-										<Typography variant='h6' component='h6'>
-											{formatPrice(car.sale_price)}
-										</Typography>
-									</Grid>
-									<Grid item xs={8}>
-										<Grid
-											container
-											justify='flex-end'
-											alignItems='center'
-											spacing={1}
-										>
-											<Grid item>
-												<Button
-													variant='outlined'
-													size='small'
-													children={<Edit />}
-													onClick={handleEditClick}
-												/>
-											</Grid>
-											<Grid item>
-												<Button
-													variant='outlined'
-													size='small'
-													children={<Refresh />}
-													onClick={handleRefresh}
-												/>
-											</Grid>
-											<Grid item>
-												<Button
-													variant='contained'
-													color='secondary'
-													onClick={() =>
-														setOpenStock(true)
-													}
-													children={<Delete />}
-													disabled={
-														car.is_sold === 'SOLD'
-															? true
-															: false
-													}
-												/>
-											</Grid>
-											<Dialog
-												open={openStock}
-												onClose={handleStockClose}
-												aria-labelledby='alert-dialog-title'
-												aria-describedby='alert-dialog-description'
+									<div
+										className={classes.paper}
+										style={{
+											borderRadius: 4,
+											width: '50%',
+											top: `50%`,
+											left: `50%`,
+											transform: `translate(-50%, -50%)`,
+										}}
+									>
+										<img
+											src={car.image_url || '/araba2.jpg'}
+											alt='araba modal'
+											width='100%'
+										/>
+									</div>
+								</Modal>
+							</Grid>
+							<>
+								<Grid item xs={5}>
+									<Grid container>
+										<Grid item xs={4}>
+											<Typography
+												variant='h6'
+												component='h6'
 											>
-												<DialogTitle id='alert-dialog-title'>
-													{'Emin misiniz?'}
-												</DialogTitle>
-												<DialogContent>
-													<DialogContentText id='alert-dialog-description'>
-														Lorem ipsum dolor sit
-														amet consectetur
-														adipisicing elit. Ea
-														tenetur temporibus
-														voluptatem aperiam est
-														voluptate enim ut
-														explicabo quis? Beatae,
-														deserunt aperiam!
-														Veniam, accusantium
-														alias in iusto non
-														nostrum esse.
-													</DialogContentText>
-												</DialogContent>
-												<DialogActions>
+												{formatPrice(car.sale_price)}
+											</Typography>
+										</Grid>
+										<Grid item xs={8}>
+											<Grid
+												container
+												justify='flex-end'
+												alignItems='center'
+												spacing={1}
+											>
+												<Grid item>
 													<Button
+														variant='outlined'
+														size='small'
+														children={<Edit />}
 														onClick={
-															handleStockClose
+															handleEditClick
 														}
-														color='primary'
-													>
-														Reddet
-													</Button>
+													/>
+												</Grid>
+												<Grid item>
 													<Button
-														onClick={
-															handleRemoveStock
+														variant='outlined'
+														size='small'
+														children={<Refresh />}
+														onClick={handleRefresh}
+													/>
+												</Grid>
+												<Grid item>
+													<Button
+														variant='contained'
+														color='secondary'
+														onClick={() =>
+															setOpenStock(true)
 														}
-														color='primary'
-														autoFocus
-													>
-														Kabul et
-													</Button>
-												</DialogActions>
-											</Dialog>
-											{/* SELL BUTTON */}
-											<Grid item>
-												<Button
-													variant='contained'
-													color='secondary'
-													onClick={() =>
-														setOpen(true)
-													}
-													disabled={
-														car.is_sold === 'SOLD'
-															? true
-															: false
-													}
+														children={<Delete />}
+														disabled={
+															car.is_sold ===
+															'SOLD'
+																? true
+																: false
+														}
+													/>
+												</Grid>
+												<Dialog
+													open={openStock}
+													onClose={handleStockClose}
+													aria-labelledby='alert-dialog-title'
+													aria-describedby='alert-dialog-description'
 												>
-													{car.is_sold === 'SOLD'
-														? 'Satıldı'
-														: 'Sat'}
-												</Button>
+													<DialogTitle id='alert-dialog-title'>
+														{
+															'Arabanın bilgileri tamamen silinecek, emin misiniz?'
+														}
+													</DialogTitle>
+													<DialogContent>
+														<DialogContentText id='alert-dialog-description'>
+															Lorem ipsum dolor
+															sit amet consectetur
+															adipisicing elit. Ea
+															tenetur temporibus
+															voluptatem aperiam
+															est voluptate enim
+															ut explicabo quis?
+															Beatae, deserunt
+															aperiam! Veniam,
+															accusantium alias in
+															iusto non nostrum
+															esse.
+														</DialogContentText>
+													</DialogContent>
+													<DialogActions>
+														<Button
+															onClick={
+																handleStockClose
+															}
+															color='primary'
+														>
+															Reddet
+														</Button>
+														<Button
+															onClick={
+																handleRemoveStock
+															}
+															color='primary'
+															autoFocus
+														>
+															Kabul et
+														</Button>
+													</DialogActions>
+												</Dialog>
+												{/* SELL BUTTON */}
+												<Grid item>
+													<Button
+														variant='contained'
+														color='secondary'
+														onClick={() =>
+															setOpen(true)
+														}
+														disabled={
+															car.is_sold ===
+															'SOLD'
+																? true
+																: false
+														}
+													>
+														{car.is_sold === 'SOLD'
+															? 'Satıldı'
+															: 'Sat'}
+													</Button>
+												</Grid>
+												<Dialog
+													open={open}
+													onClose={handleClose}
+													aria-labelledby='form-dialog-title'
+												>
+													<DialogTitle id='form-dialog-title'>
+														Müşteri Bilgileri
+													</DialogTitle>
+													<DialogContent>
+														<TextField
+															autoFocus
+															margin='dense'
+															id='first_name'
+															label='Ad'
+															fullWidth
+															variant='outlined'
+															value={firstName}
+															onChange={(e) =>
+																setFirstName(
+																	e.target
+																		.value,
+																)
+															}
+														/>
+														<TextField
+															margin='dense'
+															id='last_name'
+															variant='outlined'
+															label='Soyad'
+															fullWidth
+															value={lastName}
+															onChange={(e) =>
+																setLastName(
+																	e.target
+																		.value,
+																)
+															}
+														/>
+														<KeyboardDatePicker
+															fullWidth
+															required
+															disableToolbar
+															inputVariant='outlined'
+															format='MM/dd/yyyy'
+															margin='normal'
+															id='enter_date'
+															label='Giriş Tarihi'
+															value={selectedDate}
+															onChange={
+																handleDateChange
+															}
+															KeyboardButtonProps={{
+																'aria-label':
+																	'change date',
+															}}
+														/>
+													</DialogContent>
+													<DialogActions>
+														<Button
+															onClick={
+																handleClose
+															}
+															color='primary'
+														>
+															İptal
+														</Button>
+														<Button
+															onClick={onSubmit}
+															color='primary'
+														>
+															Kaydet
+														</Button>
+													</DialogActions>
+												</Dialog>
 											</Grid>
-											<Dialog
-												open={open}
-												onClose={handleClose}
-												aria-labelledby='form-dialog-title'
-											>
-												<DialogTitle id='form-dialog-title'>
-													Müşteri Bilgileri
-												</DialogTitle>
-												<DialogContent>
-													<TextField
-														autoFocus
-														margin='dense'
-														id='first_name'
-														label='Ad'
-														fullWidth
-														value={firstName}
-														onChange={(e) =>
-															setFirstName(
-																e.target.value,
-															)
-														}
-													/>
-													<TextField
-														margin='dense'
-														id='last_name'
-														label='Soyad'
-														fullWidth
-														value={lastName}
-														onChange={(e) =>
-															setLastName(
-																e.target.value,
-															)
-														}
-													/>
-												</DialogContent>
-												<DialogActions>
-													<Button
-														onClick={handleClose}
-														color='primary'
-													>
-														İptal
-													</Button>
-													<Button
-														onClick={onSubmit}
-														color='primary'
-													>
-														Kaydet
-													</Button>
-												</DialogActions>
-											</Dialog>
 										</Grid>
 									</Grid>
+
+									<hr />
+									<Grid container spacing={2}>
+										<CarDetailRow
+											name={'Model'}
+											value={car.model}
+										/>
+										<CarDetailRow
+											name={'Yıl'}
+											value={car.year}
+										/>
+										<CarDetailRow
+											name={'Yeni mi'}
+											value={
+												car.is_new === 'NEW'
+													? 'Sıfır'
+													: 'İkinci el'
+											}
+										/>
+										<CarDetailRow
+											name={'Giriş tarihi'}
+											value={new Date(car.enter_date)
+												.toLocaleString('tr-TR')
+												.replace(/03:00:00/, '')}
+										/>
+										<CarDetailRow
+											name='Alış Fiyatı'
+											value={formatPrice(
+												car.purchase_price,
+											)}
+										/>
+										<CarDetailRow
+											name='Satıldı mı'
+											value={
+												car.is_sold === 'SOLD'
+													? 'Satıldı'
+													: 'Satılmadı'
+											}
+										/>
+										<CarDetailRow
+											name='Marka'
+											value={car.car_brand}
+										/>
+										<CarDetailRow
+											name='Renk'
+											value={car.car_color}
+										/>
+									</Grid>
 								</Grid>
 
-								<hr />
-								<Grid container spacing={2}>
-									<CarDetailRow
-										name={'Model'}
-										value={car.model}
+								{isLoading ? (
+									<Loader
+										header={true}
+										rowCount={2}
+										rowWidth='100%'
+										rowHeight={8}
 									/>
-									<CarDetailRow
-										name={'Yıl'}
-										value={car.year}
-									/>
-									<CarDetailRow
-										name={'Yeni mi'}
-										value={
-											car.is_new === 'NEW'
-												? 'Sıfır'
-												: 'İkinci el'
-										}
-									/>
-									<CarDetailRow
-										name={'Giriş tarihi'}
-										value={new Date(car.enter_date)
-											.toLocaleString('tr-TR')
-											.replace(/03:00:00/, '')}
-									/>
-									<CarDetailRow
-										name='Alış Fiyatı'
-										value={formatPrice(car.purchase_price)}
-									/>
-									<CarDetailRow
-										name='Satıldı mı'
-										value={
-											car.is_sold === 'SOLD'
-												? 'Satıldı'
-												: 'Satılmadı'
-										}
-									/>
-									<CarDetailRow
-										name='Marka'
-										value={car.car_brand}
-									/>
-									<CarDetailRow
-										name='Renk'
-										value={car.car_color}
-									/>
-								</Grid>
-							</Grid>
-
-							{isLoading ? (
-								<Loader
-									header={true}
-									rowCount={2}
-									rowWidth='100%'
-									rowHeight={8}
-								/>
-							) : (
-								<>
-									<Grid item xs={12}>
-										<strong>Açıklama</strong>
-									</Grid>
-									<Grid item xs={12}>
-										{car.car_description}
-									</Grid>
-								</>
-							)}
-						</>
-					</Grid>
-				</div>
-			</Container>
+								) : (
+									<>
+										<Grid item xs={12}>
+											<strong>Açıklama</strong>
+										</Grid>
+										<Grid item xs={12}>
+											{car.car_description}
+										</Grid>
+									</>
+								)}
+							</>
+						</Grid>
+					</div>
+				</Container>
+			</MuiPickersUtilsProvider>
 		</>
 	);
 };
