@@ -12,6 +12,7 @@ import {
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
 import { useCarState } from '../hooks/use-car-state';
+import AnimatedNumber from 'animated-number-react';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -48,7 +49,11 @@ const TotalCustomers = ({ className, ...rest }) => {
 							TOPLAM MÜŞTERİ
 						</Typography>
 						<Typography color='textPrimary' variant='h3'>
-							{totalCustomer}
+							<AnimatedNumber
+								value={totalCustomer}
+								duration={2000}
+								formatValue={(value) => value.toFixed()}
+							/>
 						</Typography>
 					</Grid>
 					<Grid item>
@@ -63,7 +68,11 @@ const TotalCustomers = ({ className, ...rest }) => {
 						className={classes.differenceValue}
 						variant='body2'
 					>
-						%16
+						%<AnimatedNumber
+							value={16}
+							formatValue={(value) => value.toFixed()}
+							duration={1000}
+						/>
 					</Typography>
 					<Typography color='textSecondary' variant='caption'>
 						Geçen aydan beri

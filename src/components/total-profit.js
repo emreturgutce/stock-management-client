@@ -12,6 +12,7 @@ import {
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import { useCarState } from '../hooks/use-car-state';
+import AnimatedNumber from 'animated-number-react';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -55,7 +56,11 @@ const TotalProfit = () => {
 							TOPLAM KAR
 						</Typography>
 						<Typography color='textPrimary' variant='h3'>
-							{formatPrice(totalProfit)}
+							<AnimatedNumber
+								value={totalProfit}
+								formatValue={(value) => formatPrice(value)}
+								duration={2000}
+							/>
 						</Typography>
 					</Grid>
 					<Grid item>
@@ -71,7 +76,12 @@ const TotalProfit = () => {
 						className={classes.differenceValue}
 						variant='body2'
 					>
-						%32
+						%
+						<AnimatedNumber
+							value={32}
+							formatValue={(value) => value.toFixed()}
+							duration={1000}
+						/>
 					</Typography>
 					<Typography color='textSecondary' variant='caption'>
 						Geçen aydan beri
