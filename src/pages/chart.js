@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import Helmet from 'helmet';
+import Helmet from 'react-helmet';
 import {
 	LineChart,
 	Line,

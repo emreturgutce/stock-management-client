@@ -1,4 +1,4 @@
-import Helmet from 'helmet';
+import Helmet from 'react-helmet';
 
 const Profile = () => {
 	return (
