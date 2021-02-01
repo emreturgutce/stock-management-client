@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { Modal } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -27,6 +28,9 @@ const useStyles = makeStyles((theme) =>
 		root: {
 			flexGrow: 1,
 		},
+		paper: {
+			position: 'absolute',
+		},
 	}),
 );
 
@@ -41,6 +45,7 @@ const CarDetail = () => {
 	const [lastName, setLastName] = useState('');
 	const [isSuccess, setIsSuccess] = useState(false);
 	const [isError, setIsError] = useState(false);
+	const [openModal, setOpenModal] = useState(false);
 	const history = useHistory();
 	const [car, setCar] = useState(cars.find((car) => car.car_id === id));
 	const getCarsCb = useGetCars();
@@ -166,10 +171,39 @@ const CarDetail = () => {
 						</Grid>
 						<Grid item xs={7}>
 							<img
+								onClick={() => setOpenModal(true)}
 								src={car.image_url || '/araba2.jpg'}
 								alt='araba'
 								width='85%'
+								style={{
+									cursor: 'pointer',
+									'&hover': { opacity: 0.8 },
+								}}
 							/>
+							<Modal
+								open={openModal}
+								onClose={() => setOpenModal(false)}
+								disableAutoFocus={true}
+								aria-labelledby='simple-modal-title'
+								aria-describedby='simple-modal-description'
+							>
+								<div
+									className={classes.paper}
+									style={{
+										borderRadius: 4,
+										width: '50%',
+										top: `50%`,
+										left: `50%`,
+										transform: `translate(-50%, -50%)`,
+									}}
+								>
+									<img
+										src={car.image_url || '/araba2.jpg'}
+										alt='araba modal'
+										width='100%'
+									/>
+								</div>
+							</Modal>
 						</Grid>
 						<>
 							<Grid item xs={5}>
