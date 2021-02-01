@@ -405,7 +405,7 @@ const CarDetail = () => {
 															onClick={onSubmit}
 															color='primary'
 														>
-															Kaydet
+															Sat
 														</Button>
 													</DialogActions>
 												</Dialog>

@@ -7,6 +7,8 @@ const initialState = {
 	suppliers: [],
 	colors: [],
 	sales: [],
+	totalProfit: 0,
+	totalCustomer: 0,
 	errors: [],
 };
 
@@ -108,6 +110,16 @@ export function carReducer(state = initialState, action) {
 					? [action.payload?.error]
 					: state.errors,
 			};
+		case CarActionTypes.TOTAL_PROFIT:
+			return {
+				...state,
+				totalProfit: action.payload,
+			}
+		case CarActionTypes.TOTAL_CUSTOMER:
+			return {
+				...state,
+				totalCustomer: action.payload,
+			}
 		default:
 			return state;
 	}

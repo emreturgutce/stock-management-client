@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Container, Typography, makeStyles } from '@material-ui/core';
+import { Box, Container, makeStyles } from '@material-ui/core';
 import Helmet from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
