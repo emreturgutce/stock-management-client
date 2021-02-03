@@ -238,6 +238,7 @@ const CarDetail = () => {
 													<Grid item>
 														<a
 															target='_blank'
+															rel="noreferrer"
 															href={`${BASE_URL}/api/sales/${car.car_id}/pdf`}
 														>
 															<Button
