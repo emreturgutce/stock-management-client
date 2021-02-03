@@ -69,6 +69,16 @@ const CarDetail = () => {
 		setCar(cars.find((car) => car.car_id === id));
 	};
 
+	const generatePdf = async () => {
+		if (car) {
+			const res = await fetch(`${BASE_URL}/api/sales/${car.car_id}/pdf`, {
+				credentials: 'include',
+			});
+
+			console.log(res)
+		}
+	};
+
 	const onSubmit = async () => {
 		const saleRes = await fetch(`${BASE_URL}/api/sales`, {
 			method: 'POST',
@@ -234,6 +244,16 @@ const CarDetail = () => {
 												alignItems='center'
 												spacing={1}
 											>
+												<Grid item>
+													<Button
+														variant='outlined'
+														size='small'
+														children={<Edit />}
+														onClick={
+															generatePdf
+														}
+													/>
+												</Grid>
 												<Grid item>
 													<Button
 														variant='outlined'
