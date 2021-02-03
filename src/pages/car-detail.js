@@ -238,7 +238,7 @@ const CarDetail = () => {
 													<Grid item>
 														<a
 															target='_blank'
-															rel="noreferrer"
+															rel='noreferrer'
 															href={`${BASE_URL}/api/sales/${car.car_id}/pdf`}
 														>
 															<Button
@@ -251,17 +251,18 @@ const CarDetail = () => {
 														</a>
 													</Grid>
 												)}
-
-												<Grid item>
-													<Button
-														variant='outlined'
-														size='small'
-														children={<Edit />}
-														onClick={
-															handleEditClick
-														}
-													/>
-												</Grid>
+												{car.is_sold !== 'SOLD' && (
+													<Grid item>
+														<Button
+															variant='outlined'
+															size='small'
+															children={<Edit />}
+															onClick={
+																handleEditClick
+															}
+														/>
+													</Grid>
+												)}
 												<Grid item>
 													<Button
 														variant='outlined'
