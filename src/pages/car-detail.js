@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, Link } from 'react-router-dom';
 import { Modal } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -16,7 +16,7 @@ import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
-import { Delete, Refresh, Edit } from '@material-ui/icons';
+import { Delete, Refresh, Edit, InsertDriveFile } from '@material-ui/icons';
 import { Helmet } from 'react-helmet';
 import { BASE_URL } from '../constants/index';
 import Loader from '../components/content-loader';
@@ -67,16 +67,6 @@ const CarDetail = () => {
 	const handleRefresh = () => {
 		getCarsCb();
 		setCar(cars.find((car) => car.car_id === id));
-	};
-
-	const generatePdf = async () => {
-		if (car) {
-			const res = await fetch(`${BASE_URL}/api/sales/${car.car_id}/pdf`, {
-				credentials: 'include',
-			});
-
-			console.log(res)
-		}
 	};
 
 	const onSubmit = async () => {
@@ -244,16 +234,23 @@ const CarDetail = () => {
 												alignItems='center'
 												spacing={1}
 											>
-												<Grid item>
-													<Button
-														variant='outlined'
-														size='small'
-														children={<Edit />}
-														onClick={
-															generatePdf
-														}
-													/>
-												</Grid>
+												{car.is_sold === 'SOLD' && (
+													<Grid item>
+														<a
+															target='_blank'
+															href={`${BASE_URL}/api/sales/${car.car_id}/pdf`}
+														>
+															<Button
+																variant='outlined'
+																size='small'
+																children={
+																	<InsertDriveFile />
+																}
+															/>
+														</a>
+													</Grid>
+												)}
+
 												<Grid item>
 													<Button
 														variant='outlined'
@@ -272,22 +269,29 @@ const CarDetail = () => {
 														onClick={handleRefresh}
 													/>
 												</Grid>
-												<Grid item>
-													<Button
-														variant='contained'
-														color='secondary'
-														onClick={() =>
-															setOpenStock(true)
-														}
-														children={<Delete />}
-														disabled={
-															car.is_sold ===
-															'SOLD'
-																? true
-																: false
-														}
-													/>
-												</Grid>
+												{car.is_sold !== 'SOLD' && (
+													<Grid item>
+														<Button
+															variant='contained'
+															color='secondary'
+															onClick={() =>
+																setOpenStock(
+																	true,
+																)
+															}
+															children={
+																<Delete />
+															}
+															disabled={
+																car.is_sold ===
+																'SOLD'
+																	? true
+																	: false
+															}
+														/>
+													</Grid>
+												)}
+
 												<Dialog
 													open={openStock}
 													onClose={handleStockClose}
@@ -336,25 +340,29 @@ const CarDetail = () => {
 													</DialogActions>
 												</Dialog>
 												{/* SELL BUTTON */}
-												<Grid item>
-													<Button
-														variant='contained'
-														color='secondary'
-														onClick={() =>
-															setOpen(true)
-														}
-														disabled={
-															car.is_sold ===
+												{car.is_sold !== 'SOLD' && (
+													<Grid item>
+														<Button
+															variant='contained'
+															color='secondary'
+															onClick={() =>
+																setOpen(true)
+															}
+															disabled={
+																car.is_sold ===
+																'SOLD'
+																	? true
+																	: false
+															}
+														>
+															{car.is_sold ===
 															'SOLD'
-																? true
-																: false
-														}
-													>
-														{car.is_sold === 'SOLD'
-															? 'Satıldı'
-															: 'Sat'}
-													</Button>
-												</Grid>
+																? 'Satıldı'
+																: 'Sat'}
+														</Button>
+													</Grid>
+												)}
+
 												<Dialog
 													open={open}
 													onClose={handleClose}
