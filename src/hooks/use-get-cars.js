@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getCars } from '../actions/cars/get-cars';
+import { getCars } from '../actions';
 
 const useGetCars = () => {
 	const dispatch = useDispatch();

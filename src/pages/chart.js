@@ -10,9 +10,7 @@ import {
 	Cell,
 } from 'recharts';
 import { Box, Grid } from '@material-ui/core';
-import { getSales } from '../actions/cars/get-sales';
-import { getTotalProfit } from '../actions/cars/get-total-profit';
-import { getTotalCustomer } from '../actions/cars/get-total-customer';
+import { getSales, getTotalProfit, getTotalCustomer } from '../actions';
 import { useCarState } from '../hooks/use-car-state';
 import TotalProfit from '../components/total-profit';
 import TotalCustomers from '../components/total-customers';

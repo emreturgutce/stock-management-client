@@ -3,9 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import CarForm from '../components/car-form';
 import Page from '../components/page';
-import { getManufacturers } from '../actions/cars/get-manufacturers';
-import { getSuppliers } from '../actions/cars/get-suppliers';
-import { getColors } from '../actions/cars/get-colors';
+import { getManufacturers, getSuppliers, getColors } from '../actions';
 
 const CarEdit = () => {
 	const location = useLocation();

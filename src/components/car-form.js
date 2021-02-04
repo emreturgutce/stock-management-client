@@ -159,11 +159,7 @@ export default function CarForm({ car }) {
 				method: 'PUT',
 			});
 
-			if (res.ok) {
-				setIsSuccess(true);
-			} else {
-				setIsError(true);
-			}
+			setIsSuccess(res.ok);
 		}
 	};
 
@@ -215,286 +211,272 @@ export default function CarForm({ car }) {
 	};
 
 	return (
-		<React.Fragment>
-			<main className={classes.layout}>
-				<div style={{ width: '100%', marginTop: 20 }}>
-					{renderSuccessAlert()}
-				</div>
-				<Paper className={classes.paper}>
-					<Typography component='h1' variant='h4' align='center'>
-						{car ? 'Araba Güncelle' : 'Araba Ekle'}
+		<main className={classes.layout}>
+			<div style={{ width: '100%', marginTop: 20 }}>
+				{renderSuccessAlert()}
+			</div>
+			<Paper className={classes.paper}>
+				<Typography component='h1' variant='h4' align='center'>
+					{car ? 'Araba Güncelle' : 'Araba Ekle'}
+				</Typography>
+				<MuiPickersUtilsProvider utils={DateFnsUtils}>
+					<Typography variant='h6' gutterBottom>
+						Araba Bilgileri
 					</Typography>
-					<MuiPickersUtilsProvider utils={DateFnsUtils}>
-						<Typography variant='h6' gutterBottom>
-							Araba Bilgileri
-						</Typography>
-						<Grid container spacing={3}>
-							<Grid item xs={12} sm={12}>
-								<TextField
-									required
-									id='title'
-									name='title'
-									label='Başlık'
-									fullWidth
-									autoComplete='title'
-									variant='outlined'
-									value={title}
-									onChange={(e) => setTitle(e.target.value)}
-								/>
-							</Grid>
-							<Grid item xs={12}>
-								<TextField
-									fullWidth
-									id='outlined-description-static'
-									label='Açıklama'
-									multiline
-									required
-									rows={4}
-									variant='outlined'
-									value={description}
-									onChange={(e) =>
-										setDescription(e.target.value)
-									}
-								/>
-							</Grid>
-
-							<Grid item xs={12} sm={6}>
-								<FormControl fullWidth variant='outlined'>
-									<InputLabel htmlFor='outlined-adornment-amount'>
-										Satış Fiyatı
-									</InputLabel>
-									<OutlinedInput
-										id='outlined-adornment-amount'
-										value={salePrice}
-										required
-										onChange={(e) =>
-											setSalePrice(e.target.value)
-										}
-										endAdornment={
-											<InputAdornment position='end'>
-												₺
-											</InputAdornment>
-										}
-										labelWidth={60}
-									/>
-								</FormControl>
-							</Grid>
-							<Grid item xs={12} sm={6}>
-								<FormControl fullWidth variant='outlined'>
-									<InputLabel htmlFor='outlined-adornment-amount'>
-										Alış Fiyatı
-									</InputLabel>
-									<OutlinedInput
-										required
-										id='outlined-adornment-amount'
-										value={purchasePrice}
-										onChange={(e) =>
-											setPurchasePrice(e.target.value)
-										}
-										endAdornment={
-											<InputAdornment position='end'>
-												₺
-											</InputAdornment>
-										}
-										labelWidth={60}
-									/>
-								</FormControl>
-							</Grid>
-							<Grid item xs={12} sm={12}>
-								<KeyboardDatePicker
-									fullWidth
-									required
-									disableToolbar
-									inputVariant='outlined'
-									format='MM/dd/yyyy'
-									margin='normal'
-									id='enter_date'
-									label='Giriş Tarihi'
-									value={selectedDate}
-									onChange={handleDateChange}
-									KeyboardButtonProps={{
-										'aria-label': 'change date',
-									}}
-								/>
-							</Grid>
-							<Grid item xs={6}>
-								<TextField
-									fullWidth
-									required
-									id='outlined-basic'
-									label='Yıl'
-									variant='outlined'
-									value={year}
-									onChange={(e) => setYear(e.target.value)}
-								/>
-							</Grid>
-							<Grid item xs={6}>
-								<TextField
-									fullWidth
-									required
-									id='outlined-basic'
-									label='Model'
-									variant='outlined'
-									value={model}
-									onChange={(e) => setModel(e.target.value)}
-								/>
-							</Grid>
-							<Grid item xs={6}>
-								<FormControl variant='outlined' fullWidth>
-									<InputLabel htmlFor='filled-age-native-simple'>
-										Yeni Mi?
-									</InputLabel>
-									<Select
-										native
-										required
-										value={is_new}
-										onChange={(e) =>
-											setIs_new(e.target.value)
-										}
-										inputProps={{
-											name: 'is_new',
-											id: 'filled-is_new-native-simple',
-										}}
-									>
-										<option aria-label='None' value='' />
-										<option value={true}>Sıfır</option>
-										<option value={false}>İkinci El</option>
-									</Select>
-								</FormControl>
-							</Grid>
-							<Grid item xs={6}>
-								<FormControl variant='outlined' fullWidth>
-									<InputLabel htmlFor='filled-age-native-simple'>
-										Renk
-									</InputLabel>
-									<Select
-										native
-										required
-										value={color}
-										onChange={(e) =>
-											setColor(e.target.value)
-										}
-										inputProps={{
-											name: 'color',
-											id: 'filled-color-native-simple',
-										}}
-									>
-										<option aria-label='None' value='' />
-										{colors.map((color) => (
-											<option
-												key={color.id}
-												value={color.id}
-											>
-												{color.name}
-											</option>
-										))}
-									</Select>
-								</FormControl>
-							</Grid>
-							<Grid item xs={6}>
-								<FormControl variant='outlined' fullWidth>
-									<InputLabel htmlFor='filled-age-native-simple'>
-										Üretici Firma
-									</InputLabel>
-									<Select
-										fullWidth
-										native
-										required
-										value={manufacturer}
-										onChange={(e) =>
-											setManufacturer(e.target.value)
-										}
-										inputProps={{
-											name: 'manufacturer',
-											id:
-												'filled-manufacturer-native-simple',
-										}}
-									>
-										<option aria-label='None' value='' />
-										{manufacturers &&
-											manufacturers.map(
-												(manufacturer) => (
-													<option
-														key={manufacturer.id}
-														value={manufacturer.id}
-													>
-														{manufacturer.name}
-													</option>
-												),
-											)}
-									</Select>
-								</FormControl>
-							</Grid>
-							<Grid item xs={6}>
-								<FormControl variant='outlined' fullWidth>
-									<InputLabel htmlFor='filled-supplier-native-simple'>
-										Tedarikçi
-									</InputLabel>
-									<Select
-										variant='outlined'
-										native
-										required
-										value={supplier}
-										onChange={(e) =>
-											setSupplier(e.target.value)
-										}
-										inputProps={{
-											name: 'supplier',
-											id: 'filled-supplier-native-simple',
-										}}
-									>
-										<option aria-label='None' value='' />
-										{suppliers &&
-											suppliers.map((supplier) => (
-												<option
-													key={supplier.id}
-													value={supplier.id}
-												>
-													{`${supplier.first_name} ${supplier.last_name}`}
-												</option>
-											))}
-									</Select>
-								</FormControl>
-							</Grid>
-							<Grid item xs={12}>
-								<DropzoneArea
-									acceptedFiles={[
-										'image/jpg',
-										'image/jpeg',
-										'image/png',
-									]}
-									showFileNames
-									onChange={(f) => setFiles(f)}
-									dropzoneText='Resimleri buraya sürükleyin veya seçmek için tıklayın'
-									showAlerts={false}
-									filesLimit={20}
-								/>
-							</Grid>
+					<Grid container spacing={3}>
+						<Grid item xs={12} sm={12}>
+							<TextField
+								required
+								id='title'
+								name='title'
+								label='Başlık'
+								fullWidth
+								autoComplete='title'
+								variant='outlined'
+								value={title}
+								onChange={(e) => setTitle(e.target.value)}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								fullWidth
+								id='outlined-description-static'
+								label='Açıklama'
+								multiline
+								required
+								rows={4}
+								variant='outlined'
+								value={description}
+								onChange={(e) => setDescription(e.target.value)}
+							/>
 						</Grid>
 
-						<div className={classes.buttons}>
-							<Button
+						<Grid item xs={12} sm={6}>
+							<FormControl fullWidth variant='outlined'>
+								<InputLabel htmlFor='outlined-adornment-amount'>
+									Satış Fiyatı
+								</InputLabel>
+								<OutlinedInput
+									id='outlined-adornment-amount'
+									value={salePrice}
+									required
+									onChange={(e) =>
+										setSalePrice(e.target.value)
+									}
+									endAdornment={
+										<InputAdornment position='end'>
+											₺
+										</InputAdornment>
+									}
+									labelWidth={60}
+								/>
+							</FormControl>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							<FormControl fullWidth variant='outlined'>
+								<InputLabel htmlFor='outlined-adornment-amount'>
+									Alış Fiyatı
+								</InputLabel>
+								<OutlinedInput
+									required
+									id='outlined-adornment-amount'
+									value={purchasePrice}
+									onChange={(e) =>
+										setPurchasePrice(e.target.value)
+									}
+									endAdornment={
+										<InputAdornment position='end'>
+											₺
+										</InputAdornment>
+									}
+									labelWidth={60}
+								/>
+							</FormControl>
+						</Grid>
+						<Grid item xs={12} sm={12}>
+							<KeyboardDatePicker
+								fullWidth
+								required
+								disableToolbar
+								inputVariant='outlined'
+								format='MM/dd/yyyy'
+								margin='normal'
+								id='enter_date'
+								label='Giriş Tarihi'
+								value={selectedDate}
+								onChange={handleDateChange}
+								KeyboardButtonProps={{
+									'aria-label': 'change date',
+								}}
+							/>
+						</Grid>
+						<Grid item xs={6}>
+							<TextField
+								fullWidth
+								required
+								id='outlined-basic'
+								label='Yıl'
 								variant='outlined'
-								color='primary'
-								startIcon={<Cancel />}
-								className={classes.button}
-								onClick={handleCancel}
-							>
-								İptal et
-							</Button>
-							<Button
-								variant='contained'
-								color='secondary'
-								startIcon={<Save />}
-								className={classes.button}
-								onClick={onSubmit}
-							>
-								Kaydet
-							</Button>
-						</div>
-					</MuiPickersUtilsProvider>
-				</Paper>
-			</main>
-		</React.Fragment>
+								value={year}
+								onChange={(e) => setYear(e.target.value)}
+							/>
+						</Grid>
+						<Grid item xs={6}>
+							<TextField
+								fullWidth
+								required
+								id='outlined-basic'
+								label='Model'
+								variant='outlined'
+								value={model}
+								onChange={(e) => setModel(e.target.value)}
+							/>
+						</Grid>
+						<Grid item xs={6}>
+							<FormControl variant='outlined' fullWidth>
+								<InputLabel htmlFor='filled-age-native-simple'>
+									Yeni Mi?
+								</InputLabel>
+								<Select
+									native
+									required
+									value={is_new}
+									onChange={(e) => setIs_new(e.target.value)}
+									inputProps={{
+										name: 'is_new',
+										id: 'filled-is_new-native-simple',
+									}}
+								>
+									<option aria-label='None' value='' />
+									<option value={true}>Sıfır</option>
+									<option value={false}>İkinci El</option>
+								</Select>
+							</FormControl>
+						</Grid>
+						<Grid item xs={6}>
+							<FormControl variant='outlined' fullWidth>
+								<InputLabel htmlFor='filled-age-native-simple'>
+									Renk
+								</InputLabel>
+								<Select
+									native
+									required
+									value={color}
+									onChange={(e) => setColor(e.target.value)}
+									inputProps={{
+										name: 'color',
+										id: 'filled-color-native-simple',
+									}}
+								>
+									<option aria-label='None' value='' />
+									{colors.map((color) => (
+										<option key={color.id} value={color.id}>
+											{color.name}
+										</option>
+									))}
+								</Select>
+							</FormControl>
+						</Grid>
+						<Grid item xs={6}>
+							<FormControl variant='outlined' fullWidth>
+								<InputLabel htmlFor='filled-age-native-simple'>
+									Üretici Firma
+								</InputLabel>
+								<Select
+									fullWidth
+									native
+									required
+									value={manufacturer}
+									onChange={(e) =>
+										setManufacturer(e.target.value)
+									}
+									inputProps={{
+										name: 'manufacturer',
+										id: 'filled-manufacturer-native-simple',
+									}}
+								>
+									<option aria-label='None' value='' />
+									{manufacturers &&
+										manufacturers.map((manufacturer) => (
+											<option
+												key={manufacturer.id}
+												value={manufacturer.id}
+											>
+												{manufacturer.name}
+											</option>
+										))}
+								</Select>
+							</FormControl>
+						</Grid>
+						<Grid item xs={6}>
+							<FormControl variant='outlined' fullWidth>
+								<InputLabel htmlFor='filled-supplier-native-simple'>
+									Tedarikçi
+								</InputLabel>
+								<Select
+									variant='outlined'
+									native
+									required
+									value={supplier}
+									onChange={(e) =>
+										setSupplier(e.target.value)
+									}
+									inputProps={{
+										name: 'supplier',
+										id: 'filled-supplier-native-simple',
+									}}
+								>
+									<option aria-label='None' value='' />
+									{suppliers &&
+										suppliers.map((supplier) => (
+											<option
+												key={supplier.id}
+												value={supplier.id}
+											>
+												{`${supplier.first_name} ${supplier.last_name}`}
+											</option>
+										))}
+								</Select>
+							</FormControl>
+						</Grid>
+						<Grid item xs={12}>
+							<DropzoneArea
+								acceptedFiles={[
+									'image/jpg',
+									'image/jpeg',
+									'image/png',
+								]}
+								showFileNames
+								onChange={(f) => setFiles(f)}
+								dropzoneText='Resimleri buraya sürükleyin veya seçmek için tıklayın'
+								showAlerts={false}
+								filesLimit={20}
+							/>
+						</Grid>
+					</Grid>
+
+					<div className={classes.buttons}>
+						<Button
+							variant='outlined'
+							color='primary'
+							startIcon={<Cancel />}
+							className={classes.button}
+							onClick={handleCancel}
+						>
+							İptal et
+						</Button>
+						<Button
+							variant='contained'
+							color='secondary'
+							startIcon={<Save />}
+							className={classes.button}
+							onClick={onSubmit}
+						>
+							Kaydet
+						</Button>
+					</div>
+				</MuiPickersUtilsProvider>
+			</Paper>
+		</main>
 	);
 }

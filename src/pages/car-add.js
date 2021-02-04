@@ -2,9 +2,7 @@ import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import CarForm from '../components/car-form';
 import Page from '../components/page';
-import { getManufacturers } from '../actions/cars/get-manufacturers';
-import { getSuppliers } from '../actions/cars/get-suppliers';
-import { getColors } from '../actions/cars/get-colors';
+import { getManufacturers, getSuppliers, getColors } from '../actions';
 
 const CarAdd = () => {
 	const dispatch = useDispatch();

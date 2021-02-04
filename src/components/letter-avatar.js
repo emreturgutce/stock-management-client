@@ -7,7 +7,7 @@ import { deepOrange } from '@material-ui/core/colors';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { logout } from '../actions/auth/logout';
+import { logout } from '../actions';
 
 const useStyles = makeStyles((theme) =>
 	createStyles({

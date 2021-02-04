@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import { TextField } from '@material-ui/core';
 import { Add, Refresh, Equalizer } from '@material-ui/icons';
 import { useCarState, useAuthState, useGetCars } from '../hooks';
+import { formatPrice } from '../utils/format-price';
 import Page from '../components/page';
 
 const useStyles = makeStyles((theme) =>
@@ -157,13 +158,6 @@ const Home = () => {
 		],
 		rows: carsState.map((car) => ({ ...car, id: car.car_id })),
 	};
-
-	const formatPrice = (price) =>
-		new Intl.NumberFormat('tr-TR', {
-			style: 'currency',
-			currency: 'TRY',
-			minimumFractionDigits: 2,
-		}).format(price);
 
 	useEffect(() => {
 		setCarsState(

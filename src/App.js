@@ -13,7 +13,7 @@ import CarEdit from './pages/car-edit';
 import Chart from './pages/chart';
 import Profile from './pages/profile';
 import NotFound from './pages/not-found';
-import { getUser } from './actions/auth/get-user';
+import { getUser } from './actions';
 import { useAuthState } from './hooks';
 
 const App = () => {

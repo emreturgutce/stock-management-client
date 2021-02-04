@@ -23,6 +23,7 @@ import CarDetailRow from '../components/car-detail-row';
 import Page from '../components/page';
 import DateFnsUtils from '@date-io/date-fns';
 import { useCarState, useAuthState, useGetCars } from '../hooks';
+import { formatPrice } from '../utils/format-price';
 import {
 	MuiPickersUtilsProvider,
 	KeyboardDatePicker,
@@ -111,13 +112,6 @@ const CarDetail = () => {
 		handleStockClose();
 		history.push('/');
 	};
-
-	const formatPrice = (price) =>
-		new Intl.NumberFormat('tr-TR', {
-			style: 'currency',
-			currency: 'TRY',
-			minimumFractionDigits: 2,
-		}).format(price);
 
 	const renderSuccessAlert = () => {
 		if (isSuccess) {

@@ -12,6 +12,7 @@ import {
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import { useCarState } from '../hooks/use-car-state';
+import { formatPrice } from '../utils/format-price';
 import AnimatedNumber from 'animated-number-react';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,13 +36,6 @@ const useStyles = makeStyles((theme) => ({
 const TotalProfit = () => {
 	const { totalProfit } = useCarState();
 	const classes = useStyles();
-
-	const formatPrice = (totalProfit) =>
-		new Intl.NumberFormat('tr-TR', {
-			style: 'currency',
-			currency: 'TRY',
-			minimumFractionDigits: 2,
-		}).format(totalProfit);
 
 	return (
 		<Card className={classes.root}>

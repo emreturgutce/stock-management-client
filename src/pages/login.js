@@ -14,7 +14,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { loginUser } from '../actions/auth/login';
+import { loginUser } from '../actions';
 import ErrorAlert from '../components/error-alert';
 import Page from '../components/page';
 import { useAuthState } from '../hooks';
