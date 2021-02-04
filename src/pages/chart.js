@@ -51,18 +51,18 @@ const Chart = () => {
 				}}
 			>
 				<Box style={{ padding: '12px', borderRadius: 6 }}>
-					<Grid container direction='column' spacing={3}>
-						<Grid item>
+					<Grid container direction='column'>
+						<Grid item sm={12}>
 							<Grid container spacing={3}>
-								<Grid item lg={6} sm={6} xs={12}>
+								<Grid item md={6} sm={12}>
 									<TotalProfit />
 								</Grid>
-								<Grid item lg={6} sm={6} xs={12}>
+								<Grid item md={6} sm={12}>
 									<TotalCustomers />
 								</Grid>
 							</Grid>
 						</Grid>
-						<Grid item>
+						<Grid item sm={12}>
 							<h4>
 								1 Aralık 2020 ve 1 Şubat 2021 Arası Satış
 								Grafiği
