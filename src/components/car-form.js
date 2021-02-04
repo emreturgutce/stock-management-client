@@ -3,29 +3,30 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
+import {
+	Grid,
+	Typography,
+	TextField,
+	Paper,
+	Button,
+	OutlinedInput,
+	InputLabel,
+	InputAdornment,
+	FormControl,
+	Select,
+	IconButton,
+	Collapse,
+} from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
-import Button from '@material-ui/core/Button';
 import {
 	MuiPickersUtilsProvider,
 	KeyboardDatePicker,
 } from '@material-ui/pickers';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import { DropzoneArea } from 'material-ui-dropzone';
-import { BASE_URL } from '../constants/index';
-import { Save, Cancel } from '@material-ui/icons';
-import Alert from '@material-ui/lab/Alert';
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
-import CloseIcon from '@material-ui/icons/Close';
+import { Save, Cancel, Close } from '@material-ui/icons';
+import { Alert } from '@material-ui/lab';
 import { useCarState, useAuthState } from '../hooks';
+import { BASE_URL } from '../constants';
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -179,7 +180,7 @@ export default function CarForm({ car }) {
 								size='small'
 								onClick={() => setIsSuccess(false)}
 							>
-								<CloseIcon fontSize='inherit' />
+								<Close fontSize='inherit' />
 							</IconButton>
 						}
 					>
@@ -199,7 +200,7 @@ export default function CarForm({ car }) {
 								size='small'
 								onClick={() => setIsError(false)}
 							>
-								<CloseIcon fontSize='inherit' />
+								<Close fontSize='inherit' />
 							</IconButton>
 						}
 					>

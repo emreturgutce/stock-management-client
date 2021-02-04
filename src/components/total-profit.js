@@ -9,8 +9,7 @@ import {
 	colors,
 	Box,
 } from '@material-ui/core';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import { AttachMoney, ArrowUpward } from '@material-ui/icons';
 import { useCarState } from '../hooks/use-car-state';
 import { formatPrice } from '../utils/format-price';
 import AnimatedNumber from 'animated-number-react';
@@ -59,13 +58,13 @@ const TotalProfit = () => {
 					</Grid>
 					<Grid item>
 						<Avatar className={classes.avatar}>
-							<AttachMoneyIcon />
+							<AttachMoney />
 						</Avatar>
 					</Grid>
 				</Grid>
 
 				<Box mt={2} display='flex' alignItems='center'>
-					<ArrowUpwardIcon className={classes.differenceIcon} />
+					<ArrowUpward className={classes.differenceIcon} />
 					<Typography
 						className={classes.differenceValue}
 						variant='body2'

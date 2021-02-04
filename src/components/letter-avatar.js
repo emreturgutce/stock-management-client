@@ -1,12 +1,15 @@
 import React, { useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
+import {
+	makeStyles,
+	createStyles,
+	Avatar,
+	Button,
+	Menu,
+	MenuItem,
+} from '@material-ui/core';
 import { deepOrange } from '@material-ui/core/colors';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import { logout } from '../actions';
 
 const useStyles = makeStyles((theme) =>

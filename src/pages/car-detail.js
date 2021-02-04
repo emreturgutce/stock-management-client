@@ -1,33 +1,35 @@
 import { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Modal } from '@material-ui/core';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
-import Alert from '@material-ui/lab/Alert';
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
-import CloseIcon from '@material-ui/icons/Close';
-import { Delete, Refresh, Edit } from '@material-ui/icons';
-import { BASE_URL } from '../constants/index';
-import Loader from '../components/content-loader';
-import CarDetailRow from '../components/car-detail-row';
-import Page from '../components/page';
-import DateFnsUtils from '@date-io/date-fns';
-import { useCarState, useAuthState, useGetCars } from '../hooks';
-import { formatPrice } from '../utils/format-price';
+import {
+	Modal,
+	makeStyles,
+	createStyles,
+	Grid,
+	Typography,
+	Container,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+	TextField,
+	IconButton,
+	Collapse,
+} from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import {
 	MuiPickersUtilsProvider,
 	KeyboardDatePicker,
 } from '@material-ui/pickers';
+import { Delete, Refresh, Edit, Close } from '@material-ui/icons';
+import DateFnsUtils from '@date-io/date-fns';
+import { BASE_URL } from '../constants';
+import Loader from '../components/content-loader';
+import CarDetailRow from '../components/car-detail-row';
+import Page from '../components/page';
+import { useCarState, useAuthState, useGetCars } from '../hooks';
+import { formatPrice } from '../utils/format-price';
 import PDFIcon from '../assets/document.svg';
 
 const useStyles = makeStyles((theme) =>
@@ -125,7 +127,7 @@ const CarDetail = () => {
 								size='small'
 								onClick={() => setIsSuccess(false)}
 							>
-								<CloseIcon fontSize='inherit' />
+								<Close fontSize='inherit' />
 							</IconButton>
 						}
 					>
@@ -145,7 +147,7 @@ const CarDetail = () => {
 								size='small'
 								onClick={() => setIsError(false)}
 							>
-								<CloseIcon fontSize='inherit' />
+								<Close fontSize='inherit' />
 							</IconButton>
 						}
 					>

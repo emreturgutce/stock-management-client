@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 import { DataGrid, GridOverlay } from '@material-ui/data-grid';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import { TextField } from '@material-ui/core';
+import { createStyles, makeStyles, Button, TextField } from '@material-ui/core';
 import { Add, Refresh, Equalizer } from '@material-ui/icons';
 import { useCarState, useAuthState, useGetCars } from '../hooks';
 import { formatPrice } from '../utils/format-price';

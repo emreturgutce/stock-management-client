@@ -9,8 +9,7 @@ import {
 	colors,
 	makeStyles,
 } from '@material-ui/core';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import PeopleIcon from '@material-ui/icons/PeopleOutlined';
+import { ArrowUpward, People } from '@material-ui/icons';
 import { useCarState } from '../hooks/use-car-state';
 import AnimatedNumber from 'animated-number-react';
 
@@ -58,17 +57,18 @@ const TotalCustomers = ({ className, ...rest }) => {
 					</Grid>
 					<Grid item>
 						<Avatar className={classes.avatar}>
-							<PeopleIcon />
+							<People />
 						</Avatar>
 					</Grid>
 				</Grid>
 				<Box mt={2} display='flex' alignItems='center'>
-					<ArrowUpwardIcon className={classes.differenceIcon} />
+					<ArrowUpward className={classes.differenceIcon} />
 					<Typography
 						className={classes.differenceValue}
 						variant='body2'
 					>
-						%<AnimatedNumber
+						%
+						<AnimatedNumber
 							value={16}
 							formatValue={(value) => value.toFixed()}
 							duration={1000}

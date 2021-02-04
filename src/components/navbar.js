@@ -1,14 +1,16 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import HomeIcon from '@material-ui/icons/Home';
-import Container from '@material-ui/core/Container';
-import { Add, Equalizer } from '@material-ui/icons';
+import {
+	createStyles,
+	makeStyles,
+	CircularProgress,
+	AppBar,
+	Toolbar,
+	Button,
+	IconButton,
+	Container,
+} from '@material-ui/core';
+import { Add, Equalizer, Home} from '@material-ui/icons';
 import LetterAvatar from './letter-avatar';
 import { useAuthState } from '../hooks';
 
@@ -102,7 +104,7 @@ const Navbar = () => {
 								color='inherit'
 								aria-label='menu'
 							>
-								<HomeIcon
+								<Home
 									style={{ fill: '#EEE' }}
 									width='125%'
 								/>

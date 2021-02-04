@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import Collapse from '@material-ui/core/Collapse';
+import { Collapse } from '@material-ui/core';
 
 const ErrorAlert = ({ errors }) => {
-    const [open, setOpen] = useState(true);
+	const [open, setOpen] = useState(true);
 
-    return (
-        <Collapse in={open}>
-            <Alert severity='error' onClose={() => setOpen(false)}>
-                <AlertTitle>Error</AlertTitle>
-                {errors.map((error) => error)}
-            </Alert>
-        </Collapse>
-    );
+	return (
+		<Collapse in={open}>
+			<Alert severity='error' onClose={() => setOpen(false)}>
+				<AlertTitle>Error</AlertTitle>
+				{errors.map((error) => error)}
+			</Alert>
+		</Collapse>
+	);
 };
 
 export default ErrorAlert;
