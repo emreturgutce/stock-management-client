@@ -181,7 +181,7 @@ const CarDetail = () => {
 									{car.title}
 								</Typography>
 							</Grid>
-							<Grid item xs={7}>
+							<Grid item lg={7} sm={12}>
 								<img
 									onClick={() => setOpenModal(true)}
 									src={car.image_url || '/araba2.jpg'}
@@ -218,7 +218,7 @@ const CarDetail = () => {
 								</Modal>
 							</Grid>
 							<>
-								<Grid item xs={5}>
+								<Grid item lg={5} sm={12}>
 									<Grid container>
 										<Grid item xs={4}>
 											<Typography
