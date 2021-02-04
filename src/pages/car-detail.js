@@ -17,10 +17,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
 import { Delete, Refresh, Edit } from '@material-ui/icons';
-import { Helmet } from 'react-helmet';
 import { BASE_URL } from '../constants/index';
 import Loader from '../components/content-loader';
 import CarDetailRow from '../components/car-detail-row';
+import Page from '../components/page';
 import DateFnsUtils from '@date-io/date-fns';
 import { useCarState, useAuthState, useGetCars } from '../hooks';
 import {
@@ -165,10 +165,7 @@ const CarDetail = () => {
 	const handleEditClick = () => history.push(`/${car.id}/edit`, { car });
 
 	return (
-		<>
-			<Helmet>
-				<title>{car.title} - Stok Yönetim Sistemi</title>
-			</Helmet>
+		<Page title={car.title}>
 			<MuiPickersUtilsProvider utils={DateFnsUtils}>
 				<Container maxWidth='lg'>
 					<div className={classes.root}>
@@ -181,7 +178,7 @@ const CarDetail = () => {
 									{car.title}
 								</Typography>
 							</Grid>
-							<Grid item lg={7} sm={12}>
+							<Grid item md={7} xs={12}>
 								<img
 									onClick={() => setOpenModal(true)}
 									src={car.image_url || '/araba2.jpg'}
@@ -218,7 +215,7 @@ const CarDetail = () => {
 								</Modal>
 							</Grid>
 							<>
-								<Grid item lg={5} sm={12}>
+								<Grid item md={5} xs={12}>
 									<Grid container>
 										<Grid item xs={4}>
 											<Typography
@@ -523,7 +520,7 @@ const CarDetail = () => {
 					</div>
 				</Container>
 			</MuiPickersUtilsProvider>
-		</>
+		</Page>
 	);
 };
 

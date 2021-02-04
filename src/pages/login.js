@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, Redirect } from 'react-router-dom';
-import Helmet from 'react-helmet';
 import validator from 'validator';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -17,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { loginUser } from '../actions/auth/login';
 import ErrorAlert from '../components/error-alert';
+import Page from '../components/page';
 import { useAuthState } from '../hooks';
 
 const useStyles = makeStyles((theme) => ({
@@ -73,10 +73,7 @@ export default function SignIn() {
 	return (
 		<>
 			{!isAuth ? (
-				<>
-					<Helmet>
-						<title>Anasayfa - Stok Yönetim Sistemi</title>
-					</Helmet>
+				<Page title='Anasayfa'>
 					<Container component='main' maxWidth='xs'>
 						<CssBaseline />
 						<div className={classes.paper}>
@@ -158,7 +155,7 @@ export default function SignIn() {
 							</form>
 						</div>
 					</Container>
-				</>
+				</Page>
 			) : (
 				<Redirect to='/' />
 			)}

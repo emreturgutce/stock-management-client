@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Helmet from 'react-helmet';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 import { DataGrid, GridOverlay } from '@material-ui/data-grid';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
@@ -7,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import { TextField } from '@material-ui/core';
 import { Add, Refresh, Equalizer } from '@material-ui/icons';
 import { useCarState, useAuthState, useGetCars } from '../hooks';
+import Page from '../components/page';
 
 const useStyles = makeStyles((theme) =>
 	createStyles({
@@ -174,10 +174,7 @@ const Home = () => {
 	return (
 		<>
 			{isAuthenticated ? (
-				<>
-					<Helmet>
-						<title>Anasayfa - Stok Yönetim Sistemi</title>
-					</Helmet>
+				<Page title='Anasayfa'>
 					<div
 						style={{
 							display: 'flex',
@@ -259,7 +256,7 @@ const Home = () => {
 							/>
 						</div>
 					</div>
-				</>
+				</Page>
 			) : (
 				<Redirect to='/login' />
 			)}

@@ -1,12 +1,9 @@
-import Helmet from 'react-helmet';
 import React from 'react';
+import Page from '../components/page';
 
 const Profile = () => {
 	return (
-		<>
-			<Helmet>
-				<title>Profil - Stok Yönetim Sistemi</title>
-			</Helmet>
+		<Page title='Profil'>
 			<div
 				style={{
 					display: 'flex',
@@ -27,7 +24,7 @@ const Profile = () => {
 					Profil
 				</div>
 			</div>
-		</>
+		</Page>
 	);
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Container, makeStyles } from '@material-ui/core';
-import Helmet from 'react-helmet';
+import Page from '../components/page'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -21,10 +21,7 @@ const NotFound = () => {
 	const classes = useStyles();
 
 	return (
-		<>
-			<Helmet>
-				<title>Sayfa Bulunamadı - Stok Yönetim Sistemi</title>
-			</Helmet>
+		<Page title='Sayfa Bulunamadı'>
 			<Box
 				display='flex'
 				flexDirection='column'
@@ -41,7 +38,7 @@ const NotFound = () => {
 					</Box>
 				</Container>
 			</Box>
-		</>
+		</Page>
 	);
 };
 

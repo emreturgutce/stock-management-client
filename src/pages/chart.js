@@ -1,6 +1,5 @@
 import { useEffect, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import Helmet from 'react-helmet';
 import {
 	BarChart,
 	Bar,
@@ -17,6 +16,7 @@ import { getTotalCustomer } from '../actions/cars/get-total-customer';
 import { useCarState } from '../hooks/use-car-state';
 import TotalProfit from '../components/total-profit';
 import TotalCustomers from '../components/total-customers';
+import Page from '../components/page';
 
 const Chart = () => {
 	const dispatch = useDispatch();
@@ -42,10 +42,7 @@ const Chart = () => {
 	}, [activeIndex, sales]);
 
 	return (
-		<>
-			<Helmet>
-				<title>Satış Grafiği - Stok Yönetim Sistemi</title>
-			</Helmet>
+		<Page title='Satış Grafiği'>
 			<div
 				style={{
 					display: 'flex',
@@ -114,7 +111,7 @@ const Chart = () => {
 					</Grid>
 				</Box>
 			</div>
-		</>
+		</Page>
 	);
 };
 
