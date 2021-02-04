@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 import { DataGrid, GridOverlay } from '@material-ui/data-grid';
 import { createStyles, makeStyles, Button, TextField } from '@material-ui/core';
-import { Add, Refresh, Equalizer } from '@material-ui/icons';
-import { useCarState, useAuthState, useGetCars } from '../hooks';
+import { Add, Refresh } from '@material-ui/icons';
+import { useCarState, useAuthState, useGetCars} from '../hooks';
 import { formatPrice } from '../utils/format-price';
 import Page from '../components/page';
 
@@ -198,17 +198,6 @@ const Home = () => {
 								/>
 							</div>
 							<div>
-								<Button
-									variant='contained'
-									to='/cars/chart'
-									style={{
-										marginRight: 5,
-									}}
-									startIcon={<Equalizer />}
-									component={RouterLink}
-								>
-									Satış Grafiğini Gör
-								</Button>
 								<Button
 									variant='contained'
 									style={{
