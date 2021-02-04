@@ -83,7 +83,7 @@ const ProfileDetails = () => {
 										<Grid item md={6} xs={12}>
 											<TextField
 												fullWidth
-												label='First name'
+												label='Ad'
 												name='firstName'
 												onChange={(e) =>
 													setFirstName(e.target.value)
@@ -96,7 +96,7 @@ const ProfileDetails = () => {
 										<Grid item md={6} xs={12}>
 											<TextField
 												fullWidth
-												label='Last name'
+												label='Soyad'
 												name='lastName'
 												onChange={(e) =>
 													setLastName(e.target.value)
@@ -109,7 +109,7 @@ const ProfileDetails = () => {
 										<Grid item md={6} xs={12}>
 											<TextField
 												fullWidth
-												label='Email Address'
+												label='Email Adresi'
 												name='email'
 												onChange={(e) =>
 													setEmail(e.target.value)
