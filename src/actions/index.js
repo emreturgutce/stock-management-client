@@ -8,3 +8,4 @@ export * from './cars/get-total-profit';
 export * from './auth/get-user';
 export * from './auth/login';
 export * from './auth/logout';
+export * from './cars/get-latest-sales'

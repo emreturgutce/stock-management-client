@@ -13,6 +13,7 @@ import CarEdit from './pages/car-edit';
 import Chart from './pages/chart';
 import Profile from './pages/profile';
 import NotFound from './pages/not-found';
+import LatestSales from './pages/latest-sales';
 import { getUser } from './actions';
 import { useAuthState } from './hooks';
 
@@ -54,7 +55,12 @@ const App = () => {
 						path='/personels/profile'
 						Children={Profile}
 					/>
-					<Route path="*" component={NotFound} />
+					<PrivateRoute
+						exact
+						path='/sales/latest'
+						Children={LatestSales}
+					/>
+					<Route path='*' component={NotFound} />
 				</Switch>
 			)}
 			<Footer />

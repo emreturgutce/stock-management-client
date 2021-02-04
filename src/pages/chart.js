@@ -23,6 +23,7 @@ const Chart = () => {
 	const getTotalProfitCb = useCallback(() => dispatch(getTotalProfit()), [
 		dispatch,
 	]);
+
 	const getTotalCustomerCb = useCallback(() => dispatch(getTotalCustomer()), [
 		dispatch,
 	]);
