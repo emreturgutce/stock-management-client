@@ -16,7 +16,7 @@ import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
-import { Delete, Refresh, Edit, InsertDriveFile } from '@material-ui/icons';
+import { Delete, Refresh, Edit } from '@material-ui/icons';
 import { Helmet } from 'react-helmet';
 import { BASE_URL } from '../constants/index';
 import Loader from '../components/content-loader';
@@ -27,6 +27,7 @@ import {
 	MuiPickersUtilsProvider,
 	KeyboardDatePicker,
 } from '@material-ui/pickers';
+import PDFIcon from '../assets/document.svg';
 
 const useStyles = makeStyles((theme) =>
 	createStyles({
@@ -245,7 +246,15 @@ const CarDetail = () => {
 																variant='outlined'
 																size='small'
 																children={
-																	<InsertDriveFile />
+																	<img
+																		width={
+																			24
+																		}
+																		src={
+																			PDFIcon
+																		}
+																		alt='pdf'
+																	/>
 																}
 															/>
 														</a>
