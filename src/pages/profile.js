@@ -124,7 +124,7 @@ const ProfileDetails = () => {
 												fullWidth
 												required
 												inputVariant='outlined'
-												format='MM/dd/yyyy'
+												format='dd.MM.yyyy'
 												margin='auto'
 												id='birth_date'
 												label='Doğum Tarihi'

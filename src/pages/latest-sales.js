@@ -65,7 +65,7 @@ const LatestOrders = () => {
 										<TableCell>
 											{new Date(
 												sale.sale_date,
-											).toLocaleDateString()}
+											).toLocaleDateString('tr-TR')}
 										</TableCell>
 										<TableCell>
 											<Chip
