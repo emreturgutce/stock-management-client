@@ -16,6 +16,9 @@ import NotFound from './pages/not-found';
 import LatestSales from './pages/latest-sales';
 import { getUser } from './actions';
 import { useAuthState } from './hooks';
+import ForgotPassword from './pages/forgot-password';
+import ChangePassword from './pages/change-password';
+import Confirm from './pages/confirm';
 
 const App = () => {
 	const { isLoading } = useAuthState();
@@ -45,6 +48,21 @@ const App = () => {
 			) : (
 				<Switch>
 					<Route exact path='/login' component={Login} />
+					<Route
+						exact
+						path='/forgot-password'
+						component={ForgotPassword}
+					/>
+					<Route
+						exact
+						path='/user/change-password/:token'
+						component={ChangePassword}
+					/>
+					<Route
+						exact
+						path='/user/confirm/:token'
+						component={Confirm}
+					/>
 					<PrivateRoute exact path='/' Children={Home} />
 					<PrivateRoute exact path='/:id' Children={CarDetail} />
 					<PrivateRoute exact path='/:id/edit' Children={CarEdit} />
