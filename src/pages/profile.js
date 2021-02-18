@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Page from '../components/page';
 import {
@@ -12,10 +12,12 @@ import {
 	TextField,
 } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
+import validator from 'validator';
 import {
 	MuiPickersUtilsProvider,
 	KeyboardDatePicker,
 } from '@material-ui/pickers';
+import { Alert } from '@material-ui/lab';
 import { useAuthState } from '../hooks';
 import { getUser } from '../actions';
 import { BASE_URL } from '../constants';
@@ -27,6 +29,8 @@ const ProfileDetails = () => {
 	const [email, setEmail] = useState(user?.email);
 	const [gender, setGender] = useState(user?.gender);
 	const [birthDate, setbirthDate] = useState(new Date(user?.birth_date));
+	const [password, setPassword] = useState('');
+	const [secondpassword, setSecondpassword] = useState('');
 	const dispatch = useDispatch();
 	const getUserCb = useCallback(() => dispatch(getUser()), [dispatch]);
 
@@ -49,6 +53,33 @@ const ProfileDetails = () => {
 		});
 
 		getUserCb();
+	};
+
+	const handleSubmitPassword = async (e) => {
+		e.preventDefault();
+
+		await fetch(`${BASE_URL}/api/personels/change-password`, {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			method: 'POST',
+			credentials: 'include',
+			body: JSON.stringify({
+				password,
+			}),
+		});
+	};
+
+	const handleSubmitEmail = async (e) => {
+		e.preventDefault();
+
+		await fetch(`${BASE_URL}/api/personels/verify`, {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			method: 'GET',
+			credentials: 'include',
+		});
 	};
 
 	return (
@@ -114,6 +145,7 @@ const ProfileDetails = () => {
 												onChange={(e) =>
 													setEmail(e.target.value)
 												}
+												disabled={user?.verified}
 												required
 												value={email}
 												variant='outlined'
@@ -176,6 +208,121 @@ const ProfileDetails = () => {
 										onClick={handleSubmit}
 									>
 										Detayları Kaydet
+									</Button>
+								</Box>
+							</Card>
+						</form>
+					</div>
+					<div
+						style={{
+							marginTop: 30,
+							width: '100%',
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+						}}
+					>
+						<form
+							autoComplete='off'
+							noValidate
+							style={{ width: '100%' }}
+						>
+							<Card>
+								{!user.verified && (
+									<Alert
+										severity='warning'
+										action={
+											<Button
+												color='inherit'
+												size='small'
+												onClick={handleSubmitEmail}
+											>
+												Onaylama e-mail'i gönder
+											</Button>
+										}
+									>
+										Şifreni değiştirebilmen için e-mail
+										adresini onaylaman gerek.
+									</Alert>
+								)}
+
+								<CardHeader
+									subheader='Şifreni buradan değiştirebilirsin'
+									title='Şifreni Değiştir'
+								/>
+								<Divider />
+								<CardContent>
+									<Grid container spacing={3}>
+										<Grid item md={6} xs={12}>
+											<TextField
+												variant='outlined'
+												margin='normal'
+												required
+												fullWidth
+												name='password'
+												label='Şifre'
+												type='password'
+												id='password'
+												error={
+													password !== '' &&
+													!validator.isLength(
+														password,
+														{
+															min: 6,
+														},
+													)
+												}
+												autoComplete='current-password'
+												value={password}
+												onChange={(e) =>
+													setPassword(e.target.value)
+												}
+											/>
+										</Grid>
+										<Grid item md={6} xs={12}>
+											<TextField
+												variant='outlined'
+												margin='normal'
+												required
+												fullWidth
+												name='secondpassword'
+												label='Şifre Tekrar'
+												type='password'
+												id='secondpassword'
+												error={
+													secondpassword !== '' &&
+													!validator.isLength(
+														secondpassword,
+														{
+															min: 6,
+														},
+													) &&
+													secondpassword !== password
+												}
+												autoComplete='current-password'
+												value={secondpassword}
+												onChange={(e) =>
+													setSecondpassword(
+														e.target.value,
+													)
+												}
+											/>
+										</Grid>
+									</Grid>
+								</CardContent>
+								<Divider />
+								<Box
+									display='flex'
+									justifyContent='flex-end'
+									p={2}
+								>
+									<Button
+										color='primary'
+										variant='contained'
+										onClick={handleSubmitPassword}
+										disabled={!user?.verified}
+									>
+										Şifreyi Kaydet
 									</Button>
 								</Box>
 							</Card>
