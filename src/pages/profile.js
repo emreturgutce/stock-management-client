@@ -33,7 +33,7 @@ const ProfileDetails = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		await fetch(`${BASE_URL}/api/personels/${user.id}`, {
+		await fetch(`${BASE_URL}/api/personels/current`, {
 			headers: {
 				'Content-Type': 'application/json',
 			},
