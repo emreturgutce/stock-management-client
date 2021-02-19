@@ -19,6 +19,13 @@ const theme = createMuiTheme(
 				main: '#b2102f',
 			},
 		},
+		props: {
+			MuiTypography: {
+				variantMapping: {
+					p: 'p'
+				}
+			}
+		}
 	},
 	trTR,
 );

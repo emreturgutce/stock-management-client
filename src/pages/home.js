@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 import { DataGrid, GridOverlay } from '@material-ui/data-grid';
 import { createStyles, makeStyles, Button, TextField } from '@material-ui/core';
-import { Add, Refresh, CheckCircle, HighlightOff } from '@material-ui/icons';
+import { Refresh, CheckCircle, HighlightOff } from '@material-ui/icons';
 import { useCarState, useAuthState, useGetCars } from '../hooks';
 import { formatPrice } from '../utils/format-price';
 import Page from '../components/page';
@@ -218,15 +218,6 @@ const Home = () => {
 									startIcon={<Refresh />}
 								>
 									Yenile
-								</Button>
-								<Button
-									variant='contained'
-									color='secondary'
-									to='/cars/add'
-									startIcon={<Add />}
-									component={RouterLink}
-								>
-									Yeni Araba Ekle
 								</Button>
 							</div>
 						</div>

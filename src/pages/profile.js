@@ -98,10 +98,9 @@ const ProfileDetails = () => {
 				direction='column'
 				alignItems='center'
 				justify='center'
-				spacing={3}
 				style={{ marginTop: '.5rem' }}
 			>
-				<Grid item md={9}>
+				<Grid item md={9} style={{marginBottom: '1rem'}}>
 					<form autoComplete='off' noValidate>
 						<Card>
 							<CardHeader

@@ -97,10 +97,9 @@ const Chart = () => {
 					justify='center'
 					alignItems='center'
 					direction='row'
-					spacing={3}
 					style={{ marginTop: '1rem' }}
 				>
-					<Grid item md={5} sm={12}>
+					<Grid item md={5} sm={12} style={{ marginRight: '.3rem', marginBottom: '.3rem' }}>
 						<Card>
 							<CardHeader
 								title='1 Aralık 2020 ve 1 Şubat 2021 Arası Satış
