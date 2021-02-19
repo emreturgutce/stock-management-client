@@ -190,7 +190,8 @@ const CarDetail = () => {
 									className={classes.paper}
 									style={{
 										borderRadius: 4,
-										width: '50%',
+										width: '60%',
+										minWidth: '300px',
 										top: `50%`,
 										left: `50%`,
 										transform: `translate(-50%, -50%)`,
