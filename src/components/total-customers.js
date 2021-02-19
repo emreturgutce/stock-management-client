@@ -50,7 +50,7 @@ const TotalCustomers = ({ className, ...rest }) => {
 						<Typography color='textPrimary' variant='h5'>
 							<AnimatedNumber
 								value={totalCustomer}
-								duration={2000}
+								duration={1000}
 								formatValue={(value) => value.toFixed()}
 							/>
 						</Typography>
@@ -71,7 +71,7 @@ const TotalCustomers = ({ className, ...rest }) => {
 						<AnimatedNumber
 							value={16}
 							formatValue={(value) => value.toFixed()}
-							duration={1000}
+							duration={500}
 						/>
 					</Typography>
 					<Typography color='textSecondary' variant='caption'>

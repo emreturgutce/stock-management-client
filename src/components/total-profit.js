@@ -51,7 +51,7 @@ const TotalProfit = () => {
 							<AnimatedNumber
 								value={totalProfit}
 								formatValue={(value) => formatPrice(value)}
-								duration={2000}
+								duration={1000}
 							/>
 						</Typography>
 					</Grid>
