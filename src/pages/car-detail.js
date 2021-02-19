@@ -11,7 +11,6 @@ import {
 	Dialog,
 	DialogActions,
 	DialogContent,
-	DialogContentText,
 	DialogTitle,
 	TextField,
 	IconButton,
@@ -289,25 +288,16 @@ const CarDetail = () => {
 												aria-describedby='alert-dialog-description'
 											>
 												<DialogTitle id='alert-dialog-title'>
-													{
-														'Arabanın bilgileri tamamen silinecek, emin misiniz?'
-													}
+													<Typography variant='p'>
+														{
+															'Arabanın bilgileri tamamen silinecek bu işlemi gerçekleştirmek istediğinize emin misiniz?'
+														}
+														{'\n'}
+														{
+															'(Bu işlem geri alınamaz)'
+														}
+													</Typography>
 												</DialogTitle>
-												<DialogContent>
-													<DialogContentText id='alert-dialog-description'>
-														Lorem ipsum dolor sit
-														amet consectetur
-														adipisicing elit. Ea
-														tenetur temporibus
-														voluptatem aperiam est
-														voluptate enim ut
-														explicabo quis? Beatae,
-														deserunt aperiam!
-														Veniam, accusantium
-														alias in iusto non
-														nostrum esse.
-													</DialogContentText>
-												</DialogContent>
 												<DialogActions>
 													<Button
 														onClick={
@@ -417,7 +407,7 @@ const CarDetail = () => {
 														onClick={onSubmit}
 														color='primary'
 													>
-														Sat
+														Onayla
 													</Button>
 												</DialogActions>
 											</Dialog>
