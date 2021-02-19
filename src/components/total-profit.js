@@ -61,25 +61,27 @@ const TotalProfit = () => {
 						</Avatar>
 					</Grid>
 				</Grid>
-
-				<Grid container alignItems='center'>
-					<Grid item>
-						<ArrowUpward className={classes.differenceIcon} />
-						<Typography
-							className={classes.differenceValue}
-							variant='body2'
-						>
-							%
-							<AnimatedNumber
-								value={32}
-								formatValue={(value) => value.toFixed()}
-								duration={1000}
-							/>
-						</Typography>
-						<Typography color='textSecondary' variant='caption'>
-							Geçen aydan beri
-						</Typography>
-					</Grid>
+				<Grid
+					container
+					item
+					alignItems='center'
+					style={{ marginTop: '1rem' }}
+				>
+					<ArrowUpward className={classes.differenceIcon} />
+					<Typography
+						className={classes.differenceValue}
+						variant='body2'
+					>
+						%
+						<AnimatedNumber
+							value={32}
+							formatValue={(value) => value.toFixed()}
+							duration={1000}
+						/>
+					</Typography>
+					<Typography color='textSecondary' variant='caption'>
+						Geçen aydan beri
+					</Typography>
 				</Grid>
 			</CardContent>
 		</Card>
