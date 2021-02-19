@@ -490,10 +490,14 @@ const CarDetail = () => {
 							) : (
 								<>
 									<Grid item xs={12}>
-										<strong>Açıklama</strong>
+										<Typography variant='h6'>
+											Açıklama
+										</Typography>
 									</Grid>
 									<Grid item xs={12}>
-										{car.car_description}
+										<Typography variant='body1'>
+											{car.car_description}
+										</Typography>
 									</Grid>
 								</>
 							)}

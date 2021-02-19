@@ -1,4 +1,4 @@
-import { Grid, Divider } from '@material-ui/core';
+import { Grid, Divider, Typography } from '@material-ui/core';
 
 const ListItem = ({ name, val }) => {
 	return (
@@ -6,7 +6,7 @@ const ListItem = ({ name, val }) => {
 			<Grid item xs={12}>
 				<Grid container>
 					<Grid item xs={6}>
-						<strong>{name}</strong>
+						<Typography variant='body1'>{name}</Typography>
 					</Grid>
 					<Grid item xs={6}>
 						{val}
