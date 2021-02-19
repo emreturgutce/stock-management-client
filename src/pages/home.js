@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 import { DataGrid, GridOverlay } from '@material-ui/data-grid';
-import { createStyles, makeStyles, Button, TextField } from '@material-ui/core';
+import {
+	createStyles,
+	makeStyles,
+	Button,
+	TextField,
+	Grid,
+	Container,
+} from '@material-ui/core';
 import { Refresh, HighlightOff } from '@material-ui/icons';
 import { useCarState, useAuthState, useGetCars } from '../hooks';
 import { formatPrice } from '../utils/format-price';
@@ -165,13 +172,6 @@ const Home = () => {
 						/>
 					),
 			},
-			{
-				field: 'enter_date',
-				width: 130,
-				headerName: 'Giriş Tarihi',
-				valueFormatter: (params) =>
-					new Date(params.value).toLocaleDateString('tr-TR'),
-			},
 		],
 		rows: carsState.map((car) => ({ ...car, id: car.car_id })),
 	};
@@ -186,67 +186,73 @@ const Home = () => {
 		<>
 			{isAuthenticated ? (
 				<Page title='Anasayfa'>
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-							width: '90%',
-							margin: '30px auto',
-						}}
-					>
-						<div
-							style={{
-								width: '100%',
-								display: 'flex',
-								flexDirection: 'row',
-								justifyContent: 'space-between',
-							}}
+					<Container>
+						<Grid
+							container
+							direction='column'
+							alignItems='center'
+							justify='center'
+							style={{paddingTop: '1rem'}}
 						>
-							<div>
-								<TextField
-									size='small'
-									id='filled-search'
-									label='Ara'
-									type='search'
-									variant='outlined'
-									value={searchInput}
-									onChange={(e) =>
-										setSearchInput(e.target.value)
-									}
-								/>
-							</div>
-							<div>
-								<Button
-									variant='contained'
-									style={{
-										marginRight: 5,
-									}}
-									onClick={() => getCarsCb()}
-									startIcon={<Refresh />}
-								>
-									Yenile
-								</Button>
-							</div>
-						</div>
-						<div
+							<Grid
+								item
+								container
+								direction='row'
+								justify='space-between'
+							>
+								<Grid item>
+									<TextField
+										size='small'
+										id='filled-search'
+										label='Ara'
+										type='search'
+										variant='outlined'
+										value={searchInput}
+										onChange={(e) =>
+											setSearchInput(e.target.value)
+										}
+									/>
+								</Grid>
+								<Grid item>
+									<Button
+										variant='contained'
+										style={{
+											marginRight: 5,
+										}}
+										onClick={() => getCarsCb()}
+										startIcon={<Refresh />}
+									>
+										Yenile
+									</Button>
+								</Grid>
+							</Grid>
+							<Grid
+								item
+								style={{
+									height: 720,
+									width: '100%',
+									marginTop: '1rem',
+								}}
+							>
+								{/*<div
 							style={{
 								height: 720,
 								width: '100%',
 								marginTop: 30,
 							}}
-						>
-							<DataGrid
-								components={{
-									noRowsOverlay: CustomNoRowsOverlay,
-								}}
-								pageSize={5}
-								rowHeight={120}
-								loading={isLoading}
-								{...data}
-							/>
-						</div>
-					</div>
+						>*/}
+								<DataGrid
+									components={{
+										noRowsOverlay: CustomNoRowsOverlay,
+									}}
+									pageSize={5}
+									rowHeight={120}
+									loading={isLoading}
+									{...data}
+								/>
+							</Grid>
+						</Grid>
+					</Container>
 				</Page>
 			) : (
 				<Redirect to='/login' />

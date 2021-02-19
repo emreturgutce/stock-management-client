@@ -23,6 +23,7 @@ import {
 	TableCell,
 	TableHead,
 	TableRow,
+	Container,
 } from '@material-ui/core';
 import {
 	getSales,
@@ -71,118 +72,137 @@ const Chart = () => {
 
 	return (
 		<Page title='Satış Grafiği'>
-			<Grid
-				container
-				direction='column'
-				alignItems='center'
-				justify='center'
-				style={{ marginTop: '.5rem' }}
-			>
-				<Grid item container spacing={3} md={10} xs={12}>
-					<Grid item md={4} xs={12}>
-						<TotalProfit />
-					</Grid>
-					<Grid item md={4} xs={12}>
-						<TotalCustomers />
-					</Grid>
-
-					{/* !TODO CHANGE THIS */}
-					<Grid item md={4} xs={12}>
-						<TotalCustomers />
-					</Grid>
-				</Grid>
+			<Container>
 				<Grid
-					item
 					container
-					justify='center'
+					direction='column'
 					alignItems='center'
-					direction='row'
-					style={{ marginTop: '1rem' }}
+					justify='center'
+					style={{ marginTop: '.5rem' }}
 				>
-					<Grid item md={5} sm={12} style={{ marginRight: '.3rem', marginBottom: '.3rem' }}>
-						<Card>
-							<CardHeader
-								title='1 Aralık 2020 ve 1 Şubat 2021 Arası Satış
-								Grafiği'
-							/>
-							<Divider />
-							<ResponsiveContainer height={400} maxWidth='100%'>
-								<LineChart
-									data={sales}
-									style={{ left: '-1rem' }}
-								>
-									<CartesianGrid strokeDasharray='5 5' />
-									<XAxis dataKey='sale_date' />
-									<YAxis dateKey='count' />
-									<Tooltip />
-									<Line
-										type='monotone'
-										dataKey='count'
-										onClick={handleClick}
-									>
-										{sales.map((entry, index) => (
-											<Cell
-												cursor='pointer'
-												fill={
-													index === activeIndex
-														? '#82ca9d'
-														: '#8884d8'
-												}
-												key={`cell-${index}`}
-											/>
-										))}
-									</Line>
-								</LineChart>
-							</ResponsiveContainer>
-						</Card>
+					<Grid item container spacing={3} md={10} xs={12}>
+						<Grid item md={4} xs={12}>
+							<TotalProfit />
+						</Grid>
+						<Grid item md={4} xs={12}>
+							<TotalCustomers />
+						</Grid>
+
+						{/* !TODO CHANGE THIS */}
+						<Grid item md={4} xs={12}>
+							<TotalCustomers />
+						</Grid>
 					</Grid>
-					<Grid item md={5} sm={12}>
-						<Card>
-							<CardHeader title='Son Satışlar' />
-							<Divider />
-							<Box maxWidth='100%'>
-								<Table>
-									<TableHead>
-										<TableRow>
-											<TableCell>
-												Satış Numarası
-											</TableCell>
-											<TableCell>İlan Başlığı</TableCell>
-											<TableCell>Fiyat</TableCell>
-										</TableRow>
-									</TableHead>
-									<TableBody>
-										{latestSales.map((sale) => (
-											<TableRow hover key={sale.title}>
+					<Grid
+						item
+						container
+						justify='center'
+						alignItems='center'
+						direction='row'
+						style={{ marginTop: '1rem' }}
+					>
+						<Grid
+							item
+							md={6}
+							sm={12}
+							style={{ marginBottom: '1rem' }}
+						>
+							<Card>
+								<CardHeader
+									title='1 Aralık 2020 ve 1 Şubat 2021 Arası Satış
+								Grafiği'
+								/>
+								<Divider />
+								<ResponsiveContainer
+									height={400}
+									maxWidth='100%'
+								>
+									<LineChart
+										data={sales}
+										style={{ left: '-1rem' }}
+									>
+										<CartesianGrid strokeDasharray='5 5' />
+										<XAxis dataKey='sale_date' />
+										<YAxis dateKey='count' />
+										<Tooltip />
+										<Line
+											type='monotone'
+											dataKey='count'
+											onClick={handleClick}
+										>
+											{sales.map((entry, index) => (
+												<Cell
+													cursor='pointer'
+													fill={
+														index === activeIndex
+															? '#82ca9d'
+															: '#8884d8'
+													}
+													key={`cell-${index}`}
+												/>
+											))}
+										</Line>
+									</LineChart>
+								</ResponsiveContainer>
+							</Card>
+						</Grid>
+						<Grid item md={6} sm={12}>
+							<Card>
+								<CardHeader title='Son Satışlar' />
+								<Divider />
+								<Box maxWidth='100%'>
+									<Table>
+										<TableHead>
+											<TableRow>
 												<TableCell>
-													{sale.serial_number}
+													Satış Numarası
 												</TableCell>
 												<TableCell>
-													{sale.title}
+													İlan Başlığı
 												</TableCell>
-												<TableCell>
-													<Chip
-														color='primary'
-														label={formatPrice(
-															sale.purchase_price,
-														)}
-														size='small'
-													/>
-												</TableCell>
+												<TableCell>Fiyat</TableCell>
 											</TableRow>
-										))}
-									</TableBody>
-								</Table>
-							</Box>
-							<Box display='flex' justifyContent='flex-end' p={2}>
-								<Button variant='outlined' color='primary'>
-									Hepsini Gör
-								</Button>
-							</Box>
-						</Card>
+										</TableHead>
+										<TableBody>
+											{latestSales.map((sale) => (
+												<TableRow
+													hover
+													key={sale.title}
+												>
+													<TableCell>
+														{sale.serial_number}
+													</TableCell>
+													<TableCell>
+														{sale.title}
+													</TableCell>
+													<TableCell>
+														<Chip
+															color='primary'
+															label={formatPrice(
+																sale.purchase_price,
+															)}
+															size='small'
+														/>
+													</TableCell>
+												</TableRow>
+											))}
+										</TableBody>
+									</Table>
+								</Box>
+								<Box
+									display='flex'
+									justifyContent='flex-end'
+									p={2}
+								>
+									<Button variant='outlined' color='primary'>
+										Hepsini Gör
+									</Button>
+								</Box>
+							</Card>
+						</Grid>
 					</Grid>
 				</Grid>
-			</Grid>
+			</Container>
 		</Page>
 	);
 };
