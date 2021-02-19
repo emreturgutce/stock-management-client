@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 import { DataGrid, GridOverlay } from '@material-ui/data-grid';
 import { createStyles, makeStyles, Button, TextField } from '@material-ui/core';
-import { Add, Refresh } from '@material-ui/icons';
-import { useCarState, useAuthState, useGetCars} from '../hooks';
+import { Add, Refresh, CheckCircle, HighlightOff } from '@material-ui/icons';
+import { useCarState, useAuthState, useGetCars } from '../hooks';
 import { formatPrice } from '../utils/format-price';
 import Page from '../components/page';
 
@@ -131,20 +131,31 @@ const Home = () => {
 				width: 140,
 				valueFormatter: (params) => formatPrice(params.value),
 			},
-			{ field: 'year', width: 100, headerName: 'Yıl' },
+			{ field: 'year', width: 80, headerName: 'Yıl' },
 			{
 				field: 'is_new',
 				headerName: 'Yeni Mi',
 				width: 100,
-				valueFormatter: (params) =>
-					params.value === 'NEW' ? 'Sıfır' : 'İkinci el',
+				renderCell: (params) => (
+					<span style={{ display: 'block', margin: 'auto' }}>
+						{params.value === 'NEW' ? 'Sıfır' : 'İkinci el'}
+					</span>
+				),
 			},
 			{
 				headerName: 'Satıldı Mı',
 				field: 'is_sold',
-				width: 120,
-				valueFormatter: (params) =>
-					params.value === 'SOLD' ? 'Satıldı' : 'Satılmadı',
+				width: 100,
+				renderCell: (params) =>
+					params.value === 'SOLD' ? (
+						<CheckCircle
+							style={{ fill: '#4caf50', margin: 'auto' }}
+						/>
+					) : (
+						<HighlightOff
+							style={{ fill: '#f44336', margin: 'auto' }}
+						/>
+					),
 			},
 			{
 				field: 'enter_date',
