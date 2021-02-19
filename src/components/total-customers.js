@@ -47,7 +47,7 @@ const TotalCustomers = ({ className, ...rest }) => {
 						>
 							TOPLAM MÜŞTERİ
 						</Typography>
-						<Typography color='textPrimary' variant='h3'>
+						<Typography color='textPrimary' variant='h5'>
 							<AnimatedNumber
 								value={totalCustomer}
 								duration={2000}

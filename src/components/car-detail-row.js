@@ -12,6 +12,7 @@ const CarDetailRow = ({ name, value }) => {
 			val={
 				isLoading ? (
 					<Loader
+						key={name}
 						name={name}
 						header={false}
 						rowCount={1}

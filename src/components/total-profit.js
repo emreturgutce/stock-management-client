@@ -47,7 +47,7 @@ const TotalProfit = () => {
 						>
 							TOPLAM KAR
 						</Typography>
-						<Typography color='textPrimary' variant='h3'>
+						<Typography color='textPrimary' variant='h5'>
 							<AnimatedNumber
 								value={totalProfit}
 								formatValue={(value) => formatPrice(value)}

@@ -12,12 +12,8 @@ import {
 	Grid,
 	TextField,
 } from '@material-ui/core';
-import DateFnsUtils from '@date-io/date-fns';
 import validator from 'validator';
-import {
-	MuiPickersUtilsProvider,
-	KeyboardDatePicker,
-} from '@material-ui/pickers';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import { Alert } from '@material-ui/lab';
 import { useAuthState } from '../hooks';
 import { BASE_URL } from '../constants';
@@ -97,236 +93,221 @@ const ProfileDetails = () => {
 
 	return (
 		<Page title='Profil'>
-			<MuiPickersUtilsProvider utils={DateFnsUtils}>
-				<Grid
-					container
-					direction='column'
-					alignItems='center'
-					justify='center'
-					spacing={3}
-					style={{ marginTop: '.5rem' }}
-				>
-					<Grid item md={9}>
-						<form autoComplete='off' noValidate>
-							<Card>
-								<CardHeader
-									subheader='Detay bilgileri değiştirilebilir.'
-									title='Profil'
-								/>
-								<Divider />
-								<CardContent>
-									<Grid container spacing={3}>
-										<Grid item md={6} xs={12}>
-											<TextField
-												fullWidth
-												label='Ad'
-												name='firstName'
-												onChange={(e) =>
-													setFirstName(e.target.value)
-												}
-												required
-												value={firstName}
-												variant='outlined'
-											/>
-										</Grid>
-										<Grid item md={6} xs={12}>
-											<TextField
-												fullWidth
-												label='Soyad'
-												name='lastName'
-												onChange={(e) =>
-													setLastName(e.target.value)
-												}
-												required
-												value={lastName}
-												variant='outlined'
-											/>
-										</Grid>
-										<Grid item md={6} xs={12}>
-											<TextField
-												fullWidth
-												label='Email Adresi'
-												name='email'
-												onChange={(e) =>
-													setEmail(e.target.value)
-												}
-												disabled={user?.verified}
-												required
-												value={email}
-												variant='outlined'
-											/>
-										</Grid>
-										<Grid item md={6} xs={12}>
-											<KeyboardDatePicker
-												fullWidth
-												required
-												inputVariant='outlined'
-												format='dd.MM.yyyy'
-												margin='auto'
-												id='birth_date'
-												label='Doğum Tarihi'
-												value={birthDate}
-												onChange={(date) =>
-													setbirthDate(date)
-												}
-												KeyboardButtonProps={{
-													'aria-label': 'change date',
-												}}
-											/>
-										</Grid>
-										<Grid item md={6} xs={12}>
-											<TextField
-												fullWidth
-												label='Cinsiyet'
-												name='gender'
-												onChange={(e) =>
-													setGender(e.target.value)
-												}
-												required
-												select
-												SelectProps={{ native: true }}
-												value={gender}
-												variant='outlined'
-											>
-												<option key='MALE' value='MALE'>
-													Erkek
-												</option>
-												<option
-													key='FEMALE'
-													value='FEMALE'
-												>
-													Kadın
-												</option>
-											</TextField>
-										</Grid>
+			<Grid
+				container
+				direction='column'
+				alignItems='center'
+				justify='center'
+				spacing={3}
+				style={{ marginTop: '.5rem' }}
+			>
+				<Grid item md={9}>
+					<form autoComplete='off' noValidate>
+						<Card>
+							<CardHeader
+								subheader='Detay bilgileri değiştirilebilir.'
+								title='Profil'
+							/>
+							<Divider />
+							<CardContent>
+								<Grid container spacing={3}>
+									<Grid item md={6} xs={12}>
+										<TextField
+											fullWidth
+											label='Ad'
+											name='firstName'
+											onChange={(e) =>
+												setFirstName(e.target.value)
+											}
+											required
+											value={firstName}
+											variant='outlined'
+										/>
 									</Grid>
-								</CardContent>
-								<Divider />
-								<Box
-									display='flex'
-									justifyContent='flex-end'
-									p={2}
-								>
-									<Button
-										color='primary'
-										variant='contained'
-										onClick={handleSubmit}
-									>
-										Detayları Kaydet
-									</Button>
-								</Box>
-							</Card>
-						</form>
-					</Grid>
-					<Grid item md={9} style={{ width: '100%' }}>
-						<form
-							autoComplete='off'
-							noValidate
-							style={{ width: '100%' }}
-						>
-							<Card>
-								{!user.verified && (
-									<Alert
-										severity='warning'
-										action={
-											<Button
-												color='inherit'
-												size='small'
-												onClick={handleSubmitEmail}
-											>
-												Onaylama e-mail'i gönder
-											</Button>
-										}
-									>
-										Şifreni değiştirebilmen için e-mail
-										adresini onaylaman gerek.
-									</Alert>
-								)}
-
-								<CardHeader
-									subheader='Şifreni buradan değiştirebilirsin'
-									title='Şifreni Değiştir'
-								/>
-								<Divider />
-								<CardContent>
-									<Grid container spacing={3}>
-										<Grid item md={6} xs={12}>
-											<TextField
-												variant='outlined'
-												margin='normal'
-												required
-												fullWidth
-												name='password'
-												label='Şifre'
-												type='password'
-												id='password'
-												error={
-													password !== '' &&
-													!validator.isLength(
-														password,
-														{
-															min: 6,
-														},
-													)
-												}
-												autoComplete='current-password'
-												value={password}
-												onChange={(e) =>
-													setPassword(e.target.value)
-												}
-											/>
-										</Grid>
-										<Grid item md={6} xs={12}>
-											<TextField
-												variant='outlined'
-												margin='normal'
-												required
-												fullWidth
-												name='secondpassword'
-												label='Şifre Tekrar'
-												type='password'
-												id='secondpassword'
-												error={
-													secondpassword !== '' &&
-													!validator.isLength(
-														secondpassword,
-														{
-															min: 6,
-														},
-													) &&
-													secondpassword !== password
-												}
-												autoComplete='current-password'
-												value={secondpassword}
-												onChange={(e) =>
-													setSecondpassword(
-														e.target.value,
-													)
-												}
-											/>
-										</Grid>
+									<Grid item md={6} xs={12}>
+										<TextField
+											fullWidth
+											label='Soyad'
+											name='lastName'
+											onChange={(e) =>
+												setLastName(e.target.value)
+											}
+											required
+											value={lastName}
+											variant='outlined'
+										/>
 									</Grid>
-								</CardContent>
-								<Divider />
-								<Box
-									display='flex'
-									justifyContent='flex-end'
-									p={2}
+									<Grid item md={6} xs={12}>
+										<TextField
+											fullWidth
+											label='Email Adresi'
+											name='email'
+											onChange={(e) =>
+												setEmail(e.target.value)
+											}
+											disabled={user?.verified}
+											required
+											value={email}
+											variant='outlined'
+										/>
+									</Grid>
+									<Grid item md={6} xs={12}>
+										<KeyboardDatePicker
+											fullWidth
+											required
+											inputVariant='outlined'
+											format='dd.MM.yyyy'
+											margin='auto'
+											id='birth_date'
+											label='Doğum Tarihi'
+											value={birthDate}
+											lang
+											onChange={(date) =>
+												setbirthDate(date)
+											}
+											KeyboardButtonProps={{
+												'aria-label': 'change date',
+											}}
+										/>
+									</Grid>
+									<Grid item md={6} xs={12}>
+										<TextField
+											fullWidth
+											label='Cinsiyet'
+											name='gender'
+											onChange={(e) =>
+												setGender(e.target.value)
+											}
+											required
+											select
+											SelectProps={{ native: true }}
+											value={gender}
+											variant='outlined'
+										>
+											<option key='MALE' value='MALE'>
+												Erkek
+											</option>
+											<option key='FEMALE' value='FEMALE'>
+												Kadın
+											</option>
+										</TextField>
+									</Grid>
+								</Grid>
+							</CardContent>
+							<Divider />
+							<Box display='flex' justifyContent='flex-end' p={2}>
+								<Button
+									color='primary'
+									variant='contained'
+									onClick={handleSubmit}
 								>
-									<Button
-										color='primary'
-										variant='contained'
-										onClick={handleSubmitPassword}
-										disabled={!user?.verified}
-									>
-										Şifreyi Kaydet
-									</Button>
-								</Box>
-							</Card>
-						</form>
-					</Grid>
+									Detayları Kaydet
+								</Button>
+							</Box>
+						</Card>
+					</form>
 				</Grid>
-			</MuiPickersUtilsProvider>
+				<Grid item md={9} style={{ width: '100%' }}>
+					<form
+						autoComplete='off'
+						noValidate
+						style={{ width: '100%' }}
+					>
+						<Card>
+							{!user.verified && (
+								<Alert
+									severity='warning'
+									action={
+										<Button
+											color='inherit'
+											size='small'
+											onClick={handleSubmitEmail}
+										>
+											Onaylama e-mail'i gönder
+										</Button>
+									}
+								>
+									Şifreni değiştirebilmen için e-mail adresini
+									onaylaman gerek.
+								</Alert>
+							)}
+
+							<CardHeader
+								subheader='Şifreni buradan değiştirebilirsin'
+								title='Şifreni Değiştir'
+							/>
+							<Divider />
+							<CardContent>
+								<Grid container spacing={3}>
+									<Grid item md={6} xs={12}>
+										<TextField
+											variant='outlined'
+											margin='normal'
+											required
+											fullWidth
+											name='password'
+											label='Şifre'
+											type='password'
+											id='password'
+											error={
+												password !== '' &&
+												!validator.isLength(password, {
+													min: 6,
+												})
+											}
+											autoComplete='current-password'
+											value={password}
+											onChange={(e) =>
+												setPassword(e.target.value)
+											}
+										/>
+									</Grid>
+									<Grid item md={6} xs={12}>
+										<TextField
+											variant='outlined'
+											margin='normal'
+											required
+											fullWidth
+											name='secondpassword'
+											label='Şifre Tekrar'
+											type='password'
+											id='secondpassword'
+											error={
+												secondpassword !== '' &&
+												!validator.isLength(
+													secondpassword,
+													{
+														min: 6,
+													},
+												) &&
+												secondpassword !== password
+											}
+											autoComplete='current-password'
+											value={secondpassword}
+											onChange={(e) =>
+												setSecondpassword(
+													e.target.value,
+												)
+											}
+										/>
+									</Grid>
+								</Grid>
+							</CardContent>
+							<Divider />
+							<Box display='flex' justifyContent='flex-end' p={2}>
+								<Button
+									color='primary'
+									variant='contained'
+									onClick={handleSubmitPassword}
+									disabled={!user?.verified}
+								>
+									Şifreyi Kaydet
+								</Button>
+							</Box>
+						</Card>
+					</form>
+				</Grid>
+			</Grid>
 		</Page>
 	);
 };
