@@ -17,6 +17,7 @@ const Confirm = () => {
 		});
 	};
 
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const onSubmitCb = useCallback(() => onSubmit(), []);
 
 	const handleClick = () => {

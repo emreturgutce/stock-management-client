@@ -10,13 +10,7 @@ import {
 	Container,
 	Grid,
 } from '@material-ui/core';
-import {
-	Add,
-	Equalizer,
-	Home,
-	FormatListBulleted,
-	Person,
-} from '@material-ui/icons';
+import { Add, Equalizer, Home, Person } from '@material-ui/icons';
 import LetterAvatar from './letter-avatar';
 import { useAuthState } from '../hooks';
 
@@ -64,17 +58,6 @@ const Navbar = () => {
 							</IconButton>
 						</RouterLink>
 					)}
-
-					<RouterLink to='/sales/latest'>
-						<IconButton
-							edge='start'
-							className={classes.menuButton}
-							color='inherit'
-							aria-label='menu'
-						>
-							<FormatListBulleted style={{ fill: '#EEE' }} />
-						</IconButton>
-					</RouterLink>
 					<RouterLink to='/cars/chart'>
 						<IconButton
 							edge='start'

@@ -14,7 +14,6 @@ import Chart from './pages/chart';
 import Profile from './pages/profile';
 import Personel from './pages/personel';
 import NotFound from './pages/not-found';
-import LatestSales from './pages/latest-sales';
 import { getUser } from './actions';
 import { useAuthState } from './hooks';
 import ForgotPassword from './pages/forgot-password';
@@ -78,11 +77,6 @@ const App = () => {
 						exact
 						path='/personels/profile'
 						component={Profile}
-					/>
-					<PrivateRoute
-						exact
-						path='/sales/latest'
-						component={LatestSales}
 					/>
 					<Route path='*' component={NotFound} />
 				</Switch>
