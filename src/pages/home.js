@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link as RouterLink, Redirect } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { DataGrid, GridOverlay } from '@material-ui/data-grid';
 import {
 	createStyles,
@@ -10,7 +10,7 @@ import {
 	Container,
 } from '@material-ui/core';
 import { Refresh, HighlightOff } from '@material-ui/icons';
-import { useCarState, useAuthState, useGetCars } from '../hooks';
+import { useCarState, useGetCars } from '../hooks';
 import { formatPrice } from '../utils/format-price';
 import Page from '../components/page';
 
@@ -96,7 +96,6 @@ function CustomNoRowsOverlay() {
 const Home = () => {
 	const getCarsCb = useGetCars();
 	const { isLoading, cars } = useCarState();
-	const { isAuthenticated } = useAuthState();
 	const [searchInput, setSearchInput] = useState('');
 	const [carsState, setCarsState] = useState(cars);
 
@@ -183,81 +182,66 @@ const Home = () => {
 	}, [cars, searchInput]);
 
 	return (
-		<>
-			{isAuthenticated ? (
-				<Page title='Anasayfa'>
-					<Container>
-						<Grid
-							container
-							direction='column'
-							alignItems='center'
-							justify='center'
-							style={{paddingTop: '1rem'}}
-						>
-							<Grid
-								item
-								container
-								direction='row'
-								justify='space-between'
-							>
-								<Grid item>
-									<TextField
-										size='small'
-										id='filled-search'
-										label='Ara'
-										type='search'
-										variant='outlined'
-										value={searchInput}
-										onChange={(e) =>
-											setSearchInput(e.target.value)
-										}
-									/>
-								</Grid>
-								<Grid item>
-									<Button
-										variant='contained'
-										style={{
-											marginRight: 5,
-										}}
-										onClick={() => getCarsCb()}
-										startIcon={<Refresh />}
-									>
-										Yenile
-									</Button>
-								</Grid>
-							</Grid>
-							<Grid
-								item
-								style={{
-									height: 720,
-									width: '100%',
-									marginTop: '1rem',
-								}}
-							>
-								{/*<div
-							style={{
-								height: 720,
-								width: '100%',
-								marginTop: 30,
-							}}
-						>*/}
-								<DataGrid
-									components={{
-										noRowsOverlay: CustomNoRowsOverlay,
-									}}
-									pageSize={5}
-									rowHeight={120}
-									loading={isLoading}
-									{...data}
-								/>
-							</Grid>
+		<Page title='Anasayfa'>
+			<Container>
+				<Grid
+					container
+					direction='column'
+					alignItems='center'
+					justify='center'
+					style={{ paddingTop: '1rem' }}
+				>
+					<Grid
+						item
+						container
+						direction='row'
+						justify='space-between'
+					>
+						<Grid item>
+							<TextField
+								size='small'
+								id='filled-search'
+								label='Ara'
+								type='search'
+								variant='outlined'
+								value={searchInput}
+								onChange={(e) => setSearchInput(e.target.value)}
+							/>
 						</Grid>
-					</Container>
-				</Page>
-			) : (
-				<Redirect to='/login' />
-			)}
-		</>
+						<Grid item>
+							<Button
+								variant='contained'
+								style={{
+									marginRight: 5,
+								}}
+								onClick={() => getCarsCb()}
+								startIcon={<Refresh />}
+							>
+								Yenile
+							</Button>
+						</Grid>
+					</Grid>
+					<Grid
+						item
+						style={{
+							height: 720,
+							width: '100%',
+							marginTop: '1rem',
+						}}
+					>
+						<DataGrid
+							components={{
+								noRowsOverlay: CustomNoRowsOverlay,
+							}}
+							pageSize={5}
+							rowHeight={120}
+							loading={isLoading}
+							{...data}
+						/>
+					</Grid>
+				</Grid>
+			</Container>
+		</Page>
 	);
 };
 
