@@ -9,7 +9,7 @@ const ErrorAlert = ({ errors, show, setShow }) => {
 		return (
 			<Collapse in={open}>
 				<Alert severity='error' onClose={() => setOpen(false)}>
-					<AlertTitle>Error</AlertTitle>
+					<AlertTitle>Hata</AlertTitle>
 					{errors.map((error) => error)}
 				</Alert>
 			</Collapse>
@@ -19,7 +19,7 @@ const ErrorAlert = ({ errors, show, setShow }) => {
 	return (
 		<Collapse in={show}>
 			<Alert severity='error' onClose={() => setShow(false)}>
-				<AlertTitle>Error</AlertTitle>
+				<AlertTitle>Hata</AlertTitle>
 				{errors.map((error) => error)}
 			</Alert>
 		</Collapse>

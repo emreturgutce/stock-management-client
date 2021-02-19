@@ -67,7 +67,7 @@ export default function SignIn() {
 	};
 
 	const renderErrors = () => {
-		if (errors && errors.length > 0) {
+		if (errors?.length > 0) {
 			return <ErrorAlert errors={errors} />;
 		}
 	};
@@ -128,15 +128,6 @@ export default function SignIn() {
 									onChange={(e) =>
 										setPassword(e.target.value)
 									}
-								/>
-								<FormControlLabel
-									control={
-										<Checkbox
-											value='remember'
-											color='primary'
-										/>
-									}
-									label='Beni hatırla'
 								/>
 								<Button
 									type='submit'
