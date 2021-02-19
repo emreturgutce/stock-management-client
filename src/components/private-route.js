@@ -1,17 +1,26 @@
 import { Route, Redirect } from 'react-router-dom';
 import { useAuthState } from '../hooks';
 
-const PrivateRoute = ({ Children, path }) => {
+const PrivateRoute = ({ component: Component, ...rest }) => {
 	const { isAuthenticated } = useAuthState();
 
-	const routeComponent = (props) =>
-		isAuthenticated ? (
-			<Children />
-		) : (
-			<Redirect to={{ pathname: '/login' }} />
-		);
-
-	return <Route exact path={path} component={routeComponent} />;
+	return (
+		<Route
+			{...rest}
+			render={(props) =>
+				isAuthenticated ? (
+					<Component {...props} />
+				) : (
+					<Redirect
+						to={{
+							pathname: '/login',
+							state: { from: props.location },
+						}}
+					/>
+				)
+			}
+		/>
+	);
 };
 
 export default PrivateRoute;

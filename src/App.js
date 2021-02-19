@@ -64,21 +64,25 @@ const App = () => {
 						path='/user/confirm/:token'
 						component={Confirm}
 					/>
-					<PrivateRoute exact path='/' Children={Home} />
-					<PrivateRoute exact path='/personels' Children={Personel} />
-					<PrivateRoute exact path='/:id' Children={CarDetail} />
-					<PrivateRoute exact path='/:id/edit' Children={CarEdit} />
-					<PrivateRoute exact path='/cars/add' Children={CarAdd} />
-					<PrivateRoute exact path='/cars/chart' Children={Chart} />
+					<PrivateRoute exact path='/' component={Home} />
+					<PrivateRoute
+						exact
+						path='/personels'
+						component={Personel}
+					/>
+					<PrivateRoute exact path='/:id' component={CarDetail} />
+					<PrivateRoute exact path='/:id/edit' component={CarEdit} />
+					<PrivateRoute exact path='/cars/add' component={CarAdd} />
+					<PrivateRoute exact path='/cars/chart' component={Chart} />
 					<PrivateRoute
 						exact
 						path='/personels/profile'
-						Children={Profile}
+						component={Profile}
 					/>
 					<PrivateRoute
 						exact
 						path='/sales/latest'
-						Children={LatestSales}
+						component={LatestSales}
 					/>
 					<Route path='*' component={NotFound} />
 				</Switch>
