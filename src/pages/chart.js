@@ -1,8 +1,8 @@
 import { useEffect, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-	BarChart,
-	Bar,
+	LineChart,
+	Line,
 	CartesianGrid,
 	XAxis,
 	YAxis,
@@ -59,11 +59,11 @@ const Chart = () => {
 					</Grid>
 				</Grid>
 				<Grid item style={{ marginTop: '1rem' }}>
-					<Typography variant='h5' align='center'>
+					<Typography variant='h6' align='center'>
 						1 Aralık 2020 ve 1 Şubat 2021 Arası Satış Grafiği
 					</Typography>
 					<ResponsiveContainer height={400} maxWidth='100%'>
-						<BarChart
+						<LineChart
 							data={sales}
 							margin={{
 								top: 5,
@@ -76,7 +76,7 @@ const Chart = () => {
 							<XAxis dataKey='sale_date' />
 							<YAxis dateKey='count' />
 							<Tooltip />
-							<Bar
+							<Line
 								type='monotone'
 								dataKey='count'
 								onClick={handleClick}
@@ -92,15 +92,9 @@ const Chart = () => {
 										key={`cell-${index}`}
 									/>
 								))}
-							</Bar>
-						</BarChart>
+							</Line>
+						</LineChart>
 					</ResponsiveContainer>
-					{activeItem && (
-						<p>
-							<b>{activeItem?.sale_date}</b> tarihinde{' '}
-							<b>{activeItem?.count}</b> adet araç satılmıştır.
-						</p>
-					)}
 				</Grid>
 			</Grid>
 		</Page>
