@@ -68,14 +68,14 @@ const ForgotPassword = () => {
 				<Grid container spacing={3}>
 					<Grid item style={{ width: '100%' }}>
 						<Typography variant='h5' style={{ fontWeight: 700 }}>
-							Reset Password
+							Şifreni Sıfırla
 						</Typography>
 					</Grid>
 					<Grid item style={{ width: '100%' }}>
 						<p>
-							Enter the email associated with your account and
-							we'll send an email with instructions to reset your
-							password.
+							Hesabına bağlı olan Email adresini gir ve biz
+							Email'ine şifreni sıfırlaman için gerekli komutları
+							göndereceğiz.
 						</p>
 					</Grid>
 
