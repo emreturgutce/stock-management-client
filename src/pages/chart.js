@@ -8,8 +8,9 @@ import {
 	YAxis,
 	Tooltip,
 	Cell,
+	ResponsiveContainer,
 } from 'recharts';
-import { Box, Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { getSales, getTotalProfit, getTotalCustomer } from '../actions';
 import { useCarState } from '../hooks/use-car-state';
 import TotalProfit from '../components/total-profit';
@@ -42,74 +43,66 @@ const Chart = () => {
 
 	return (
 		<Page title='Satış Grafiği'>
-			<div
-				style={{
-					display: 'flex',
-					flexDirection: 'column',
-					alignItems: 'center',
-					width: '90%',
-					margin: '32px auto',
-				}}
+			<Grid
+				container
+				direction='column'
+				alignItems='center'
+				justify='center'
+				style={{ marginTop: '.5rem' }}
 			>
-				<Box style={{ padding: '12px', borderRadius: 6 }}>
-					<Grid container direction='column'>
-						<Grid item sm={12}>
-							<Grid container spacing={3}>
-								<Grid item md={6} sm={12}>
-									<TotalProfit />
-								</Grid>
-								<Grid item md={6} sm={12}>
-									<TotalCustomers />
-								</Grid>
-							</Grid>
-						</Grid>
-						<Grid item sm={12}>
-							<h4>
-								1 Aralık 2020 ve 1 Şubat 2021 Arası Satış
-								Grafiği
-							</h4>
-							<BarChart
-								width={800}
-								height={400}
-								data={sales}
-								margin={{
-									top: 5,
-									right: 20,
-									bottom: 5,
-									left: 0,
-								}}
-							>
-								<CartesianGrid strokeDasharray='5 5' />
-								<XAxis dataKey='sale_date' />
-								<YAxis dateKey='count' />
-								<Tooltip />
-								<Bar
-									type='monotone'
-									dataKey='count'
-									onClick={handleClick}
-								>
-									{sales.map((entry, index) => (
-										<Cell
-											cursor='pointer'
-											fill={
-												index === activeIndex
-													? '#82ca9d'
-													: '#8884d8'
-											}
-											key={`cell-${index}`}
-										/>
-									))}
-								</Bar>
-							</BarChart>
-							<p>
-								<b>{activeItem?.sale_date}</b> tarihinde{' '}
-								<b>{activeItem?.count}</b> adet araç
-								satılmıştır.
-							</p>
-						</Grid>
+				<Grid item container spacing={3} md={8} xs={12}>
+					<Grid item md={6} xs={12}>
+						<TotalProfit />
 					</Grid>
-				</Box>
-			</div>
+					<Grid item md={6} xs={12}>
+						<TotalCustomers />
+					</Grid>
+				</Grid>
+				<Grid item style={{ marginTop: '1rem' }}>
+					<Typography variant='h5' align='center'>
+						1 Aralık 2020 ve 1 Şubat 2021 Arası Satış Grafiği
+					</Typography>
+					<ResponsiveContainer height={400} maxWidth='100%'>
+						<BarChart
+							data={sales}
+							margin={{
+								top: 5,
+								right: 20,
+								bottom: 5,
+								left: 0,
+							}}
+						>
+							<CartesianGrid strokeDasharray='5 5' />
+							<XAxis dataKey='sale_date' />
+							<YAxis dateKey='count' />
+							<Tooltip />
+							<Bar
+								type='monotone'
+								dataKey='count'
+								onClick={handleClick}
+							>
+								{sales.map((entry, index) => (
+									<Cell
+										cursor='pointer'
+										fill={
+											index === activeIndex
+												? '#82ca9d'
+												: '#8884d8'
+										}
+										key={`cell-${index}`}
+									/>
+								))}
+							</Bar>
+						</BarChart>
+					</ResponsiveContainer>
+					{activeItem && (
+						<p>
+							<b>{activeItem?.sale_date}</b> tarihinde{' '}
+							<b>{activeItem?.count}</b> adet araç satılmıştır.
+						</p>
+					)}
+				</Grid>
+			</Grid>
 		</Page>
 	);
 };

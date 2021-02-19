@@ -7,6 +7,7 @@ const CarDetailRow = ({ name, value }) => {
 
 	return (
 		<ListItem
+			key={name}
 			name={name}
 			val={
 				isLoading ? (

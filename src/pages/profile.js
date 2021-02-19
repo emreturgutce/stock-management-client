@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Page from '../components/page';
 import {
@@ -19,8 +20,9 @@ import {
 } from '@material-ui/pickers';
 import { Alert } from '@material-ui/lab';
 import { useAuthState } from '../hooks';
-import { getUser } from '../actions';
 import { BASE_URL } from '../constants';
+import useRefresh from '../hooks/use-refresh';
+import { getUser } from '../actions/auth/get-user';
 
 const ProfileDetails = () => {
 	const { user } = useAuthState();
@@ -31,13 +33,16 @@ const ProfileDetails = () => {
 	const [birthDate, setbirthDate] = useState(new Date(user?.birth_date));
 	const [password, setPassword] = useState('');
 	const [secondpassword, setSecondpassword] = useState('');
+	const history = useHistory();
+	const refresh = useRefresh(history, '/personels/profile');
 	const dispatch = useDispatch();
+
 	const getUserCb = useCallback(() => dispatch(getUser()), [dispatch]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		await fetch(`${BASE_URL}/api/personels/current`, {
+		const res = await fetch(`${BASE_URL}/api/personels/current`, {
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -52,13 +57,16 @@ const ProfileDetails = () => {
 			}),
 		});
 
-		getUserCb();
+		if (res.ok) {
+			getUserCb();
+			refresh();
+		}
 	};
 
 	const handleSubmitPassword = async (e) => {
 		e.preventDefault();
 
-		await fetch(`${BASE_URL}/api/personels/change-password`, {
+		const res = await fetch(`${BASE_URL}/api/personels/change-password`, {
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -68,6 +76,11 @@ const ProfileDetails = () => {
 				password,
 			}),
 		});
+
+		if (res.ok) {
+			getUserCb();
+			refresh();
+		}
 	};
 
 	const handleSubmitEmail = async (e) => {
@@ -85,23 +98,15 @@ const ProfileDetails = () => {
 	return (
 		<Page title='Profil'>
 			<MuiPickersUtilsProvider utils={DateFnsUtils}>
-				<div
-					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						width: '70%',
-						margin: '60px auto',
-					}}
+				<Grid
+					container
+					direction='column'
+					alignItems='center'
+					justify='center'
+					spacing={3}
+					style={{ marginTop: '.5rem' }}
 				>
-					<div
-						style={{
-							width: '100%',
-							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'space-between',
-						}}
-					>
+					<Grid item md={9}>
 						<form autoComplete='off' noValidate>
 							<Card>
 								<CardHeader
@@ -212,16 +217,8 @@ const ProfileDetails = () => {
 								</Box>
 							</Card>
 						</form>
-					</div>
-					<div
-						style={{
-							marginTop: 30,
-							width: '100%',
-							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'space-between',
-						}}
-					>
+					</Grid>
+					<Grid item md={9} style={{ width: '100%' }}>
 						<form
 							autoComplete='off'
 							noValidate
@@ -327,8 +324,8 @@ const ProfileDetails = () => {
 								</Box>
 							</Card>
 						</form>
-					</div>
-				</div>
+					</Grid>
+				</Grid>
 			</MuiPickersUtilsProvider>
 		</Page>
 	);
