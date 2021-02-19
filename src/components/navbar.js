@@ -10,7 +10,13 @@ import {
 	IconButton,
 	Container,
 } from '@material-ui/core';
-import { Add, Equalizer, Home, FormatListBulleted } from '@material-ui/icons';
+import {
+	Add,
+	Equalizer,
+	Home,
+	FormatListBulleted,
+	Person,
+} from '@material-ui/icons';
 import LetterAvatar from './letter-avatar';
 import { useAuthState } from '../hooks';
 
@@ -52,6 +58,19 @@ const Navbar = () => {
 					}}
 				>
 					<div style={{ margin: 'auto' }}>
+						{user?.role === 'ADMIN' && (
+							<RouterLink to='/personels'>
+								<IconButton
+									edge='start'
+									className={classes.menuButton}
+									color='inherit'
+									aria-label='menu'
+								>
+									<Person style={{ fill: '#EEE' }} />
+								</IconButton>
+							</RouterLink>
+						)}
+
 						<RouterLink to='/sales/latest'>
 							<IconButton
 								edge='start'

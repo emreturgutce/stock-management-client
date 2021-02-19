@@ -12,6 +12,7 @@ import CarAdd from './pages/car-add';
 import CarEdit from './pages/car-edit';
 import Chart from './pages/chart';
 import Profile from './pages/profile';
+import Personel from './pages/personel';
 import NotFound from './pages/not-found';
 import LatestSales from './pages/latest-sales';
 import { getUser } from './actions';
@@ -64,6 +65,7 @@ const App = () => {
 						component={Confirm}
 					/>
 					<PrivateRoute exact path='/' Children={Home} />
+					<PrivateRoute exact path='/personels' Children={Personel} />
 					<PrivateRoute exact path='/:id' Children={CarDetail} />
 					<PrivateRoute exact path='/:id/edit' Children={CarEdit} />
 					<PrivateRoute exact path='/cars/add' Children={CarAdd} />
