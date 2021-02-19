@@ -15,6 +15,7 @@ import {
 import validator from 'validator';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { Alert } from '@material-ui/lab';
+import { VerifiedUser, VpnKey } from '@material-ui/icons';
 import { useAuthState } from '../hooks';
 import { BASE_URL } from '../constants';
 import useRefresh from '../hooks/use-refresh';
@@ -100,12 +101,19 @@ const ProfileDetails = () => {
 				justify='center'
 				style={{ marginTop: '.5rem' }}
 			>
-				<Grid item md={9} style={{marginBottom: '1rem'}}>
+				<Grid item md={9} style={{ marginBottom: '1rem' }}>
 					<form autoComplete='off' noValidate>
 						<Card>
 							<CardHeader
 								subheader='Detay bilgileri değiştirilebilir.'
 								title='Profil'
+								avatar={
+									user?.verified && (
+										<VerifiedUser
+											style={{ color: '#4caf50' }}
+										/>
+									)
+								}
 							/>
 							<Divider />
 							<CardContent>
@@ -234,6 +242,7 @@ const ProfileDetails = () => {
 							<CardHeader
 								subheader='Şifreni buradan değiştirebilirsin'
 								title='Şifreni Değiştir'
+								avatar={<VpnKey />}
 							/>
 							<Divider />
 							<CardContent>
