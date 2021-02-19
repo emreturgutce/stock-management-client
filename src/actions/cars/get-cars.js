@@ -18,7 +18,7 @@ export const getCars = () => (dispatch) => {
                         type: CarActionTypes.CARS_LOADED,
                         payload: data,
                     });
-                }, 2000);
+                }, 500);
             } else {
                 dispatch({
                     type: CarActionTypes.CARS_FAIL,
