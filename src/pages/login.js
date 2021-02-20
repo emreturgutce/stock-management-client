@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useHistory, Redirect } from 'react-router-dom';
 import validator from 'validator';
@@ -7,9 +8,6 @@ import {
 	Button,
 	CssBaseline,
 	TextField,
-	FormControlLabel,
-	Checkbox,
-	Link,
 	Grid,
 	Typography,
 	makeStyles,
@@ -67,7 +65,7 @@ export default function SignIn() {
 	};
 
 	const renderErrors = () => {
-		if (errors && errors.length > 0) {
+		if (errors?.length > 0) {
 			return <ErrorAlert errors={errors} />;
 		}
 	};
@@ -129,15 +127,6 @@ export default function SignIn() {
 										setPassword(e.target.value)
 									}
 								/>
-								<FormControlLabel
-									control={
-										<Checkbox
-											value='remember'
-											color='primary'
-										/>
-									}
-									label='Beni hatırla'
-								/>
 								<Button
 									type='submit'
 									fullWidth
@@ -149,9 +138,9 @@ export default function SignIn() {
 								</Button>
 								<Grid container>
 									<Grid item xs>
-										<Link href='#' variant='body2'>
+										<RouterLink to='/forgot-password'>
 											Şifreni mi unuttun?
-										</Link>
+										</RouterLink>
 									</Grid>
 								</Grid>
 							</form>

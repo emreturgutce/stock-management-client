@@ -1,9 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Link as RouterLink, Redirect } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { DataGrid, GridOverlay } from '@material-ui/data-grid';
-import { createStyles, makeStyles, Button, TextField } from '@material-ui/core';
-import { Add, Refresh } from '@material-ui/icons';
-import { useCarState, useAuthState, useGetCars} from '../hooks';
+import {
+	createStyles,
+	makeStyles,
+	Button,
+	TextField,
+	Grid,
+	Container,
+} from '@material-ui/core';
+import { Refresh, HighlightOff } from '@material-ui/icons';
+import { useCarState, useGetCars } from '../hooks';
 import { formatPrice } from '../utils/format-price';
 import Page from '../components/page';
 
@@ -89,7 +96,6 @@ function CustomNoRowsOverlay() {
 const Home = () => {
 	const getCarsCb = useGetCars();
 	const { isLoading, cars } = useCarState();
-	const { isAuthenticated } = useAuthState();
 	const [searchInput, setSearchInput] = useState('');
 	const [carsState, setCarsState] = useState(cars);
 
@@ -131,27 +137,39 @@ const Home = () => {
 				width: 140,
 				valueFormatter: (params) => formatPrice(params.value),
 			},
-			{ field: 'year', width: 100, headerName: 'Yıl' },
+			{ field: 'year', width: 80, headerName: 'Yıl' },
 			{
 				field: 'is_new',
 				headerName: 'Yeni Mi',
 				width: 100,
-				valueFormatter: (params) =>
-					params.value === 'NEW' ? 'Sıfır' : 'İkinci el',
+				renderCell: (params) => (
+					<span style={{ display: 'block', margin: 'auto' }}>
+						{params.value === 'NEW' ? 'Sıfır' : 'İkinci el'}
+					</span>
+				),
 			},
 			{
 				headerName: 'Satıldı Mı',
 				field: 'is_sold',
-				width: 120,
-				valueFormatter: (params) =>
-					params.value === 'SOLD' ? 'Satıldı' : 'Satılmadı',
-			},
-			{
-				field: 'enter_date',
-				width: 130,
-				headerName: 'Giriş Tarihi',
-				valueFormatter: (params) =>
-					new Date(params.value).toLocaleDateString('tr-TR'),
+				width: 100,
+				renderCell: (params) =>
+					params.value === 'SOLD' ? (
+						<svg
+							focusable='false'
+							viewBox='0 0 24 24'
+							style={{ margin: 'auto' }}
+							aria-hidden='true'
+							width='24px'
+							height='24px'
+							fill='#4caf50'
+						>
+							<path d='M20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4C12.76,4 13.5,4.11 14.2, 4.31L15.77,2.74C14.61,2.26 13.34,2 12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0, 0 22,12M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z'></path>
+						</svg>
+					) : (
+						<HighlightOff
+							style={{ fill: '#f44336', margin: 'auto' }}
+						/>
+					),
 			},
 		],
 		rows: carsState.map((car) => ({ ...car, id: car.car_id })),
@@ -164,84 +182,66 @@ const Home = () => {
 	}, [cars, searchInput]);
 
 	return (
-		<>
-			{isAuthenticated ? (
-				<Page title='Anasayfa'>
-					<div
+		<Page title='Anasayfa'>
+			<Container>
+				<Grid
+					container
+					direction='column'
+					alignItems='center'
+					justify='center'
+					style={{ paddingTop: '1rem' }}
+				>
+					<Grid
+						item
+						container
+						direction='row'
+						justify='space-between'
+					>
+						<Grid item>
+							<TextField
+								size='small'
+								id='filled-search'
+								label='Ara'
+								type='search'
+								variant='outlined'
+								value={searchInput}
+								onChange={(e) => setSearchInput(e.target.value)}
+							/>
+						</Grid>
+						<Grid item>
+							<Button
+								variant='contained'
+								style={{
+									marginRight: 5,
+								}}
+								onClick={() => getCarsCb()}
+								startIcon={<Refresh />}
+							>
+								Yenile
+							</Button>
+						</Grid>
+					</Grid>
+					<Grid
+						item
 						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-							width: '90%',
-							margin: '30px auto',
+							height: 720,
+							width: '100%',
+							marginTop: '1rem',
 						}}
 					>
-						<div
-							style={{
-								width: '100%',
-								display: 'flex',
-								flexDirection: 'row',
-								justifyContent: 'space-between',
+						<DataGrid
+							components={{
+								noRowsOverlay: CustomNoRowsOverlay,
 							}}
-						>
-							<div>
-								<TextField
-									size='small'
-									id='filled-search'
-									label='Ara'
-									type='search'
-									variant='outlined'
-									value={searchInput}
-									onChange={(e) =>
-										setSearchInput(e.target.value)
-									}
-								/>
-							</div>
-							<div>
-								<Button
-									variant='contained'
-									style={{
-										marginRight: 5,
-									}}
-									onClick={() => getCarsCb()}
-									startIcon={<Refresh />}
-								>
-									Yenile
-								</Button>
-								<Button
-									variant='contained'
-									color='secondary'
-									to='/cars/add'
-									startIcon={<Add />}
-									component={RouterLink}
-								>
-									Yeni Araba Ekle
-								</Button>
-							</div>
-						</div>
-						<div
-							style={{
-								height: 720,
-								width: '100%',
-								marginTop: 30,
-							}}
-						>
-							<DataGrid
-								components={{
-									noRowsOverlay: CustomNoRowsOverlay,
-								}}
-								pageSize={5}
-								rowHeight={120}
-								loading={isLoading}
-								{...data}
-							/>
-						</div>
-					</div>
-				</Page>
-			) : (
-				<Redirect to='/login' />
-			)}
-		</>
+							pageSize={5}
+							rowHeight={120}
+							loading={isLoading}
+							{...data}
+						/>
+					</Grid>
+				</Grid>
+			</Container>
+		</Page>
 	);
 };
 

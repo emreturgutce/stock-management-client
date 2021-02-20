@@ -5,12 +5,12 @@ import {
 	makeStyles,
 	CircularProgress,
 	AppBar,
-	Toolbar,
 	Button,
 	IconButton,
 	Container,
+	Grid,
 } from '@material-ui/core';
-import { Add, Equalizer, Home, FormatListBulleted } from '@material-ui/icons';
+import { Add, Equalizer, Home, Person } from '@material-ui/icons';
 import LetterAvatar from './letter-avatar';
 import { useAuthState } from '../hooks';
 
@@ -24,11 +24,6 @@ const useStyles = makeStyles((theme) =>
 		},
 		title: {
 			flexGrow: 1,
-		},
-		flex: {
-			display: 'flex',
-			flexDirection: 'row',
-			justifyContent: 'space-between',
 		},
 	}),
 );
@@ -44,54 +39,51 @@ const Navbar = () => {
 
 		if (isAuth) {
 			return (
-				<div
-					style={{
-						display: 'flex',
-						flexDirection: 'row',
-						justifyContent: 'center',
-					}}
+				<Grid
+					item
+					container
+					direction='row'
+					alignItems='center'
+					justify='center'
 				>
-					<div style={{ margin: 'auto' }}>
-						<RouterLink to='/sales/latest'>
+					{user?.role === 'ADMIN' && (
+						<RouterLink to='/personels'>
 							<IconButton
 								edge='start'
 								className={classes.menuButton}
 								color='inherit'
 								aria-label='menu'
 							>
-								<FormatListBulleted style={{ fill: '#EEE' }} />
+								<Person style={{ fill: '#EEE' }} />
 							</IconButton>
 						</RouterLink>
-						<RouterLink to='/cars/chart'>
-							<IconButton
-								edge='start'
-								className={classes.menuButton}
-								color='inherit'
-								aria-label='menu'
-							>
-								<Equalizer
-									style={{ fill: '#EEE' }}
-									width='125%'
-								/>
-							</IconButton>
-						</RouterLink>
-						<RouterLink to='/cars/add'>
-							<IconButton
-								edge='start'
-								className={classes.menuButton}
-								color='inherit'
-								aria-label='menu'
-							>
-								<Add style={{ fill: '#EEE' }} width='125%' />
-							</IconButton>
-						</RouterLink>
-					</div>
+					)}
+					<RouterLink to='/cars/chart'>
+						<IconButton
+							edge='start'
+							className={classes.menuButton}
+							color='inherit'
+							aria-label='menu'
+						>
+							<Equalizer style={{ fill: '#EEE' }} width='125%' />
+						</IconButton>
+					</RouterLink>
+					<RouterLink to='/cars/add'>
+						<IconButton
+							edge='start'
+							className={classes.menuButton}
+							color='inherit'
+							aria-label='menu'
+						>
+							<Add style={{ fill: '#EEE' }} width='125%' />
+						</IconButton>
+					</RouterLink>
 					<LetterAvatar
 						firstLetter={
 							user.first_name.toUpperCase().charAt(0) || 'U'
 						}
 					/>
-				</div>
+				</Grid>
 			);
 		}
 
@@ -103,10 +95,10 @@ const Navbar = () => {
 	};
 
 	return (
-		<div className={classes.root}>
-			<AppBar position='static'>
-				<Container>
-					<Toolbar className={classes.flex}>
+		<AppBar position='static'>
+			<Container>
+				<Grid container alignItems='center' justify='space-between'>
+					<Grid item>
 						<RouterLink to='/'>
 							<IconButton
 								edge='start'
@@ -117,11 +109,11 @@ const Navbar = () => {
 								<Home style={{ fill: '#EEE' }} width='125%' />
 							</IconButton>
 						</RouterLink>
-						{renderPhoto()}
-					</Toolbar>
-				</Container>
-			</AppBar>
-		</div>
+					</Grid>
+					<Grid item>{renderPhoto()}</Grid>
+				</Grid>
+			</Container>
+		</AppBar>
 	);
 };
 

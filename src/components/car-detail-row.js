@@ -7,10 +7,12 @@ const CarDetailRow = ({ name, value }) => {
 
 	return (
 		<ListItem
+			key={name}
 			name={name}
 			val={
 				isLoading ? (
 					<Loader
+						key={name}
 						name={name}
 						header={false}
 						rowCount={1}

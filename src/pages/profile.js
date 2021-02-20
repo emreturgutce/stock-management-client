@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Page from '../components/page';
 import {
@@ -10,15 +11,16 @@ import {
 	Divider,
 	Grid,
 	TextField,
+	Container,
 } from '@material-ui/core';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-	MuiPickersUtilsProvider,
-	KeyboardDatePicker,
-} from '@material-ui/pickers';
+import validator from 'validator';
+import { KeyboardDatePicker } from '@material-ui/pickers';
+import { Alert } from '@material-ui/lab';
+import { VerifiedUser, VpnKey } from '@material-ui/icons';
 import { useAuthState } from '../hooks';
-import { getUser } from '../actions';
 import { BASE_URL } from '../constants';
+import useRefresh from '../hooks/use-refresh';
+import { getUser } from '../actions/auth/get-user';
 
 const ProfileDetails = () => {
 	const { user } = useAuthState();
@@ -27,13 +29,18 @@ const ProfileDetails = () => {
 	const [email, setEmail] = useState(user?.email);
 	const [gender, setGender] = useState(user?.gender);
 	const [birthDate, setbirthDate] = useState(new Date(user?.birth_date));
+	const [password, setPassword] = useState('');
+	const [secondpassword, setSecondpassword] = useState('');
+	const history = useHistory();
+	const refresh = useRefresh(history, '/personels/profile');
 	const dispatch = useDispatch();
+
 	const getUserCb = useCallback(() => dispatch(getUser()), [dispatch]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		await fetch(`${BASE_URL}/api/personels/current`, {
+		const res = await fetch(`${BASE_URL}/api/personels/current`, {
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -48,34 +55,67 @@ const ProfileDetails = () => {
 			}),
 		});
 
-		getUserCb();
+		if (res.ok) {
+			getUserCb();
+			refresh();
+		}
+	};
+
+	const handleSubmitPassword = async (e) => {
+		e.preventDefault();
+
+		const res = await fetch(`${BASE_URL}/api/personels/change-password`, {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			method: 'POST',
+			credentials: 'include',
+			body: JSON.stringify({
+				password,
+			}),
+		});
+
+		if (res.ok) {
+			getUserCb();
+			refresh();
+		}
+	};
+
+	const handleSubmitEmail = async (e) => {
+		e.preventDefault();
+
+		await fetch(`${BASE_URL}/api/personels/verify`, {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			method: 'GET',
+			credentials: 'include',
+		});
 	};
 
 	return (
 		<Page title='Profil'>
-			<MuiPickersUtilsProvider utils={DateFnsUtils}>
-				<div
-					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						width: '70%',
-						margin: '60px auto',
-					}}
+			<Container>
+				<Grid
+					container
+					direction='column'
+					alignItems='center'
+					justify='center'
+					style={{ marginTop: '.5rem' }}
 				>
-					<div
-						style={{
-							width: '100%',
-							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'space-between',
-						}}
-					>
+					<Grid item style={{ marginBottom: '1rem', width: '100%' }}>
 						<form autoComplete='off' noValidate>
 							<Card>
 								<CardHeader
 									subheader='Detay bilgileri değiştirilebilir.'
 									title='Profil'
+									avatar={
+										user?.verified && (
+											<VerifiedUser
+												style={{ color: '#4caf50' }}
+											/>
+										)
+									}
 								/>
 								<Divider />
 								<CardContent>
@@ -114,6 +154,7 @@ const ProfileDetails = () => {
 												onChange={(e) =>
 													setEmail(e.target.value)
 												}
+												disabled={user?.verified}
 												required
 												value={email}
 												variant='outlined'
@@ -129,6 +170,7 @@ const ProfileDetails = () => {
 												id='birth_date'
 												label='Doğum Tarihi'
 												value={birthDate}
+												lang
 												onChange={(date) =>
 													setbirthDate(date)
 												}
@@ -180,9 +222,117 @@ const ProfileDetails = () => {
 								</Box>
 							</Card>
 						</form>
-					</div>
-				</div>
-			</MuiPickersUtilsProvider>
+					</Grid>
+					<Grid item style={{ width: '100%' }}>
+						<form
+							autoComplete='off'
+							noValidate
+							style={{ width: '100%' }}
+						>
+							<Card>
+								{!user.verified && (
+									<Alert
+										severity='warning'
+										action={
+											<Button
+												color='inherit'
+												size='small'
+												onClick={handleSubmitEmail}
+											>
+												Onaylama e-mail'i gönder
+											</Button>
+										}
+									>
+										Şifreni değiştirebilmen için e-mail
+										adresini onaylaman gerek.
+									</Alert>
+								)}
+
+								<CardHeader
+									subheader='Şifreni buradan değiştirebilirsin'
+									title='Şifreni Değiştir'
+									avatar={<VpnKey />}
+								/>
+								<Divider />
+								<CardContent>
+									<Grid container spacing={3}>
+										<Grid item md={6} xs={12}>
+											<TextField
+												variant='outlined'
+												margin='normal'
+												required
+												fullWidth
+												name='password'
+												label='Şifre'
+												type='password'
+												id='password'
+												error={
+													password !== '' &&
+													!validator.isLength(
+														password,
+														{
+															min: 6,
+														},
+													)
+												}
+												autoComplete='current-password'
+												value={password}
+												onChange={(e) =>
+													setPassword(e.target.value)
+												}
+											/>
+										</Grid>
+										<Grid item md={6} xs={12}>
+											<TextField
+												variant='outlined'
+												margin='normal'
+												required
+												fullWidth
+												name='secondpassword'
+												label='Şifre Tekrar'
+												type='password'
+												id='secondpassword'
+												error={
+													secondpassword !== '' &&
+													!validator.isLength(
+														secondpassword,
+														{
+															min: 6,
+														},
+													) &&
+													secondpassword !== password
+												}
+												autoComplete='current-password'
+												value={secondpassword}
+												onChange={(e) =>
+													setSecondpassword(
+														e.target.value,
+													)
+												}
+											/>
+										</Grid>
+									</Grid>
+								</CardContent>
+								<Divider />
+								<Box
+									display='flex'
+									justifyContent='flex-end'
+									p={2}
+								>
+									<Button
+										color='primary'
+										variant='contained'
+										onClick={handleSubmitPassword}
+										disabled={!user?.verified}
+									>
+										Şifreyi Kaydet
+									</Button>
+								</Box>
+							</Card>
+						</form>
+					</Grid>
+				</Grid>
+			</Container>
 		</Page>
 	);
 };

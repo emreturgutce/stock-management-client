@@ -54,7 +54,12 @@ export default function LetterAvatar({ firstLetter }) {
 				open={Boolean(anchorEl)}
 				onClose={handleClose}
 			>
-				<MenuItem onClick={() => history.push('/personels/profile')}>
+				<MenuItem
+					onClick={() => {
+						handleClose();
+						history.push('/personels/profile');
+					}}
+				>
 					Profil
 				</MenuItem>
 				<MenuItem onClick={handleLout}>Çıkış</MenuItem>

@@ -12,10 +12,13 @@ import CarAdd from './pages/car-add';
 import CarEdit from './pages/car-edit';
 import Chart from './pages/chart';
 import Profile from './pages/profile';
+import Personel from './pages/personel';
 import NotFound from './pages/not-found';
-import LatestSales from './pages/latest-sales';
 import { getUser } from './actions';
 import { useAuthState } from './hooks';
+import ForgotPassword from './pages/forgot-password';
+import ChangePassword from './pages/change-password';
+import Confirm from './pages/confirm';
 
 const App = () => {
 	const { isLoading } = useAuthState();
@@ -45,20 +48,35 @@ const App = () => {
 			) : (
 				<Switch>
 					<Route exact path='/login' component={Login} />
-					<PrivateRoute exact path='/' Children={Home} />
-					<PrivateRoute exact path='/:id' Children={CarDetail} />
-					<PrivateRoute exact path='/:id/edit' Children={CarEdit} />
-					<PrivateRoute exact path='/cars/add' Children={CarAdd} />
-					<PrivateRoute exact path='/cars/chart' Children={Chart} />
+					<Route
+						exact
+						path='/forgot-password'
+						component={ForgotPassword}
+					/>
+					<Route
+						exact
+						path='/user/change-password/:token'
+						component={ChangePassword}
+					/>
+					<Route
+						exact
+						path='/user/confirm/:token'
+						component={Confirm}
+					/>
+					<PrivateRoute exact path='/' component={Home} />
+					<PrivateRoute
+						exact
+						path='/personels'
+						component={Personel}
+					/>
+					<PrivateRoute exact path='/:id' component={CarDetail} />
+					<PrivateRoute exact path='/:id/edit' component={CarEdit} />
+					<PrivateRoute exact path='/cars/add' component={CarAdd} />
+					<PrivateRoute exact path='/cars/chart' component={Chart} />
 					<PrivateRoute
 						exact
 						path='/personels/profile'
-						Children={Profile}
-					/>
-					<PrivateRoute
-						exact
-						path='/sales/latest'
-						Children={LatestSales}
+						component={Profile}
 					/>
 					<Route path='*' component={NotFound} />
 				</Switch>

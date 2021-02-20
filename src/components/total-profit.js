@@ -7,7 +7,6 @@ import {
 	Typography,
 	makeStyles,
 	colors,
-	Box,
 } from '@material-ui/core';
 import { AttachMoney, ArrowUpward } from '@material-ui/icons';
 import { useCarState } from '../hooks/use-car-state';
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 		height: '100%',
 	},
 	avatar: {
-		backgroundColor: colors.indigo[600],
+		backgroundColor: colors.teal['500'],
 		height: 56,
 		width: 56,
 	},
@@ -46,13 +45,13 @@ const TotalProfit = () => {
 							gutterBottom
 							variant='h6'
 						>
-							TOPLAM KAR
+							Toplam Kar
 						</Typography>
-						<Typography color='textPrimary' variant='h3'>
+						<Typography color='textPrimary' variant='h5'>
 							<AnimatedNumber
 								value={totalProfit}
 								formatValue={(value) => formatPrice(value)}
-								duration={2000}
+								duration={1000}
 							/>
 						</Typography>
 					</Grid>
@@ -62,8 +61,12 @@ const TotalProfit = () => {
 						</Avatar>
 					</Grid>
 				</Grid>
-
-				<Box mt={2} display='flex' alignItems='center'>
+				<Grid
+					container
+					item
+					alignItems='center'
+					style={{ marginTop: '1rem' }}
+				>
 					<ArrowUpward className={classes.differenceIcon} />
 					<Typography
 						className={classes.differenceValue}
@@ -79,7 +82,7 @@ const TotalProfit = () => {
 					<Typography color='textSecondary' variant='caption'>
 						Geçen aydan beri
 					</Typography>
-				</Box>
+				</Grid>
 			</CardContent>
 		</Card>
 	);
