@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 		height: '100%',
 	},
 	avatar: {
-		backgroundColor: colors.indigo[600],
+		backgroundColor: colors.teal['500'],
 		height: 56,
 		width: 56,
 	},
@@ -45,7 +45,7 @@ const TotalProfit = () => {
 							gutterBottom
 							variant='h6'
 						>
-							TOPLAM KAR
+							Toplam Kar
 						</Typography>
 						<Typography color='textPrimary' variant='h5'>
 							<AnimatedNumber

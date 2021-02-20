@@ -34,6 +34,7 @@ import {
 import { useCarState } from '../hooks/use-car-state';
 import TotalProfit from '../components/total-profit';
 import TotalCustomers from '../components/total-customers';
+import TotalRevenue from '../components/total-revenue';
 import Page from '../components/page';
 import { formatPrice } from '../utils/format-price';
 
@@ -90,7 +91,7 @@ const Chart = () => {
 
 						{/* !TODO CHANGE THIS */}
 						<Grid item md={4} xs={12}>
-							<TotalCustomers />
+							<TotalRevenue />
 						</Grid>
 					</Grid>
 					<Grid
@@ -101,11 +102,8 @@ const Chart = () => {
 						style={{ marginTop: '1rem' }}
 					>
 						<Grid item md={6} sm={12}>
-							<Card style={{height: '100%'}}>
-								<CardHeader
-									title='1 Aralık 2020 ve 1 Şubat 2021 Arası Satış
-								Grafiği'
-								/>
+							<Card style={{ height: '100%' }}>
+								<CardHeader title='Satış Grafiği' />
 								<Divider />
 								<ResponsiveContainer
 									height={400}

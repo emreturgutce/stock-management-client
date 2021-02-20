@@ -45,7 +45,7 @@ const TotalCustomers = ({ className, ...rest }) => {
 							gutterBottom
 							variant='h6'
 						>
-							TOPLAM MÜŞTERİ
+							Toplam Müşteri
 						</Typography>
 						<Typography color='textPrimary' variant='h5'>
 							<AnimatedNumber
