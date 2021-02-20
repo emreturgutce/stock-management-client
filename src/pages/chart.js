@@ -80,7 +80,7 @@ const Chart = () => {
 					justify='center'
 					style={{ marginTop: '.5rem' }}
 				>
-					<Grid item container spacing={3} md={10} xs={12}>
+					<Grid item container spacing={1} md={12} xs={12}>
 						<Grid item md={4} xs={12}>
 							<TotalProfit />
 						</Grid>
@@ -97,17 +97,11 @@ const Chart = () => {
 						item
 						container
 						justify='center'
-						alignItems='center'
 						direction='row'
 						style={{ marginTop: '1rem' }}
 					>
-						<Grid
-							item
-							md={6}
-							sm={12}
-							style={{ marginBottom: '1rem' }}
-						>
-							<Card>
+						<Grid item md={6} sm={12}>
+							<Card style={{height: '100%'}}>
 								<CardHeader
 									title='1 Aralık 2020 ve 1 Şubat 2021 Arası Satış
 								Grafiği'
