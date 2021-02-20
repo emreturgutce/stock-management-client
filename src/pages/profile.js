@@ -266,6 +266,7 @@ const ProfileDetails = () => {
 												label='Şifre'
 												type='password'
 												id='password'
+												disabled={!user?.verified}
 												error={
 													password !== '' &&
 													!validator.isLength(
@@ -292,6 +293,7 @@ const ProfileDetails = () => {
 												label='Şifre Tekrar'
 												type='password'
 												id='secondpassword'
+												disabled={!user?.verified}
 												error={
 													secondpassword !== '' &&
 													!validator.isLength(
