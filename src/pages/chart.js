@@ -1,5 +1,6 @@
 import { useEffect, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
 import {
 	LineChart,
 	Line,
@@ -170,7 +171,11 @@ const Chart = () => {
 														{sale.serial_number}
 													</TableCell>
 													<TableCell>
-														{sale.title}
+														<RouterLink
+															to={`/${sale.car_id}`}
+														>
+															{sale.title}
+														</RouterLink>
 													</TableCell>
 													<TableCell>
 														<Chip
