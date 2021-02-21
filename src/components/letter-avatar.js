@@ -8,6 +8,7 @@ import {
 	Button,
 	Menu,
 	MenuItem,
+	Typography,
 } from '@material-ui/core';
 import { AccountCircle, ExitToApp } from '@material-ui/icons';
 import { deepOrange } from '@material-ui/core/colors';
@@ -64,13 +65,13 @@ export default function LetterAvatar({ firstLetter }) {
 					<AccountCircle
 						style={{ marginRight: '1rem', color: '#1769aa' }}
 					/>
-					<span>Profil</span>
+					<Typography variant='span'>Profil</Typography>
 				</MenuItem>
 				<MenuItem onClick={handleLout}>
 					<ExitToApp
 						style={{ marginRight: '1rem', color: '#1769aa' }}
 					/>
-					<span>Çıkış</span>
+					<Typography variant='span'>Çıkış</Typography>
 				</MenuItem>
 			</Menu>
 		</div>
