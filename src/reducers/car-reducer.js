@@ -10,6 +10,7 @@ const initialState = {
 	latestSales: [],
 	totalProfit: 0,
 	totalCustomer: 0,
+	totalRevenue: 0,
 	errors: [],
 };
 
@@ -120,6 +121,11 @@ export function carReducer(state = initialState, action) {
 			return {
 				...state,
 				totalCustomer: action.payload,
+			};
+		case CarActionTypes.TOTAL_REVENUE:
+			return {
+				...state,
+				totalRevenue: action.payload,
 			};
 		case CarActionTypes.LATEST_SALES_LOADING:
 			return {
