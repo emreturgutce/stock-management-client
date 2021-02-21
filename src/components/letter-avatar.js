@@ -9,6 +9,7 @@ import {
 	Menu,
 	MenuItem,
 } from '@material-ui/core';
+import { AccountCircle, ExitToApp } from '@material-ui/icons';
 import { deepOrange } from '@material-ui/core/colors';
 import { logout } from '../actions';
 
@@ -60,9 +61,17 @@ export default function LetterAvatar({ firstLetter }) {
 						history.push('/personels/profile');
 					}}
 				>
-					Profil
+					<AccountCircle
+						style={{ marginRight: '1rem', color: '#1769aa' }}
+					/>
+					<span>Profil</span>
 				</MenuItem>
-				<MenuItem onClick={handleLout}>Çıkış</MenuItem>
+				<MenuItem onClick={handleLout}>
+					<ExitToApp
+						style={{ marginRight: '1rem', color: '#1769aa' }}
+					/>
+					<span>Çıkış</span>
+				</MenuItem>
 			</Menu>
 		</div>
 	);

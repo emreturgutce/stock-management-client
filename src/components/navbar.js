@@ -46,7 +46,7 @@ const Navbar = () => {
 					alignItems='center'
 					justify='center'
 				>
-					{user?.role === 'ADMIN' && (
+					{/*{user?.role === 'ADMIN' && (
 						<RouterLink to='/personels'>
 							<IconButton
 								edge='start'
@@ -57,7 +57,7 @@ const Navbar = () => {
 								<Person style={{ fill: '#EEE' }} />
 							</IconButton>
 						</RouterLink>
-					)}
+					)}*/}
 					<RouterLink to='/cars/chart'>
 						<IconButton
 							edge='start'
