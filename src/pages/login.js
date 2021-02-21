@@ -60,7 +60,9 @@ export default function SignIn() {
 		) {
 			login(email, password);
 
-			history.push('/');
+			setTimeout(() => {
+				history.push('/');
+			}, 1000);
 		}
 	};
 
