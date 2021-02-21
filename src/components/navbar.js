@@ -10,7 +10,7 @@ import {
 	Container,
 	Grid,
 } from '@material-ui/core';
-import { Add, Equalizer, Home, Person } from '@material-ui/icons';
+import { Add, Equalizer, Home } from '@material-ui/icons';
 import LetterAvatar from './letter-avatar';
 import { useAuthState } from '../hooks';
 
