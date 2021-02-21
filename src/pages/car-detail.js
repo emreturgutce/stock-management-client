@@ -173,7 +173,7 @@ const CarDetail = () => {
 								onClick={() => setOpenModal(true)}
 								src={car.image_url || '/araba2.jpg'}
 								alt='araba'
-								width='85%'
+								width='90%'
 								style={{
 									cursor: 'pointer',
 									'&hover': { opacity: 0.8 },
@@ -419,6 +419,18 @@ const CarDetail = () => {
 								<hr />
 								<Grid container spacing={2}>
 									<CarDetailRow
+										key={car.enter_date}
+										name={'Giriş tarihi'}
+										value={new Date(
+											car.enter_date,
+										).toLocaleDateString('tr-TR')}
+									/>
+									<CarDetailRow
+										key={car.car_brand}
+										name='Marka'
+										value={car.car_brand}
+									/>
+									<CarDetailRow
 										key={car.model}
 										name={'Model'}
 										value={car.model}
@@ -427,6 +439,11 @@ const CarDetail = () => {
 										key={car.year}
 										name={'Yıl'}
 										value={car.year}
+									/>
+									<CarDetailRow
+										key={car.car_color}
+										name='Renk'
+										value={car.car_color}
 									/>
 									<CarDetailRow
 										key={car.is_new}
@@ -438,15 +455,8 @@ const CarDetail = () => {
 										}
 									/>
 									<CarDetailRow
-										key={car.enter_date}
-										name={'Giriş tarihi'}
-										value={new Date(car.enter_date)
-											.toLocaleString('tr-TR')
-											.replace(/03:00:00/, '')}
-									/>
-									<CarDetailRow
 										key={car.purchase_price}
-										name='Alış Fiyatı'
+										name='Stoğa Giriş Fiyatı'
 										value={formatPrice(car.purchase_price)}
 									/>
 									<CarDetailRow
@@ -459,14 +469,9 @@ const CarDetail = () => {
 										}
 									/>
 									<CarDetailRow
-										key={car.car_brand}
-										name='Marka'
-										value={car.car_brand}
-									/>
-									<CarDetailRow
-										key={car.car_color}
-										name='Renk'
-										value={car.car_color}
+										key={car.first_name}
+										name='Personel İsmi'
+										value={`${car.first_name} ${car.last_name}`}
 									/>
 								</Grid>
 							</Grid>
