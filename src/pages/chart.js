@@ -37,6 +37,7 @@ import TotalCustomers from '../components/total-customers';
 import TotalRevenue from '../components/total-revenue';
 import Page from '../components/page';
 import { formatPrice } from '../utils/format-price';
+import { getTotalRevenue } from '../actions/cars/get-total-revenue';
 
 const Chart = () => {
 	const dispatch = useDispatch();
@@ -49,6 +50,9 @@ const Chart = () => {
 	const getTotalCustomerCb = useCallback(() => dispatch(getTotalCustomer()), [
 		dispatch,
 	]);
+	const getTotalRevenueCb = useCallback(() => dispatch(getTotalRevenue()), [
+		dispatch,
+	]);
 	const [activeIndex, setActiveIndex] = useState(0);
 	// eslint-disable-next-line no-unused-vars
 	const [_, setActiveItem] = useState(sales[activeIndex]);
@@ -58,6 +62,7 @@ const Chart = () => {
 	useEffect(getSalesCb, [getSalesCb]);
 	useEffect(getTotalProfitCb, [getTotalProfitCb]);
 	useEffect(getTotalCustomerCb, [getTotalCustomerCb]);
+	useEffect(getTotalRevenueCb, [getTotalRevenueCb]);
 
 	useEffect(() => {
 		setActiveItem(sales[activeIndex]);
