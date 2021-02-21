@@ -176,7 +176,7 @@ const Chart = () => {
 														<Chip
 															color='primary'
 															label={formatPrice(
-																sale.purchase_price,
+																sale.price,
 															)}
 															size='small'
 														/>
