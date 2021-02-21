@@ -18,7 +18,7 @@ import {
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-import { Delete, Refresh, Edit, Close } from '@material-ui/icons';
+import { Delete, Refresh, Edit, Close, ShoppingCart } from '@material-ui/icons';
 import { BASE_URL } from '../constants';
 import Loader from '../components/content-loader';
 import CarDetailRow from '../components/car-detail-row';
@@ -91,8 +91,9 @@ const CarDetail = () => {
 
 		if (saleRes.ok) {
 			setIsSuccess(true);
-			setTimeout(handleRefresh, 5000);
-			setTimeout(() => setIsSuccess(false), 5000);
+			setTimeout(() => {
+				setIsSuccess(false);
+			}, 2000);
 		} else {
 			setIsError(true);
 		}
@@ -328,17 +329,16 @@ const CarDetail = () => {
 														onClick={() =>
 															setOpen(true)
 														}
+														children={
+															<ShoppingCart />
+														}
 														disabled={
 															car.is_sold ===
 															'SOLD'
 																? true
 																: false
 														}
-													>
-														{car.is_sold === 'SOLD'
-															? 'Satıldı'
-															: 'Sat'}
-													</Button>
+													/>
 												</Grid>
 											)}
 
