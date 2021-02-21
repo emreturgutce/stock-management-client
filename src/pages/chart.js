@@ -106,7 +106,7 @@ const Chart = () => {
 						direction='row'
 						style={{ marginTop: '1rem' }}
 					>
-						<Grid item md={6} sm={12}>
+						<Grid item md={6} sm={12} style={{ width: '100%' }}>
 							<Card style={{ height: '100%' }}>
 								<CardHeader title='Satış Grafiği' />
 								<Divider />
