@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TotalRevenue = ({ className, ...rest }) => {
-	const { totalProfit } = useCarState();
+	const { totalRevenue } = useCarState();
 	const classes = useStyles();
 
 	return (
@@ -50,7 +50,7 @@ const TotalRevenue = ({ className, ...rest }) => {
 						</Typography>
 						<Typography color='textPrimary' variant='h5'>
 							<AnimatedNumber
-								value={totalProfit}
+								value={totalRevenue}
 								duration={1000}
 								formatValue={(value) => formatPrice(value)}
 							/>
