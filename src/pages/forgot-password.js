@@ -9,13 +9,9 @@ import {
 import validator from 'validator';
 import { toast } from 'react-toastify';
 import { BASE_URL } from '../constants';
-import ErrorAlert from '../components/error-alert';
 
 const ForgotPassword = () => {
 	const [email, setEmail] = useState('');
-	const [sent, setSent] = useState(false);
-	const [errors, setErrors] = useState();
-	const [showError, setShowError] = useState(false);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
@@ -32,15 +28,18 @@ const ForgotPassword = () => {
 		});
 
 		if (res.ok) {
-			toast.success('Şifre sıfırlama kodu mailinize başarılı bir şekilde gönderildi.', {
-				position: 'top-center',
-				autoClose: 5000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-			});
+			toast.success(
+				'Şifre sıfırlama kodu mailinize başarılı bir şekilde gönderildi.',
+				{
+					position: 'top-center',
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				},
+			);
 		} else {
 			toast.error(
 				`Bir hata oluştu kod gönderilemedi! Lütfen girdiğiniz maili 
@@ -54,18 +53,6 @@ const ForgotPassword = () => {
 					draggable: true,
 					progress: undefined,
 				},
-			);
-		}
-	};
-
-	const renderAlert = () => {
-		if (errors) {
-			return (
-				<ErrorAlert
-					errors={errors}
-					show={showError}
-					setShow={setShowError}
-				/>
 			);
 		}
 	};
@@ -94,10 +81,6 @@ const ForgotPassword = () => {
 							göndereceğiz.
 						</p>
 					</Grid>
-
-					<Grid item style={{ width: '100%' }}>
-						{renderAlert()}
-					</Grid>
 					<Grid item style={{ width: '100%' }}>
 						<TextField
 							variant='outlined'
@@ -120,9 +103,8 @@ const ForgotPassword = () => {
 							fullWidth
 							variant='contained'
 							color='primary'
-							disabled={sent}
 						>
-							{sent ? 'Kod Gönderildi' : 'Kodu Gönder'}
+							Kodu Gönder
 						</Button>
 					</Grid>
 				</Grid>
