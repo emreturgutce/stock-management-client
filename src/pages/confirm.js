@@ -2,6 +2,7 @@ import { useEffect, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Container, Button } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import { toast } from 'react-toastify';
 import { BASE_URL } from '../constants';
 
 const Confirm = () => {
@@ -9,12 +10,37 @@ const Confirm = () => {
 	const history = useHistory();
 
 	const onSubmit = async () => {
-		await fetch(`${BASE_URL}/api/personels/verify/${token}`, {
+		const res = await fetch(`${BASE_URL}/api/personels/verify/${token}`, {
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			credentials: 'include',
 		});
+
+		if (res.ok) {
+			toast.success('Mailiniz başarılı bir şekilde onaylandı.', {
+				position: 'top-center',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		} else {
+			toast.error(
+				'Mail onaylanma işlemi başarısız lütfen tekrar deneyiniz.',
+				{
+					position: 'top-center',
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				},
+			);
+		}
 	};
 
 	// eslint-disable-next-line react-hooks/exhaustive-deps
