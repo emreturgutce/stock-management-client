@@ -186,7 +186,7 @@ const Home = () => {
 	const handleRefresh = () => {
 		setDisableRefresh(true)
 		getCarsCb();
-		toast.success('Araba bilgileri güncellendi.', {
+		toast.info('Araba bilgileri güncellendi.', {
 			position: 'top-center',
 			autoclose: 5000,
 			hideprogressbar: false,

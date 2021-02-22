@@ -11,7 +11,7 @@ export const logout = () => (dispatch) => {
 			dispatch({
 				type: AuthActionTypes.LOGOUT_SUCCESS,
 			});
-			toast.success('Çıkış işlemi başarılı.', {
+			toast.info('Çıkış işlemi başarılı.', {
 				position: 'top-center',
 				autoclose: 5000,
 				hideprogressbar: false,

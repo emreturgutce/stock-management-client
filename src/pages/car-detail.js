@@ -65,7 +65,7 @@ const CarDetail = () => {
 		setDisableRefresh(true);
 		getCarsCb();
 		setCar(cars.find((car) => car?.car_id === id));
-		toast.success('Araba bilgileri güncellendi.', {
+		toast.info('Araba bilgileri güncellendi.', {
 			position: 'top-center',
 			autoclose: 5000,
 			hideprogressbar: false,
