@@ -1,16 +1,6 @@
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
-import {
-	LineChart,
-	Line,
-	CartesianGrid,
-	XAxis,
-	YAxis,
-	Tooltip,
-	Cell,
-	ResponsiveContainer,
-} from 'recharts';
 import {
 	Grid,
 	Button,
@@ -39,10 +29,10 @@ import TotalRevenue from '../components/total-revenue';
 import Page from '../components/page';
 import { formatPrice } from '../utils/format-price';
 import { getTotalRevenue } from '../actions/cars/get-total-revenue';
+import LChart from '../components/line-chart';
 
 const Chart = () => {
 	const dispatch = useDispatch();
-	const { sales } = useCarState();
 	const getSalesCb = useCallback(() => dispatch(getSales()), [dispatch]);
 	const getTotalProfitCb = useCallback(() => dispatch(getTotalProfit()), [
 		dispatch,
@@ -54,20 +44,11 @@ const Chart = () => {
 	const getTotalRevenueCb = useCallback(() => dispatch(getTotalRevenue()), [
 		dispatch,
 	]);
-	const [activeIndex, setActiveIndex] = useState(0);
-	// eslint-disable-next-line no-unused-vars
-	const [_, setActiveItem] = useState(sales[activeIndex]);
-
-	const handleClick = (data, index) => setActiveIndex(index);
 
 	useEffect(getSalesCb, [getSalesCb]);
 	useEffect(getTotalProfitCb, [getTotalProfitCb]);
 	useEffect(getTotalCustomerCb, [getTotalCustomerCb]);
 	useEffect(getTotalRevenueCb, [getTotalRevenueCb]);
-
-	useEffect(() => {
-		setActiveItem(sales[activeIndex]);
-	}, [activeIndex, sales]);
 
 	const { latestSales } = useCarState();
 
@@ -94,8 +75,6 @@ const Chart = () => {
 						<Grid item md={4} xs={12}>
 							<TotalCustomers />
 						</Grid>
-
-						{/* !TODO CHANGE THIS */}
 						<Grid item md={4} xs={12}>
 							<TotalRevenue />
 						</Grid>
@@ -109,39 +88,25 @@ const Chart = () => {
 					>
 						<Grid item md={6} sm={12} style={{ width: '100%' }}>
 							<Card style={{ height: '100%' }}>
-								<CardHeader title='Satış Grafiği' />
-								<Divider />
-								<ResponsiveContainer
-									height={400}
-									maxWidth='100%'
+								<Grid
+									container
+									direction='column'
+									justify='space-between'
+									style={{ height: '100%' }}
 								>
-									<LineChart
-										data={sales}
-										style={{ left: '-1rem' }}
-									>
-										<CartesianGrid strokeDasharray='5 5' />
-										<XAxis dataKey='sale_date' />
-										<YAxis dateKey='count' />
-										<Tooltip />
-										<Line
-											type='monotone'
-											dataKey='count'
-											onClick={handleClick}
-										>
-											{sales.map((entry, index) => (
-												<Cell
-													cursor='pointer'
-													fill={
-														index === activeIndex
-															? '#82ca9d'
-															: '#8884d8'
-													}
-													key={`cell-${index}`}
-												/>
-											))}
-										</Line>
-									</LineChart>
-								</ResponsiveContainer>
+									<Grid item>
+										<CardHeader title='Satış Grafiği' />
+
+										<Divider />
+									</Grid>
+									<Grid item>
+										<LChart />
+									</Grid>
+									<Grid item style={{ height: 70.8 }}>
+										<Divider />
+										<Box height='100%' />
+									</Grid>
+								</Grid>
 							</Card>
 						</Grid>
 						<Grid item md={6} sm={12}>
