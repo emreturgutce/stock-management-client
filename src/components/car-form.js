@@ -185,7 +185,7 @@ export default function CarForm({ car }) {
 					draggable: true,
 					progress: undefined,
 				});
-				history.push('/');
+				history.goBack();
 			} else {
 				toast.error(
 					'Araba güncelleme işlemi başarısız lütfen tekrar deneyiniz.',
