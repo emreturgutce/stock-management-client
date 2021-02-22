@@ -145,7 +145,7 @@ const Chart = () => {
 							</Card>
 						</Grid>
 						<Grid item md={6} sm={12}>
-							<Card style={{height: '100%'}}>
+							<Card style={{ height: '100%' }}>
 								<CardHeader title='Son Satışlar' />
 								<Divider />
 								<Box maxWidth='100%'>
