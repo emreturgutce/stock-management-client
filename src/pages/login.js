@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useHistory, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import validator from 'validator';
 import {
 	Avatar,
@@ -15,7 +15,6 @@ import {
 } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
 import { loginUser } from '../actions';
-import ErrorAlert from '../components/error-alert';
 import Page from '../components/page';
 import { useAuthState } from '../hooks';
 
@@ -44,8 +43,7 @@ export default function SignIn() {
 	const [password, setPassword] = useState('');
 	const classes = useStyles();
 	const dispatch = useDispatch();
-	const history = useHistory();
-	const { isAuthenticated: isAuth, errors } = useAuthState();
+	const { isAuthenticated: isAuth } = useAuthState();
 
 	const login = useCallback(
 		(email, password) => dispatch(loginUser({ email, password })),
@@ -59,16 +57,6 @@ export default function SignIn() {
 			validator.isLength(password, { min: 6 })
 		) {
 			login(email, password);
-
-			setTimeout(() => {
-				history.push('/');
-			}, 1000);
-		}
-	};
-
-	const renderErrors = () => {
-		if (errors?.length > 0) {
-			return <ErrorAlert errors={errors} />;
 		}
 	};
 
@@ -90,7 +78,6 @@ export default function SignIn() {
 								noValidate
 								onSubmit={onSubmit}
 							>
-								{renderErrors()}
 								<TextField
 									variant='outlined'
 									margin='normal'
