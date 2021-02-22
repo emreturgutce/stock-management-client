@@ -422,8 +422,8 @@ const CarDetail = () => {
 									<CarDetailRow
 										key={car?.enter_date}
 										name={'Giriş tarihi'}
-										value={new Date(
-											car?.enter_date,
+										value={car && new Date(
+											car.enter_date,
 										).toLocaleDateString('tr-TR')}
 									/>
 									<CarDetailRow
