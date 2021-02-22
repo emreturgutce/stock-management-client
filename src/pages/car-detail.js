@@ -48,7 +48,7 @@ const CarDetail = () => {
 	const [lastName, setLastName] = useState('');
 	const [openModal, setOpenModal] = useState(false);
 	const history = useHistory();
-	const [car, setCar] = useState(cars.find((car) => car.car_id === id));
+	const [car, setCar] = useState(cars.find((car) => car?.car_id === id));
 	const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
 	const getCarsCb = useGetCars();
 
@@ -62,7 +62,7 @@ const CarDetail = () => {
 
 	const handleRefresh = () => {
 		getCarsCb();
-		setCar(cars.find((car) => car.car_id === id));
+		setCar(cars.find((car) => car?.car_id === id));
 		toast.success('Araba bilgileri güncellendi.', {
 			position: 'top-center',
 			autoclose: 5000,
@@ -82,9 +82,9 @@ const CarDetail = () => {
 				last_name: lastName,
 				birth_date: new Date(Date.now()),
 				serial_number: Math.floor(Math.random() * 10000),
-				price: car.sale_price,
-				personel_id: user.id,
-				car_id: car.car_id,
+				price: car?.sale_price,
+				personel_id: user?.id,
+				car_id: car?.car_id,
 				sale_date: selectedDate,
 			}),
 			headers: {
@@ -122,7 +122,7 @@ const CarDetail = () => {
 	};
 
 	const handleRemoveStock = async () => {
-		const res = await fetch(`${BASE_URL}/api/cars/${car.car_id}`, {
+		const res = await fetch(`${BASE_URL}/api/cars/${car?.car_id}`, {
 			method: 'DELETE',
 			credentials: 'include',
 			headers: {
@@ -158,22 +158,22 @@ const CarDetail = () => {
 		}
 	};
 
-	const handleEditClick = () => history.push(`/${car.id}/edit`, { car });
+	const handleEditClick = () => history.push(`/${car?.id}/edit`, { car });
 
 	return (
-		<Page title={car.title}>
+		<Page title={car?.title}>
 			<Container maxWidth='lg'>
 				<div className={classes.root}>
 					<Grid container spacing={2}>
 						<Grid item xs={12}>
 							<Typography variant='h5' component='h5'>
-								{car.title}
+								{car?.title}
 							</Typography>
 						</Grid>
 						<Grid item md={7} xs={12}>
 							<img
 								onClick={() => setOpenModal(true)}
-								src={car.image_url || '/araba2.jpg'}
+								src={car?.image_url || '/araba2.jpg'}
 								alt='araba'
 								width='90%'
 								style={{
@@ -200,7 +200,7 @@ const CarDetail = () => {
 									}}
 								>
 									<img
-										src={car.image_url || '/araba2.jpg'}
+										src={car?.image_url || '/araba2.jpg'}
 										alt='araba modal'
 										width='100%'
 									/>
@@ -212,7 +212,7 @@ const CarDetail = () => {
 								<Grid container>
 									<Grid item xs={4}>
 										<Typography variant='h6' component='h6'>
-											{formatPrice(car.sale_price)}
+											{formatPrice(car?.sale_price)}
 										</Typography>
 									</Grid>
 									<Grid item xs={8}>
@@ -222,12 +222,12 @@ const CarDetail = () => {
 											alignItems='center'
 											spacing={1}
 										>
-											{car.is_sold === 'SOLD' && (
+											{car?.is_sold === 'SOLD' && (
 												<Grid item>
 													<a
 														target='_blank'
 														rel='noreferrer'
-														href={`${BASE_URL}/api/sales/${car.car_id}/pdf`}
+														href={`${BASE_URL}/api/sales/${car?.car_id}/pdf`}
 													>
 														<Button
 															variant='outlined'
@@ -245,7 +245,7 @@ const CarDetail = () => {
 													</a>
 												</Grid>
 											)}
-											{car.is_sold !== 'SOLD' && (
+											{car?.is_sold !== 'SOLD' && (
 												<Grid item>
 													<Button
 														variant='outlined'
@@ -265,7 +265,7 @@ const CarDetail = () => {
 													onClick={handleRefresh}
 												/>
 											</Grid>
-											{car.is_sold !== 'SOLD' && (
+											{car?.is_sold !== 'SOLD' && (
 												<Grid item>
 													<Button
 														variant='contained'
@@ -275,7 +275,7 @@ const CarDetail = () => {
 														}
 														children={<Delete />}
 														disabled={
-															car.is_sold ===
+															car?.is_sold ===
 															'SOLD'
 																? true
 																: false
@@ -322,7 +322,7 @@ const CarDetail = () => {
 												</DialogActions>
 											</Dialog>
 											{/* SELL BUTTON */}
-											{car.is_sold !== 'SOLD' && (
+											{car?.is_sold !== 'SOLD' && (
 												<Grid item>
 													<Button
 														variant='contained'
@@ -334,7 +334,7 @@ const CarDetail = () => {
 															<ShoppingCart />
 														}
 														disabled={
-															car.is_sold ===
+															car?.is_sold ===
 															'SOLD'
 																? true
 																: false
@@ -420,59 +420,59 @@ const CarDetail = () => {
 								<hr />
 								<Grid container spacing={2}>
 									<CarDetailRow
-										key={car.enter_date}
+										key={car?.enter_date}
 										name={'Giriş tarihi'}
 										value={new Date(
-											car.enter_date,
+											car?.enter_date,
 										).toLocaleDateString('tr-TR')}
 									/>
 									<CarDetailRow
-										key={car.car_brand}
+										key={car?.car_brand}
 										name='Marka'
-										value={car.car_brand}
+										value={car?.car_brand}
 									/>
 									<CarDetailRow
-										key={car.model}
+										key={car?.model}
 										name={'Model'}
-										value={car.model}
+										value={car?.model}
 									/>
 									<CarDetailRow
-										key={car.year}
+										key={car?.year}
 										name={'Yıl'}
-										value={car.year}
+										value={car?.year}
 									/>
 									<CarDetailRow
-										key={car.car_color}
+										key={car?.car_color}
 										name='Renk'
-										value={car.car_color}
+										value={car?.car_color}
 									/>
 									<CarDetailRow
-										key={car.is_new}
+										key={car?.is_new}
 										name={'Yeni mi'}
 										value={
-											car.is_new === 'NEW'
+											car?.is_new === 'NEW'
 												? 'Sıfır'
 												: 'İkinci el'
 										}
 									/>
 									<CarDetailRow
-										key={car.purchase_price}
+										key={car?.purchase_price}
 										name='Stoğa Giriş Fiyatı'
-										value={formatPrice(car.purchase_price)}
+										value={formatPrice(car?.purchase_price)}
 									/>
 									<CarDetailRow
-										key={car.is_sold}
+										key={car?.is_sold}
 										name='Satıldı mı'
 										value={
-											car.is_sold === 'SOLD'
+											car?.is_sold === 'SOLD'
 												? 'Satıldı'
 												: 'Satılmadı'
 										}
 									/>
 									<CarDetailRow
-										key={car.first_name}
+										key={car?.first_name}
 										name='Personel İsmi'
-										value={`${car.first_name} ${car.last_name}`}
+										value={`${car?.first_name} ${car?.last_name}`}
 									/>
 								</Grid>
 							</Grid>
@@ -493,7 +493,7 @@ const CarDetail = () => {
 									</Grid>
 									<Grid item xs={12}>
 										<Typography variant='body1'>
-											{car.car_description}
+											{car?.car_description}
 										</Typography>
 									</Grid>
 								</>
