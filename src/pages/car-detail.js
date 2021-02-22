@@ -274,18 +274,12 @@ const CarDetail = () => {
 											{car?.is_sold !== 'SOLD' && (
 												<Grid item>
 													<Button
-														variant='contained'
+														variant='outlined'
 														color='secondary'
 														onClick={() =>
 															setOpenStock(true)
 														}
 														children={<Delete />}
-														disabled={
-															car?.is_sold ===
-															'SOLD'
-																? true
-																: false
-														}
 													/>
 												</Grid>
 											)}
@@ -331,7 +325,7 @@ const CarDetail = () => {
 											{car?.is_sold !== 'SOLD' && (
 												<Grid item>
 													<Button
-														variant='contained'
+														variant='outlined'
 														color='secondary'
 														onClick={() =>
 															setOpen(true)
