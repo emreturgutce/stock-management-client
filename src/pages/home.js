@@ -229,7 +229,7 @@ const Home = () => {
 						</Grid>
 						<Grid item>
 							<Button
-								variant='contained'
+								variant='outlined'
 								style={{
 									marginRight: 5,
 								}}

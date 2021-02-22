@@ -300,7 +300,7 @@ const ProfileDetails = () => {
 								>
 									<Button
 										color='primary'
-										variant='contained'
+										variant='outlined'
 										disabled={disableClick}
 										onClick={handleSubmit}
 									>
@@ -407,7 +407,7 @@ const ProfileDetails = () => {
 								>
 									<Button
 										color='primary'
-										variant='contained'
+										variant='outlined'
 										onClick={handleSubmitPassword}
 										disabled={
 											!user?.verified || disableClick
