@@ -2,6 +2,7 @@ import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import Home from './pages/home';
 import Login from './pages/login';
 import PrivateRoute from './components/private-route';
@@ -82,6 +83,7 @@ const App = () => {
 				</Switch>
 			)}
 			<Footer />
+			<ToastContainer />
 		</Router>
 	);
 };
