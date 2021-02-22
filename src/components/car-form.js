@@ -14,13 +14,11 @@ import {
 	InputAdornment,
 	FormControl,
 	Select,
-	IconButton,
-	Collapse,
 } from '@material-ui/core';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { DropzoneArea } from 'material-ui-dropzone';
-import { Save, Cancel, Close } from '@material-ui/icons';
-import { Alert } from '@material-ui/lab';
+import { Save, Cancel } from '@material-ui/icons';
+import { toast } from 'react-toastify';
 import { useCarState, useAuthState } from '../hooks';
 import { BASE_URL } from '../constants';
 
@@ -87,8 +85,6 @@ export default function CarForm({ car }) {
 	const [supplier, setSupplier] = useState(car ? car.supplier_id : '');
 	const [files, setFiles] = useState([]);
 	const { manufacturers, suppliers, colors } = useCarState();
-	const [isSuccess, setIsSuccess] = useState(false);
-	const [isError, setIsError] = useState(false);
 
 	const {
 		user: { id },
@@ -144,6 +140,31 @@ export default function CarForm({ car }) {
 					withCredentials: true,
 				},
 			);
+
+			if (res.ok) {
+				toast.success('Araba başarılı bir şekilde eklendi.', {
+					position: 'top-center',
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				});
+			} else {
+				toast.error(
+					'Araba ekleme işlemi başarısız lütfen tekrar deneyiniz.',
+					{
+						position: 'top-center',
+						autoClose: 5000,
+						hideProgressBar: false,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+					},
+				);
+			}
 		} else {
 			const res = await fetch(`${BASE_URL}/api/cars/${car.car_id}`, {
 				headers: {
@@ -154,7 +175,30 @@ export default function CarForm({ car }) {
 				method: 'PUT',
 			});
 
-			setIsSuccess(res.ok);
+			if (res.ok) {
+				toast.success('Araba başarılı bir şekilde güncellendi.', {
+					position: 'top-center',
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				});
+			} else {
+				toast.error(
+					'Araba güncelleme işlemi başarısız lütfen tekrar deneyiniz.s',
+					{
+						position: 'top-center',
+						autoClose: 5000,
+						hideProgressBar: false,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+					},
+				);
+			}
 		}
 	};
 
@@ -162,54 +206,8 @@ export default function CarForm({ car }) {
 		history.goBack();
 	};
 
-	const renderSuccessAlert = () => {
-		if (isSuccess) {
-			return (
-				<Collapse in={isSuccess}>
-					<Alert
-						action={
-							<IconButton
-								aria-label='close'
-								color='inherit'
-								size='small'
-								onClick={() => setIsSuccess(false)}
-							>
-								<Close fontSize='inherit' />
-							</IconButton>
-						}
-					>
-						Araba başarılı bir şekilde güncellendi !
-					</Alert>
-				</Collapse>
-			);
-		} else if (isError) {
-			return (
-				<Collapse in={isError}>
-					<Alert
-						severity='error'
-						action={
-							<IconButton
-								aria-label='close'
-								color='inherit'
-								size='small'
-								onClick={() => setIsError(false)}
-							>
-								<Close fontSize='inherit' />
-							</IconButton>
-						}
-					>
-						Araba güncellenirken bir hata oluştu !
-					</Alert>
-				</Collapse>
-			);
-		}
-	};
-
 	return (
 		<main className={classes.layout}>
-			<div style={{ width: '100%', marginTop: 20 }}>
-				{renderSuccessAlert()}
-			</div>
 			<Paper className={classes.paper}>
 				<Typography component='h1' variant='h4' align='center'>
 					{car ? 'Araba Güncelle' : 'Araba Ekle'}
