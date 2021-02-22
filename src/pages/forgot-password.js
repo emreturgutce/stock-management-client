@@ -12,8 +12,10 @@ import { BASE_URL } from '../constants';
 
 const ForgotPassword = () => {
 	const [email, setEmail] = useState('');
+	const [disableClick, setDisableClick] = useState(false);
 
 	const onSubmit = async (e) => {
+		setDisableClick(true);
 		e.preventDefault();
 
 		const res = await fetch(`${BASE_URL}/api/personels/forgot-password`, {
@@ -55,6 +57,10 @@ const ForgotPassword = () => {
 				},
 			);
 		}
+
+		setTimeout(() => {
+			setDisableClick(false);
+		}, 1000);
 	};
 
 	return (
@@ -102,6 +108,7 @@ const ForgotPassword = () => {
 							type='submit'
 							fullWidth
 							variant='contained'
+							disabled={disableClick}
 							color='primary'
 						>
 							Kodu Gönder
