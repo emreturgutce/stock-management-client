@@ -85,6 +85,7 @@ export default function CarForm({ car }) {
 	const [supplier, setSupplier] = useState(car ? car.supplier_id : '');
 	const [files, setFiles] = useState([]);
 	const { manufacturers, suppliers, colors } = useCarState();
+	const [disableClick, setDisableClick] = useState(false);
 
 	const {
 		user: { id },
@@ -95,6 +96,7 @@ export default function CarForm({ car }) {
 	};
 
 	const onSubmit = async () => {
+		setDisableClick(true);
 		const formData = new FormData();
 		formData.append('avatar', files[0]);
 
@@ -201,6 +203,10 @@ export default function CarForm({ car }) {
 				);
 			}
 		}
+
+		setTimeout(() => {
+			setDisableClick(false);
+		}, 1000);
 	};
 
 	const handleCancel = () => {
@@ -450,6 +456,7 @@ export default function CarForm({ car }) {
 						color='primary'
 						startIcon={<Cancel />}
 						className={classes.button}
+						disabled={disableClick}
 						onClick={handleCancel}
 					>
 						İptal et
@@ -459,6 +466,7 @@ export default function CarForm({ car }) {
 						color='secondary'
 						startIcon={<Save />}
 						className={classes.button}
+						disabled={disableClick}
 						onClick={onSubmit}
 					>
 						Kaydet

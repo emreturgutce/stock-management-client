@@ -17,8 +17,10 @@ const ChangePassword = () => {
 	const [sent, setSent] = useState(false);
 	const { token } = useParams();
 	const history = useHistory();
+	const [disableClick, setDisableClick] = useState(false);
 
 	const onSubmit = async (e) => {
+		setDisableClick(true);
 		e.preventDefault();
 
 		const res = await fetch(
@@ -61,6 +63,10 @@ const ChangePassword = () => {
 				},
 			);
 		}
+
+		setTimeout(() => {
+			setDisableClick(false);
+		}, 1000);
 	};
 
 	return (
@@ -127,7 +133,7 @@ const ChangePassword = () => {
 							fullWidth
 							variant='contained'
 							color='primary'
-							disabled={sent}
+							disabled={sent || disableClick}
 						>
 							Şifreyi Sıfırla
 						</Button>

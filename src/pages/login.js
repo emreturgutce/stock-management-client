@@ -44,6 +44,7 @@ export default function SignIn() {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const { isAuthenticated: isAuth } = useAuthState();
+	const [disableClick, setDisableClick] = useState(false);
 
 	const login = useCallback(
 		(email, password) => dispatch(loginUser({ email, password })),
@@ -56,7 +57,11 @@ export default function SignIn() {
 			validator.isEmail(email) &&
 			validator.isLength(password, { min: 6 })
 		) {
+			setDisableClick(true);
 			login(email, password);
+			setTimeout(() => {
+				setDisableClick(false);
+			}, 1000);
 		}
 	};
 
@@ -121,6 +126,7 @@ export default function SignIn() {
 									fullWidth
 									variant='contained'
 									color='primary'
+									disabled={disableClick}
 									className={classes.submit}
 								>
 									Giriş yap

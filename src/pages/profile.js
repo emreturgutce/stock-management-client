@@ -35,10 +35,12 @@ const ProfileDetails = () => {
 	const history = useHistory();
 	const refresh = useRefresh(history, '/personels/profile');
 	const dispatch = useDispatch();
+	const [disableClick, setDisableClick] = useState(false);
 
 	const getUserCb = useCallback(() => dispatch(getUser()), [dispatch]);
 
 	const handleSubmit = async (e) => {
+		setDisableClick(true);
 		e.preventDefault();
 
 		const res = await fetch(`${BASE_URL}/api/personels/current`, {
@@ -82,9 +84,14 @@ const ProfileDetails = () => {
 				},
 			);
 		}
+
+		setTimeout(() => {
+			setDisableClick(false);
+		}, 1000);
 	};
 
 	const handleSubmitPassword = async (e) => {
+		setDisableClick(true);
 		e.preventDefault();
 
 		const res = await fetch(`${BASE_URL}/api/personels/change-password`, {
@@ -124,9 +131,14 @@ const ProfileDetails = () => {
 				},
 			);
 		}
+
+		setTimeout(() => {
+			setDisableClick(false);
+		}, 1000);
 	};
 
 	const handleSubmitEmail = async (e) => {
+		setDisableClick(true);
 		e.preventDefault();
 
 		const res = await fetch(`${BASE_URL}/api/personels/verify`, {
@@ -161,6 +173,10 @@ const ProfileDetails = () => {
 				},
 			);
 		}
+
+		setTimeout(() => {
+			setDisableClick(false);
+		}, 1000);
 	};
 
 	return (
@@ -285,6 +301,7 @@ const ProfileDetails = () => {
 									<Button
 										color='primary'
 										variant='contained'
+										disabled={disableClick}
 										onClick={handleSubmit}
 									>
 										Detayları Kaydet
@@ -303,6 +320,7 @@ const ProfileDetails = () => {
 											<Button
 												color='inherit'
 												size='small'
+												disabled={disableClick}
 												onClick={handleSubmitEmail}
 											>
 												Onaylama e-mail'i gönder
@@ -391,7 +409,9 @@ const ProfileDetails = () => {
 										color='primary'
 										variant='contained'
 										onClick={handleSubmitPassword}
-										disabled={!user?.verified}
+										disabled={
+											!user?.verified || disableClick
+										}
 									>
 										Şifreyi Kaydet
 									</Button>
