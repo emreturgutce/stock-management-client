@@ -17,6 +17,7 @@ import validator from 'validator';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { Alert } from '@material-ui/lab';
 import { VerifiedUser, VpnKey } from '@material-ui/icons';
+import { toast } from 'react-toastify';
 import { useAuthState } from '../hooks';
 import { BASE_URL } from '../constants';
 import useRefresh from '../hooks/use-refresh';
@@ -58,6 +59,28 @@ const ProfileDetails = () => {
 		if (res.ok) {
 			getUserCb();
 			refresh();
+			toast.success('Detay bilgileri başarılı bir şekilde güncellendi.', {
+				position: 'top-center',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		} else {
+			toast.error(
+				'Detay bilgileri güncelleme işlemi işlemi başarısız lütfen tekrar deneyiniz.',
+				{
+					position: 'top-center',
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				},
+			);
 		}
 	};
 
@@ -78,19 +101,66 @@ const ProfileDetails = () => {
 		if (res.ok) {
 			getUserCb();
 			refresh();
+			toast.success('Şifre başarılı bir şekilde güncellendi.', {
+				position: 'top-center',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		} else {
+			toast.error(
+				'Şifre güncelleme işlemi başarısız lütfen tekrar deneyiniz.',
+				{
+					position: 'top-center',
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				},
+			);
 		}
 	};
 
 	const handleSubmitEmail = async (e) => {
 		e.preventDefault();
 
-		await fetch(`${BASE_URL}/api/personels/verify`, {
+		const res = await fetch(`${BASE_URL}/api/personels/verify`, {
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			method: 'GET',
 			credentials: 'include',
 		});
+
+		if (res.ok) {
+			toast.success('Onaylama maili başarılı bir şekilde gönderildi.', {
+				position: 'top-center',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		} else {
+			toast.error(
+				'Onaylama maili gönderirken bir hata oluştu lütfen tekrar deneyiniz.',
+				{
+					position: 'top-center',
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				},
+			);
+		}
 	};
 
 	return (
@@ -104,7 +174,7 @@ const ProfileDetails = () => {
 					style={{ marginTop: '.5rem' }}
 				>
 					<Grid item style={{ marginBottom: '1rem', width: '100%' }}>
-						<form autoComplete='off' noValidate>
+						<form autoComplete='off'>
 							<Card>
 								<CardHeader
 									subheader='Detay bilgileri değiştirilebilir.'
@@ -224,11 +294,7 @@ const ProfileDetails = () => {
 						</form>
 					</Grid>
 					<Grid item style={{ width: '100%' }}>
-						<form
-							autoComplete='off'
-							noValidate
-							style={{ width: '100%' }}
-						>
+						<form autoComplete='off' style={{ width: '100%' }}>
 							<Card>
 								{!user.verified && (
 									<Alert

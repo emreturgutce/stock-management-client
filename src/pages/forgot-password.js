@@ -7,14 +7,11 @@ import {
 	Button,
 } from '@material-ui/core';
 import validator from 'validator';
+import { toast } from 'react-toastify';
 import { BASE_URL } from '../constants';
-import ErrorAlert from '../components/error-alert';
 
 const ForgotPassword = () => {
 	const [email, setEmail] = useState('');
-	const [sent, setSent] = useState(false);
-	const [errors, setErrors] = useState();
-	const [showError, setShowError] = useState(false);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
@@ -31,25 +28,31 @@ const ForgotPassword = () => {
 		});
 
 		if (res.ok) {
-			setSent(true);
-		} else {
-			setErrors(
-				res.status === 404
-					? ['Kullanıcı bulunamadı.']
-					: ['Bir sorun oluştu'],
+			toast.success(
+				'Şifre sıfırlama kodu mailinize başarılı bir şekilde gönderildi.',
+				{
+					position: 'top-center',
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				},
 			);
-			setShowError(true);
-		}
-	};
-
-	const renderAlert = () => {
-		if (errors) {
-			return (
-				<ErrorAlert
-					errors={errors}
-					show={showError}
-					setShow={setShowError}
-				/>
+		} else {
+			toast.error(
+				`Bir hata oluştu kod gönderilemedi! Lütfen girdiğiniz maili 
+				kontrol edip tekrar deneyiniz.`,
+				{
+					position: 'top-center',
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				},
 			);
 		}
 	};
@@ -78,10 +81,6 @@ const ForgotPassword = () => {
 							göndereceğiz.
 						</p>
 					</Grid>
-
-					<Grid item style={{ width: '100%' }}>
-						{renderAlert()}
-					</Grid>
 					<Grid item style={{ width: '100%' }}>
 						<TextField
 							variant='outlined'
@@ -104,9 +103,8 @@ const ForgotPassword = () => {
 							fullWidth
 							variant='contained'
 							color='primary'
-							disabled={sent}
 						>
-							{sent ? 'Kod Gönderildi' : 'Kodu Gönder'}
+							Kodu Gönder
 						</Button>
 					</Grid>
 				</Grid>
