@@ -462,7 +462,7 @@ export default function CarForm({ car }) {
 						İptal et
 					</Button>
 					<Button
-						variant='contained'
+						variant='outlined'
 						color='secondary'
 						startIcon={<Save />}
 						className={classes.button}
