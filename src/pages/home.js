@@ -99,6 +99,7 @@ const Home = () => {
 	const { isLoading, cars } = useCarState();
 	const [searchInput, setSearchInput] = useState('');
 	const [carsState, setCarsState] = useState(cars);
+	const [disableRefresh, setDisableRefresh] = useState(false);
 
 	const data = {
 		columns: [
@@ -182,6 +183,23 @@ const Home = () => {
 		);
 	}, [cars, searchInput]);
 
+	const handleRefresh = () => {
+		setDisableRefresh(true)
+		getCarsCb();
+		toast.success('Araba bilgileri güncellendi.', {
+			position: 'top-center',
+			autoclose: 5000,
+			hideprogressbar: false,
+			closeonclick: true,
+			pauseonhover: true,
+			draggable: true,
+			progress: undefined,
+		});
+		setTimeout(() => {
+			setDisableRefresh(false)
+		}, 1000)
+	};
+
 	return (
 		<Page title='Anasayfa'>
 			<Container>
@@ -215,21 +233,8 @@ const Home = () => {
 								style={{
 									marginRight: 5,
 								}}
-								onClick={() => {
-									getCarsCb();
-									toast.success(
-										'Araba bilgileri güncellendi.',
-										{
-											position: 'top-center',
-											autoclose: 5000,
-											hideprogressbar: false,
-											closeonclick: true,
-											pauseonhover: true,
-											draggable: true,
-											progress: undefined,
-										},
-									);
-								}}
+								disabled={disableRefresh}
+								onClick={handleRefresh}
 								startIcon={<Refresh />}
 							>
 								Yenile

@@ -51,6 +51,7 @@ const CarDetail = () => {
 	const [car, setCar] = useState(cars.find((car) => car?.car_id === id));
 	const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
 	const getCarsCb = useGetCars();
+	const [disableRefresh, setDisableRefresh] = useState(false);
 
 	const handleDateChange = (date) => {
 		setSelectedDate(new Date(date).toISOString().split('T')[0]);
@@ -61,6 +62,7 @@ const CarDetail = () => {
 	const handleStockClose = () => setOpenStock(false);
 
 	const handleRefresh = () => {
+		setDisableRefresh(true);
 		getCarsCb();
 		setCar(cars.find((car) => car?.car_id === id));
 		toast.success('Araba bilgileri güncellendi.', {
@@ -72,6 +74,9 @@ const CarDetail = () => {
 			draggable: true,
 			progress: undefined,
 		});
+		setTimeout(() => {
+			setDisableRefresh(false);
+		}, 1000);
 	};
 
 	const onSubmit = async () => {
@@ -161,7 +166,7 @@ const CarDetail = () => {
 	const handleEditClick = () => history.push(`/${car?.id}/edit`, { car });
 
 	return (
-		<Page title={car?.title}>
+		<Page title={car?.title || ''}>
 			<Container maxWidth='lg'>
 				<div className={classes.root}>
 					<Grid container spacing={2}>
@@ -262,6 +267,7 @@ const CarDetail = () => {
 													variant='outlined'
 													size='small'
 													children={<Refresh />}
+													disabled={disableRefresh}
 													onClick={handleRefresh}
 												/>
 											</Grid>
@@ -422,9 +428,12 @@ const CarDetail = () => {
 									<CarDetailRow
 										key={car?.enter_date}
 										name={'Giriş tarihi'}
-										value={car && new Date(
-											car.enter_date,
-										).toLocaleDateString('tr-TR')}
+										value={
+											car &&
+											new Date(
+												car.enter_date,
+											).toLocaleDateString('tr-TR')
+										}
 									/>
 									<CarDetailRow
 										key={car?.car_brand}
