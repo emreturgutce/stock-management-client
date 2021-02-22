@@ -187,7 +187,7 @@ export default function CarForm({ car }) {
 				});
 			} else {
 				toast.error(
-					'Araba güncelleme işlemi başarısız lütfen tekrar deneyiniz.s',
+					'Araba güncelleme işlemi başarısız lütfen tekrar deneyiniz.',
 					{
 						position: 'top-center',
 						autoClose: 5000,

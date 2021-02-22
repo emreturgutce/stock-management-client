@@ -10,6 +10,7 @@ import {
 	Container,
 } from '@material-ui/core';
 import { Refresh, HighlightOff } from '@material-ui/icons';
+import { toast } from 'react-toastify';
 import { useCarState, useGetCars } from '../hooks';
 import { formatPrice } from '../utils/format-price';
 import Page from '../components/page';
@@ -214,7 +215,21 @@ const Home = () => {
 								style={{
 									marginRight: 5,
 								}}
-								onClick={() => getCarsCb()}
+								onClick={() => {
+									getCarsCb();
+									toast.success(
+										'Araba bilgileri güncellendi.',
+										{
+											position: 'top-center',
+											autoclose: 5000,
+											hideprogressbar: false,
+											closeonclick: true,
+											pauseonhover: true,
+											draggable: true,
+											progress: undefined,
+										},
+									);
+								}}
 								startIcon={<Refresh />}
 							>
 								Yenile
