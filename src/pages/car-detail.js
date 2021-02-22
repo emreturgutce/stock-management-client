@@ -13,12 +13,10 @@ import {
 	DialogContent,
 	DialogTitle,
 	TextField,
-	IconButton,
-	Collapse,
 } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-import { Delete, Refresh, Edit, Close, ShoppingCart } from '@material-ui/icons';
+import { Delete, Refresh, Edit, ShoppingCart } from '@material-ui/icons';
+import { toast } from 'react-toastify';
 import { BASE_URL } from '../constants';
 import Loader from '../components/content-loader';
 import CarDetailRow from '../components/car-detail-row';
@@ -31,6 +29,7 @@ const useStyles = makeStyles((theme) =>
 	createStyles({
 		root: {
 			flexGrow: 1,
+			paddingTop: '1rem',
 		},
 		paper: {
 			position: 'absolute',
@@ -47,8 +46,6 @@ const CarDetail = () => {
 	const [openStock, setOpenStock] = useState(false);
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
-	const [isSuccess, setIsSuccess] = useState(false);
-	const [isError, setIsError] = useState(false);
 	const [openModal, setOpenModal] = useState(false);
 	const history = useHistory();
 	const [car, setCar] = useState(cars.find((car) => car.car_id === id));
@@ -66,10 +63,19 @@ const CarDetail = () => {
 	const handleRefresh = () => {
 		getCarsCb();
 		setCar(cars.find((car) => car.car_id === id));
+		toast.success('Araba bilgileri güncellendi.', {
+			position: 'top-center',
+			autoclose: 5000,
+			hideprogressbar: false,
+			closeonclick: true,
+			pauseonhover: true,
+			draggable: true,
+			progress: undefined,
+		});
 	};
 
 	const onSubmit = async () => {
-		const saleRes = await fetch(`${BASE_URL}/api/sales`, {
+		const res = await fetch(`${BASE_URL}/api/sales`, {
 			method: 'POST',
 			body: JSON.stringify({
 				first_name: firstName,
@@ -89,18 +95,34 @@ const CarDetail = () => {
 
 		handleClose();
 
-		if (saleRes.ok) {
-			setIsSuccess(true);
-			setTimeout(() => {
-				setIsSuccess(false);
-			}, 2000);
+		if (res.ok) {
+			toast.success('Araba satış işlemi başarılı.', {
+				position: 'top-center',
+				autoclose: 5000,
+				hideprogressbar: false,
+				closeonclick: true,
+				pauseonhover: true,
+				draggable: true,
+				progress: undefined,
+			});
 		} else {
-			setIsError(true);
+			toast.error(
+				'Araba satış işlemi başarısız lütfen tekrar deneyiniz.',
+				{
+					position: 'top-center',
+					autoclose: 5000,
+					hideprogressbar: false,
+					closeonclick: true,
+					pauseonhover: true,
+					draggable: true,
+					progress: undefined,
+				},
+			);
 		}
 	};
 
 	const handleRemoveStock = async () => {
-		await fetch(`${BASE_URL}/api/cars/${car.car_id}`, {
+		const res = await fetch(`${BASE_URL}/api/cars/${car.car_id}`, {
 			method: 'DELETE',
 			credentials: 'include',
 			headers: {
@@ -109,47 +131,29 @@ const CarDetail = () => {
 		});
 		handleStockClose();
 		history.push('/');
-	};
 
-	const renderSuccessAlert = () => {
-		if (isSuccess) {
-			return (
-				<Collapse in={isSuccess}>
-					<Alert
-						action={
-							<IconButton
-								aria-label='close'
-								color='inherit'
-								size='small'
-								onClick={() => setIsSuccess(false)}
-							>
-								<Close fontSize='inherit' />
-							</IconButton>
-						}
-					>
-						Satış İşlemi Başarılı !
-					</Alert>
-				</Collapse>
-			);
-		} else if (isError) {
-			return (
-				<Collapse in={isError}>
-					<Alert
-						severity='error'
-						action={
-							<IconButton
-								aria-label='close'
-								color='inherit'
-								size='small'
-								onClick={() => setIsError(false)}
-							>
-								<Close fontSize='inherit' />
-							</IconButton>
-						}
-					>
-						Bir Hata oluştu !
-					</Alert>
-				</Collapse>
+		if (res.ok) {
+			toast.success('Araba stoktan başarılı bir şekilde kaldırıldı.', {
+				position: 'top-center',
+				autoclose: 5000,
+				hideprogressbar: false,
+				closeonclick: true,
+				pauseonhover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		} else {
+			toast.error(
+				'Araba stoktan kaldırılırken bir hata oluştu lütfen tekrar deneyiniz.',
+				{
+					position: 'top-center',
+					autoclose: 5000,
+					hideprogressbar: false,
+					closeonclick: true,
+					pauseonhover: true,
+					draggable: true,
+					progress: undefined,
+				},
 			);
 		}
 	};
@@ -161,9 +165,6 @@ const CarDetail = () => {
 			<Container maxWidth='lg'>
 				<div className={classes.root}>
 					<Grid container spacing={2}>
-						<Grid item xs={12} style={{ marginTop: 12 }}>
-							{isSuccess && renderSuccessAlert()}
-						</Grid>
 						<Grid item xs={12}>
 							<Typography variant='h5' component='h5'>
 								{car.title}
