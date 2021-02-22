@@ -8,6 +8,7 @@ import {
 	Button,
 } from '@material-ui/core';
 import validator from 'validator';
+import { toast } from 'react-toastify';
 import { BASE_URL } from '../constants';
 
 const ChangePassword = () => {
@@ -37,6 +38,28 @@ const ChangePassword = () => {
 		if (res.ok) {
 			setSent(true);
 			history.push('/');
+			toast.success('Şifreniz başarılı bir şekilde değiştirildi.', {
+				position: 'top-center',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		} else {
+			toast.error(
+				'Şifre değiştirme işlemi başarısız lütfen tekrar deneyiniz.',
+				{
+					position: 'top-center',
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				},
+			);
 		}
 	};
 
