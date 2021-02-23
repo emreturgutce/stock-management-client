@@ -111,8 +111,9 @@ const Home = () => {
 				renderCell: (params) => (
 					<img
 						src={params.value || '/araba2.jpg'}
-						height='75'
+						height={75}
 						alt='araba'
+						style={{ margin: 'auto' }}
 					/>
 				),
 			},
@@ -174,7 +175,11 @@ const Home = () => {
 					),
 			},
 		],
-		rows: carsState.map((car) => ({ ...car, id: car.car_id })),
+		rows: carsState.map((car) => ({
+			...car,
+			id: car.car_id,
+			image_url: car.image_urls?.split(';')[0],
+		})),
 	};
 
 	useEffect(() => {
@@ -184,7 +189,7 @@ const Home = () => {
 	}, [cars, searchInput]);
 
 	const handleRefresh = () => {
-		setDisableRefresh(true)
+		setDisableRefresh(true);
 		getCarsCb();
 		toast.info('Araba bilgileri güncellendi.', {
 			position: 'top-center',
@@ -196,8 +201,8 @@ const Home = () => {
 			progress: undefined,
 		});
 		setTimeout(() => {
-			setDisableRefresh(false)
-		}, 1000)
+			setDisableRefresh(false);
+		}, 1000);
 	};
 
 	return (

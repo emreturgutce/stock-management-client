@@ -6,7 +6,8 @@ import { trTR } from '@material-ui/core/locale';
 import { tr } from 'date-fns/locale';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import 'react-toastify/dist/ReactToastify.css'
+import 'react-toastify/dist/ReactToastify.css';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import App from './App';
 import { store } from './store';
 

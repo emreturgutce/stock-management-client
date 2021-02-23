@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import {
-	Modal,
 	makeStyles,
 	createStyles,
 	Grid,
@@ -13,10 +12,12 @@ import {
 	DialogContent,
 	DialogTitle,
 	TextField,
+	Box,
 } from '@material-ui/core';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { Delete, Refresh, Edit, ShoppingCart } from '@material-ui/icons';
 import { toast } from 'react-toastify';
+import { Carousel } from 'react-responsive-carousel';
 import { BASE_URL } from '../constants';
 import Loader from '../components/content-loader';
 import CarDetailRow from '../components/car-detail-row';
@@ -46,7 +47,6 @@ const CarDetail = () => {
 	const [openStock, setOpenStock] = useState(false);
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
-	const [openModal, setOpenModal] = useState(false);
 	const history = useHistory();
 	const [car, setCar] = useState(cars.find((car) => car?.car_id === id));
 	const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
@@ -176,41 +176,30 @@ const CarDetail = () => {
 							</Typography>
 						</Grid>
 						<Grid item md={7} xs={12}>
-							<img
-								onClick={() => setOpenModal(true)}
-								src={car?.image_url || '/araba2.jpg'}
-								alt='araba'
-								width='90%'
-								style={{
-									cursor: 'pointer',
-									'&hover': { opacity: 0.8 },
-								}}
-							/>
-							<Modal
-								open={openModal}
-								onClose={() => setOpenModal(false)}
-								disableAutoFocus={true}
-								aria-labelledby='simple-modal-title'
-								aria-describedby='simple-modal-description'
-							>
-								<div
-									className={classes.paper}
-									style={{
-										borderRadius: 4,
-										width: '60%',
-										minWidth: '300px',
-										top: `50%`,
-										left: `50%`,
-										transform: `translate(-50%, -50%)`,
-									}}
-								>
-									<img
-										src={car?.image_url || '/araba2.jpg'}
-										alt='araba modal'
-										width='100%'
-									/>
-								</div>
-							</Modal>
+							<Box component='div' paddingRight='1rem'>
+								<Carousel>
+									{car?.image_urls
+										?.split(';')
+										.map((image) => (
+											<div>
+												<img
+													src={`${image}`}
+													key={image}
+													width='100%'
+													alt={`${car?.title}`}
+												/>
+											</div>
+										)) || (
+										<div>
+											<img
+												src={'/araba2.jpg'}
+												width='100%'
+												alt={`${car?.title}`}
+											/>
+										</div>
+									)}
+								</Carousel>
+							</Box>
 						</Grid>
 						<>
 							<Grid item md={5} xs={12}>
