@@ -83,7 +83,9 @@ export default function CarForm({ car }) {
 		car ? car.car_manufacturer_id : '',
 	);
 	const [supplier, setSupplier] = useState(car ? car.supplier_id : '');
-	const [files, setFiles] = useState([]);
+	const [files, setFiles] = useState([
+		...car?.image_urls?.split(';').map((image) => image),
+	]);
 	const { manufacturers, suppliers, colors } = useCarState();
 	const [disableClick, setDisableClick] = useState(false);
 
@@ -98,7 +100,7 @@ export default function CarForm({ car }) {
 	const onSubmit = async () => {
 		setDisableClick(true);
 		const formData = new FormData();
-		formData.append('avatar', files[0]);
+		files.forEach((file) => formData.append('avatar', file));
 
 		const data = {
 			title,
@@ -130,8 +132,6 @@ export default function CarForm({ car }) {
 
 			const dataJson = await res.json();
 
-			history.push('/');
-
 			await axios.post(
 				`${BASE_URL}/api/cars/${dataJson.data[0].id}/images`,
 				formData,
@@ -142,6 +142,8 @@ export default function CarForm({ car }) {
 					withCredentials: true,
 				},
 			);
+
+			history.push('/');
 
 			if (res.ok) {
 				toast.success('Araba başarılı bir şekilde eklendi.', {
@@ -436,12 +438,9 @@ export default function CarForm({ car }) {
 					</Grid>
 					<Grid item xs={12}>
 						<DropzoneArea
-							acceptedFiles={[
-								'image/jpg',
-								'image/jpeg',
-								'image/png',
-							]}
+							acceptedFiles={['image/*']}
 							showFileNames
+							initialFiles={files}
 							onChange={(f) => setFiles(f)}
 							dropzoneText='Resimleri buraya sürükleyin veya seçmek için tıklayın'
 							showAlerts={false}
