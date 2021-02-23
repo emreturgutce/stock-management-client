@@ -84,7 +84,7 @@ export default function CarForm({ car }) {
 	);
 	const [supplier, setSupplier] = useState(car ? car.supplier_id : '');
 	const [files, setFiles] = useState([
-		...car?.image_urls?.split(';').map((image) => image),
+		...(car?.image_urls?.split(';')?.map((image) => image) || []),
 	]);
 	const { manufacturers, suppliers, colors } = useCarState();
 	const [disableClick, setDisableClick] = useState(false);
