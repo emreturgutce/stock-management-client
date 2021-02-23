@@ -15,7 +15,6 @@ import {
 	Box,
 } from '@material-ui/core';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-import { Delete, Refresh, Edit, ShoppingCart } from '@material-ui/icons';
 import { toast } from 'react-toastify';
 import { Carousel } from 'react-responsive-carousel';
 import { BASE_URL } from '../constants';
@@ -24,7 +23,7 @@ import CarDetailRow from '../components/car-detail-row';
 import Page from '../components/page';
 import { useCarState, useAuthState, useGetCars } from '../hooks';
 import { formatPrice } from '../utils/format-price';
-import PDFIcon from '../assets/document.svg';
+import DetailDropdown from '../components/detail-dropdown';
 
 const useStyles = makeStyles((theme) =>
 	createStyles({
@@ -165,6 +164,10 @@ const CarDetail = () => {
 
 	const handleEditClick = () => history.push(`/${car?.id}/edit`, { car });
 
+	const handleDelete = () => setOpenStock(true);
+
+	const handleSell = () => setOpen(true);
+
 	return (
 		<Page title={car?.title || ''}>
 			<Container maxWidth='lg'>
@@ -216,62 +219,15 @@ const CarDetail = () => {
 											alignItems='center'
 											spacing={1}
 										>
-											{car?.is_sold === 'SOLD' && (
-												<Grid item>
-													<a
-														target='_blank'
-														rel='noreferrer'
-														href={`${BASE_URL}/api/sales/${car?.car_id}/pdf`}
-													>
-														<Button
-															variant='outlined'
-															size='small'
-															children={
-																<img
-																	width={24}
-																	src={
-																		PDFIcon
-																	}
-																	alt='pdf'
-																/>
-															}
-														/>
-													</a>
-												</Grid>
-											)}
-											{car?.is_sold !== 'SOLD' && (
-												<Grid item>
-													<Button
-														variant='outlined'
-														size='small'
-														children={<Edit />}
-														onClick={
-															handleEditClick
-														}
-													/>
-												</Grid>
-											)}
-											<Grid item>
-												<Button
-													variant='outlined'
-													size='small'
-													children={<Refresh />}
-													disabled={disableRefresh}
-													onClick={handleRefresh}
-												/>
-											</Grid>
-											{car?.is_sold !== 'SOLD' && (
-												<Grid item>
-													<Button
-														variant='outlined'
-														color='secondary'
-														onClick={() =>
-															setOpenStock(true)
-														}
-														children={<Delete />}
-													/>
-												</Grid>
-											)}
+											<DetailDropdown
+												isSold={car?.is_sold}
+												handleRefresh={handleRefresh}
+												handleEdit={handleEditClick}
+												handleDelete={handleDelete}
+												handleSell={handleSell}
+												carId={car?.car_id}
+												disableRefresh={disableRefresh}
+											/>
 
 											<Dialog
 												open={openStock}
@@ -310,28 +266,6 @@ const CarDetail = () => {
 													</Button>
 												</DialogActions>
 											</Dialog>
-											{/* SELL BUTTON */}
-											{car?.is_sold !== 'SOLD' && (
-												<Grid item>
-													<Button
-														variant='outlined'
-														color='secondary'
-														onClick={() =>
-															setOpen(true)
-														}
-														children={
-															<ShoppingCart />
-														}
-														disabled={
-															car?.is_sold ===
-															'SOLD'
-																? true
-																: false
-														}
-													/>
-												</Grid>
-											)}
-
 											<Dialog
 												open={open}
 												onClose={handleClose}
