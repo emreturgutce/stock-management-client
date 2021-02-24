@@ -138,8 +138,8 @@ const CarDetail = () => {
 				'Content-Type': 'application/json',
 			},
 		});
+		
 		handleStockClose();
-		history.push('/');
 
 		if (res.ok) {
 			toast.success('Araba stoktan başarılı bir şekilde kaldırıldı.', {
@@ -165,6 +165,8 @@ const CarDetail = () => {
 				},
 			);
 		}
+
+		history.push('/');
 	};
 
 	const handleEditClick = () => history.push(`/${car?.id}/edit`, { car });
