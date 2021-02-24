@@ -208,7 +208,7 @@ const CarDetail = () => {
 						</Grid>
 						<Grid item md={7} xs={12}>
 							<Box component='div' paddingRight='1rem'>
-								{!isLoading ? (
+								{isLoading ? (
 									<ContentLoader
 										speed={2}
 										width='100%'
