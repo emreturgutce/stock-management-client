@@ -15,6 +15,7 @@ import Chart from './pages/chart';
 import Profile from './pages/profile';
 import Personel from './pages/personel';
 import NotFound from './pages/not-found';
+import AllSales from './pages/all-sales';
 import { getUser } from './actions';
 import { useAuthState } from './hooks';
 import ForgotPassword from './pages/forgot-password';
@@ -70,6 +71,7 @@ const App = () => {
 						path='/personels'
 						component={Personel}
 					/>
+					<PrivateRoute exact path='/sales' component={AllSales} />
 					<PrivateRoute exact path='/:id' component={CarDetail} />
 					<PrivateRoute exact path='/:id/edit' component={CarEdit} />
 					<PrivateRoute exact path='/cars/add' component={CarAdd} />

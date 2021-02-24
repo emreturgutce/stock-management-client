@@ -8,6 +8,7 @@ const initialState = {
 	colors: [],
 	sales: [],
 	latestSales: [],
+	allSales: [],
 	totalProfit: 0,
 	totalCustomer: 0,
 	totalRevenue: 0,
@@ -105,6 +106,25 @@ export function carReducer(state = initialState, action) {
 				sales: action.payload,
 			};
 		case CarActionTypes.SALES_FAIL:
+			return {
+				...state,
+				isLoading: false,
+				errors: action.payload?.error
+					? [action.payload?.error]
+					: state.errors,
+			};
+		case CarActionTypes.ALL_SALES_LOADING:
+			return {
+				...state,
+				isLoading: true,
+			};
+		case CarActionTypes.ALL_SALES_LOADED:
+			return {
+				...state,
+				isLoading: false,
+				allSales: action.payload,
+			};
+		case CarActionTypes.ALL_SALES_FAIL:
 			return {
 				...state,
 				isLoading: false,

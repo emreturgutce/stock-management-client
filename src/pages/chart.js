@@ -111,9 +111,14 @@ const Chart = () => {
 						</Grid>
 						<Grid item md={6} sm={12}>
 							<Card style={{ height: '100%' }}>
-								<CardHeader title='Son Satışlar' />
-								<Divider />
-								<Box maxWidth='100%'>
+								<Box>
+									<CardHeader title='Son Satışlar' />
+									<Divider />
+								</Box>
+								<Box
+									maxWidth='100%'
+									style={{ marginBottom: 'auto' }}
+								>
 									<Table>
 										<TableHead>
 											<TableRow>
@@ -161,9 +166,17 @@ const Chart = () => {
 									justifyContent='flex-end'
 									p={2}
 								>
-									<Button variant='outlined' color='primary'>
-										Hepsini Gör
-									</Button>
+									<RouterLink
+										to='/sales'
+										style={{ textDecoration: 'none' }}
+									>
+										<Button
+											variant='outlined'
+											color='primary'
+										>
+											Hepsini Gör
+										</Button>
+									</RouterLink>
 								</Box>
 							</Card>
 						</Grid>
