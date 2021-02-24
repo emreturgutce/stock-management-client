@@ -17,6 +17,7 @@ import {
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { toast } from 'react-toastify';
 import { Carousel } from 'react-responsive-carousel';
+import ContentLoader from 'react-content-loader';
 import { BASE_URL } from '../constants';
 import Loader from '../components/content-loader';
 import CarDetailRow from '../components/car-detail-row';
@@ -138,7 +139,7 @@ const CarDetail = () => {
 				'Content-Type': 'application/json',
 			},
 		});
-		
+
 		handleStockClose();
 
 		if (res.ok) {
@@ -181,43 +182,130 @@ const CarDetail = () => {
 				<div className={classes.root}>
 					<Grid container spacing={2}>
 						<Grid item xs={12}>
-							<Typography variant='h5' component='h5'>
-								{car?.title}
-							</Typography>
+							{isLoading ? (
+								<ContentLoader
+									speed={2}
+									width={350}
+									height={30}
+									viewBox='0 0 350 30'
+									backgroundColor='#f3f3f3'
+									foregroundColor='#ecebeb'
+								>
+									<rect
+										x='0'
+										y='0'
+										rx='3'
+										ry='3'
+										width='350'
+										height='30'
+									/>
+								</ContentLoader>
+							) : (
+								<Typography variant='h5' component='h5'>
+									{car?.title}
+								</Typography>
+							)}
 						</Grid>
 						<Grid item md={7} xs={12}>
 							<Box component='div' paddingRight='1rem'>
-								<Carousel>
-									{car?.image_urls
-										?.split(';')
-										.map((image) => (
+								{isLoading ? (
+									<ContentLoader
+										speed={2}
+										width={680}
+										height={650}
+										viewBox='0 0 680 650'
+										backgroundColor='#f3f3f3'
+										foregroundColor='#ecebeb'
+									>
+										<rect
+											x='0'
+											y='0'
+											rx='3'
+											ry='3'
+											width='680'
+											height='480'
+										/>
+										<rect
+											x='50'
+											y='500'
+											rx='3'
+											ry='3'
+											width='80'
+											height='80'
+										/>
+										<rect
+											x='170'
+											y='500'
+											rx='3'
+											ry='3'
+											width='80'
+											height='80'
+										/>
+										<rect
+											x='290'
+											y='500'
+											rx='3'
+											ry='3'
+											width='80'
+											height='80'
+										/>
+									</ContentLoader>
+								) : (
+									<Carousel>
+										{car?.image_urls
+											?.split(';')
+											.map((image) => (
+												<div>
+													<img
+														src={`${image}`}
+														key={image}
+														width='100%'
+														alt={`${car?.title}`}
+													/>
+												</div>
+											)) || (
 											<div>
 												<img
-													src={`${image}`}
-													key={image}
+													src={'/araba2.jpg'}
 													width='100%'
 													alt={`${car?.title}`}
 												/>
 											</div>
-										)) || (
-										<div>
-											<img
-												src={'/araba2.jpg'}
-												width='100%'
-												alt={`${car?.title}`}
-											/>
-										</div>
-									)}
-								</Carousel>
+										)}
+									</Carousel>
+								)}
 							</Box>
 						</Grid>
 						<>
 							<Grid item md={5} xs={12}>
 								<Grid container>
 									<Grid item xs={4}>
-										<Typography variant='h6' component='h6'>
-											{formatPrice(car?.sale_price)}
-										</Typography>
+										{isLoading ? (
+											<ContentLoader
+												speed={2}
+												width={150}
+												height={20}
+												viewBox='0 0 150 20'
+												backgroundColor='#f3f3f3'
+												foregroundColor='#ecebeb'
+											>
+												<rect
+													x='0'
+													y='0'
+													rx='3'
+													ry='3'
+													width='150'
+													height='20'
+												/>
+											</ContentLoader>
+										) : (
+											<Typography
+												variant='h6'
+												component='h6'
+											>
+												{formatPrice(car?.sale_price)}
+											</Typography>
+										)}
 									</Grid>
 									<Grid item xs={8}>
 										<Grid
