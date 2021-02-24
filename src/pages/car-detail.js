@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import {
 	makeStyles,
@@ -47,10 +47,14 @@ const CarDetail = () => {
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const history = useHistory();
-	const [car, setCar] = useState(cars.find((car) => car?.car_id === id));
+	const [car, setCar] = useState(null);
 	const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
 	const getCarsCb = useGetCars();
 	const [disableRefresh, setDisableRefresh] = useState(false);
+
+	useEffect(() => {
+		setCar(cars.find((car) => car?.car_id === id));
+	}, [cars, setCar, id]);
 
 	const handleDateChange = (date) => {
 		setSelectedDate(new Date(date).toISOString().split('T')[0]);
@@ -63,7 +67,6 @@ const CarDetail = () => {
 	const handleRefresh = () => {
 		setDisableRefresh(true);
 		getCarsCb();
-		setCar(cars.find((car) => car?.car_id === id));
 		toast.info('Araba bilgileri güncellendi.', {
 			position: 'top-center',
 			autoclose: 5000,
@@ -123,6 +126,8 @@ const CarDetail = () => {
 				},
 			);
 		}
+
+		getCarsCb();
 	};
 
 	const handleRemoveStock = async () => {
