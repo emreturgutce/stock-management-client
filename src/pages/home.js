@@ -8,6 +8,7 @@ import {
 	TextField,
 	Grid,
 	Container,
+	Tooltip,
 } from '@material-ui/core';
 import { Refresh, HighlightOff } from '@material-ui/icons';
 import { toast } from 'react-toastify';
@@ -122,9 +123,11 @@ const Home = () => {
 				headerName: 'Başlık',
 				width: 350,
 				renderCell: (params) => (
-					<RouterLink to={params.getValue('id') || ''}>
-						{params.value}
-					</RouterLink>
+					<Tooltip title={`${params.value}`}>
+						<RouterLink to={params.getValue('id') || ''}>
+							{params.value}
+						</RouterLink>
+					</Tooltip>
 				),
 			},
 			{ field: 'model', headerName: 'Model', width: 120 },
@@ -233,17 +236,19 @@ const Home = () => {
 							/>
 						</Grid>
 						<Grid item>
-							<Button
-								variant='outlined'
-								style={{
-									marginRight: 5,
-								}}
-								disabled={disableRefresh}
-								onClick={handleRefresh}
-								startIcon={<Refresh />}
-							>
-								Yenile
-							</Button>
+							<Tooltip title='Araba bilgilerini güncellemek için tıkla'>
+								<Button
+									variant='outlined'
+									style={{
+										marginRight: 5,
+									}}
+									disabled={disableRefresh}
+									onClick={handleRefresh}
+									startIcon={<Refresh />}
+								>
+									Yenile
+								</Button>
+							</Tooltip>
 						</Grid>
 					</Grid>
 					<Grid

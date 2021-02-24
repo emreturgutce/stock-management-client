@@ -6,6 +6,7 @@ import {
 	MenuItem,
 	ListItemIcon,
 	ListItemText,
+	Tooltip,
 } from '@material-ui/core';
 import { Delete, Edit, Refresh, ShoppingCart } from '@material-ui/icons';
 import { red } from '@material-ui/core/colors';
@@ -64,22 +65,24 @@ export default function CustomizedMenus({
 
 	return (
 		<div>
-			<Button
-				aria-controls='customized-menu'
-				aria-haspopup='true'
-				color='primary'
-				children={
-					<svg
-						class='MuiSvgIcon-root'
-						focusable='false'
-						viewBox='0 0 24 24'
-						aria-hidden='true'
-					>
-						<path d='M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z'></path>
-					</svg>
-				}
-				onClick={handleClick}
-			/>
+			<Tooltip title='Daha fazla'>
+				<Button
+					aria-controls='customized-menu'
+					aria-haspopup='true'
+					color='primary'
+					children={
+						<svg
+							class='MuiSvgIcon-root'
+							focusable='false'
+							viewBox='0 0 24 24'
+							aria-hidden='true'
+						>
+							<path d='M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z'></path>
+						</svg>
+					}
+					onClick={handleClick}
+				/>
+			</Tooltip>
 			<StyledMenu
 				id='customized-menu'
 				anchorEl={anchorEl}

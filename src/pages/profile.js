@@ -12,6 +12,7 @@ import {
 	Grid,
 	TextField,
 	Container,
+	Tooltip,
 } from '@material-ui/core';
 import validator from 'validator';
 import { KeyboardDatePicker } from '@material-ui/pickers';
@@ -59,8 +60,6 @@ const ProfileDetails = () => {
 		});
 
 		if (res.ok) {
-			getUserCb();
-			refresh();
 			toast.success('Detay bilgileri başarılı bir şekilde güncellendi.', {
 				position: 'top-center',
 				autoClose: 5000,
@@ -85,6 +84,9 @@ const ProfileDetails = () => {
 			);
 		}
 
+		getUserCb();
+		refresh();
+
 		setTimeout(() => {
 			setDisableClick(false);
 		}, 1000);
@@ -106,8 +108,6 @@ const ProfileDetails = () => {
 		});
 
 		if (res.ok) {
-			getUserCb();
-			refresh();
 			toast.success('Şifre başarılı bir şekilde güncellendi.', {
 				position: 'top-center',
 				autoClose: 5000,
@@ -131,6 +131,9 @@ const ProfileDetails = () => {
 				},
 			);
 		}
+
+		getUserCb();
+		refresh();
 
 		setTimeout(() => {
 			setDisableClick(false);
@@ -174,6 +177,9 @@ const ProfileDetails = () => {
 			);
 		}
 
+		getUserCb();
+		refresh();
+
 		setTimeout(() => {
 			setDisableClick(false);
 		}, 1000);
@@ -197,9 +203,11 @@ const ProfileDetails = () => {
 									title='Profil'
 									avatar={
 										user?.verified && (
-											<VerifiedUser
-												style={{ color: '#4caf50' }}
-											/>
+											<Tooltip title='Onaylanmış kullanıcı'>
+												<VerifiedUser
+													style={{ color: '#4caf50' }}
+												/>
+											</Tooltip>
 										)
 									}
 								/>

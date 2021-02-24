@@ -9,6 +9,7 @@ import {
 	IconButton,
 	Container,
 	Grid,
+	Tooltip,
 } from '@material-ui/core';
 import { Add, Equalizer, Home } from '@material-ui/icons';
 import LetterAvatar from './letter-avatar';
@@ -58,26 +59,33 @@ const Navbar = () => {
 							</IconButton>
 						</RouterLink>
 					)}*/}
-					<RouterLink to='/cars/chart'>
-						<IconButton
-							edge='start'
-							className={classes.menuButton}
-							color='inherit'
-							aria-label='menu'
-						>
-							<Equalizer style={{ fill: '#EEE' }} width='125%' />
-						</IconButton>
-					</RouterLink>
-					<RouterLink to='/cars/add'>
-						<IconButton
-							edge='start'
-							className={classes.menuButton}
-							color='inherit'
-							aria-label='menu'
-						>
-							<Add style={{ fill: '#EEE' }} width='125%' />
-						</IconButton>
-					</RouterLink>
+					<Tooltip title='Satış grafiği'>
+						<RouterLink to='/cars/chart'>
+							<IconButton
+								edge='start'
+								className={classes.menuButton}
+								color='inherit'
+								aria-label='menu'
+							>
+								<Equalizer
+									style={{ fill: '#EEE' }}
+									width='125%'
+								/>
+							</IconButton>
+						</RouterLink>
+					</Tooltip>
+					<Tooltip title='Araba ekle'>
+						<RouterLink to='/cars/add'>
+							<IconButton
+								edge='start'
+								className={classes.menuButton}
+								color='inherit'
+								aria-label='menu'
+							>
+								<Add style={{ fill: '#EEE' }} width='125%' />
+							</IconButton>
+						</RouterLink>
+					</Tooltip>
 					<LetterAvatar
 						firstLetter={
 							user.first_name.toUpperCase().charAt(0) || 'U'
