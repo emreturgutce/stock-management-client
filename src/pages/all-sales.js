@@ -50,7 +50,13 @@ const AllSales = () => {
 							<CardHeader title='Bütün Satışlar' />
 							<Divider />
 						</Box>
-						<Box maxWidth='100%' style={{ marginBottom: 'auto' }}>
+						<Box
+							maxWidth='100%'
+							style={{
+								marginBottom: 'auto',
+								overflowX: 'scroll',
+							}}
+						>
 							<Table>
 								<TableHead>
 									<TableRow>
