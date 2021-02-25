@@ -143,7 +143,9 @@ const Chart = () => {
 													</TableCell>
 													<TableCell>
 														<Link
-															component={RouterLink}
+															component={
+																RouterLink
+															}
 															to={`/${sale.car_id}`}
 														>
 															{sale.title}
@@ -168,17 +170,14 @@ const Chart = () => {
 									justifyContent='flex-end'
 									p={2}
 								>
-									<RouterLink
+									<Button
+										component={RouterLink}
 										to='/sales'
-										style={{ textDecoration: 'none' }}
+										variant='outlined'
+										color='primary'
 									>
-										<Button
-											variant='outlined'
-											color='primary'
-										>
-											Hepsini Gör
-										</Button>
-									</RouterLink>
+										Hepsini Gör
+									</Button>
 								</Box>
 							</Card>
 						</Grid>
