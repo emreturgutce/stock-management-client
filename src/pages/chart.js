@@ -112,73 +112,89 @@ const Chart = () => {
 						</Grid>
 						<Grid item md={6} sm={12}>
 							<Card style={{ height: '100%' }}>
-								<Box>
-									<CardHeader title='Son Satışlar' />
-									<Divider />
-								</Box>
-								<Box
-									maxWidth='100%'
-									style={{ marginBottom: 'auto' }}
+								<Grid
+									container
+									direction='column'
+									justify='space-between'
+									style={{ height: '100%' }}
 								>
-									<Table>
-										<TableHead>
-											<TableRow>
-												<TableCell>
-													Satış Numarası
-												</TableCell>
-												<TableCell>
-													İlan Başlığı
-												</TableCell>
-												<TableCell>Fiyat</TableCell>
-											</TableRow>
-										</TableHead>
-										<TableBody>
-											{latestSales.map((sale) => (
-												<TableRow
-													hover
-													key={sale.title}
-												>
-													<TableCell>
-														{sale.serial_number}
-													</TableCell>
-													<TableCell>
-														<Link
-															component={
-																RouterLink
-															}
-															to={`/${sale.car_id}`}
+									<Grid item>
+										<Box>
+											<CardHeader title='Son Satışlar' />
+											<Divider />
+										</Box>
+										<Box
+											maxWidth='100%'
+											style={{ marginBottom: 'auto' }}
+										>
+											<Table>
+												<TableHead>
+													<TableRow>
+														<TableCell>
+															Satış Numarası
+														</TableCell>
+														<TableCell>
+															İlan Başlığı
+														</TableCell>
+														<TableCell>
+															Fiyat
+														</TableCell>
+													</TableRow>
+												</TableHead>
+												<TableBody>
+													{latestSales.map((sale) => (
+														<TableRow
+															hover
+															key={sale.title}
 														>
-															{sale.title}
-														</Link>
-													</TableCell>
-													<TableCell>
-														<Chip
-															color='primary'
-															label={formatPrice(
-																sale.price,
-															)}
-															size='small'
-														/>
-													</TableCell>
-												</TableRow>
-											))}
-										</TableBody>
-									</Table>
-								</Box>
-								<Box
-									display='flex'
-									justifyContent='flex-end'
-									p={2}
-								>
-									<Button
-										component={RouterLink}
-										to='/sales'
-										variant='outlined'
-										color='primary'
-									>
-										Hepsini Gör
-									</Button>
-								</Box>
+															<TableCell>
+																{
+																	sale.serial_number
+																}
+															</TableCell>
+															<TableCell>
+																<Link
+																	component={
+																		RouterLink
+																	}
+																	to={`/${sale.car_id}`}
+																>
+																	{sale.title}
+																</Link>
+															</TableCell>
+															<TableCell>
+																<Chip
+																	color='primary'
+																	label={formatPrice(
+																		sale.price,
+																	)}
+																	size='small'
+																/>
+															</TableCell>
+														</TableRow>
+													))}
+												</TableBody>
+											</Table>
+										</Box>
+									</Grid>
+									<Grid item>
+										<Divider />
+										<Box
+											display='flex'
+											justifyContent='flex-end'
+											p={2}
+										>
+											<Button
+												component={RouterLink}
+												to='/sales'
+												variant='outlined'
+												color='primary'
+											>
+												Hepsini Gör
+											</Button>
+										</Box>
+									</Grid>
+								</Grid>
 							</Card>
 						</Grid>
 					</Grid>
