@@ -9,6 +9,7 @@ import {
 	Grid,
 	Container,
 	Tooltip,
+	Link,
 } from '@material-ui/core';
 import { Refresh, HighlightOff } from '@material-ui/icons';
 import { toast } from 'react-toastify';
@@ -124,9 +125,12 @@ const Home = () => {
 				width: 350,
 				renderCell: (params) => (
 					<Tooltip title={`${params.value}`}>
-						<RouterLink to={params.getValue('id') || ''}>
+						<Link
+							component={RouterLink}
+							to={params.getValue('id') || ''}
+						>
 							{params.value}
-						</RouterLink>
+						</Link>
 					</Tooltip>
 				),
 			},
