@@ -202,15 +202,16 @@ const Home = () => {
 	useEffect(() => {
 		setCarsState(
 			cars.filter((car) => {
-				const regex = new RegExp(searchInput, 'ig');
+				const regex = new RegExp(`\\b${searchInput}`, 'ig');
 
-				return car.title.toLowerCase().match(regex);
+				return car.title.match(regex);
 			}),
 		);
 	}, [cars, searchInput]);
 
 	const handleRefresh = () => {
 		setDisableRefresh(true);
+		setSearchInput('');
 		getCarsCb();
 		toast.info('Araba bilgileri güncellendi.', {
 			position: 'top-center',
@@ -244,9 +245,9 @@ const Home = () => {
 					>
 						<Grid item>
 							<SearchInput
-								searchInput={searchInput}
 								setSearchInput={setSearchInput}
 								cars={cars}
+								isLoading={isLoading}
 							/>
 						</Grid>
 						<Grid item>
