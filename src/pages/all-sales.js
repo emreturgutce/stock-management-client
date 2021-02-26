@@ -29,8 +29,6 @@ const AllSales = () => {
 		dispatch,
 	]);
 
-	console.log(allSales);
-
 	useEffect(() => {
 		getAllSalesCb();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
