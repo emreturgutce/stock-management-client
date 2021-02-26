@@ -14,6 +14,7 @@ import {
 	Card,
 	Box,
 	CardHeader,
+	Link,
 } from '@material-ui/core';
 import Page from '../components/page';
 import { formatPrice } from '../utils/format-price';
@@ -74,11 +75,12 @@ const AllSales = () => {
 												{sale.serial_number}
 											</TableCell>
 											<TableCell>
-												<RouterLink
+												<Link
+													component={RouterLink}
 													to={`/${sale.car_id}`}
 												>
 													{sale.title}
-												</RouterLink>
+												</Link>
 											</TableCell>
 											<TableCell>
 												<Chip
