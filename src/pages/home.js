@@ -5,7 +5,6 @@ import {
 	createStyles,
 	makeStyles,
 	Button,
-	TextField,
 	Grid,
 	Container,
 	Tooltip,
@@ -16,6 +15,7 @@ import { toast } from 'react-toastify';
 import { useCarState, useGetCars } from '../hooks';
 import { formatPrice } from '../utils/format-price';
 import Page from '../components/page';
+import SearchInput from '../components/search-input';
 
 const useStyles = makeStyles((theme) =>
 	createStyles({
@@ -201,7 +201,11 @@ const Home = () => {
 
 	useEffect(() => {
 		setCarsState(
-			cars.filter((car) => car.title.toLowerCase().includes(searchInput)),
+			cars.filter((car) => {
+				const regex = new RegExp(searchInput, 'ig');
+
+				return car.title.toLowerCase().match(regex);
+			}),
 		);
 	}, [cars, searchInput]);
 
@@ -239,14 +243,10 @@ const Home = () => {
 						justify='space-between'
 					>
 						<Grid item>
-							<TextField
-								size='small'
-								id='filled-search'
-								label='Ara'
-								type='search'
-								variant='outlined'
-								value={searchInput}
-								onChange={(e) => setSearchInput(e.target.value)}
+							<SearchInput
+								searchInput={searchInput}
+								setSearchInput={setSearchInput}
+								cars={cars}
 							/>
 						</Grid>
 						<Grid item>
