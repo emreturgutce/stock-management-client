@@ -1,12 +1,12 @@
 import { BASE_URL } from '../../constants/index';
 import { CarActionTypes } from '../types';
 
-export const getSales = () => (dispatch) => {
+export const getSales = (fromDate, toDate) => (dispatch) => {
 	dispatch({
 		type: CarActionTypes.SALES_LOADING,
 	});
 
-	fetch(`${BASE_URL}/api/sales/count?from=2020-11-01&to=2021-02-01`, {
+	fetch(`${BASE_URL}/api/sales/count?from=${fromDate}&to=${toDate}`, {
 		method: 'GET',
 		credentials: 'include',
 	})
