@@ -86,6 +86,12 @@ export default function CarForm({ car }) {
 	const [files, setFiles] = useState([
 		...(car?.image_urls?.split(';')?.map((image) => image) || []),
 	]);
+	const myRegex = /(.*\.com\/)(.*)/;
+	const getFilenameFromURL = (url) => myRegex.exec(url)?.[2];
+
+	const [initialFiles] = useState(
+		files.map((file) => getFilenameFromURL(file)),
+	);
 	const { manufacturers, suppliers, colors } = useCarState();
 	const [disableClick, setDisableClick] = useState(false);
 
@@ -100,7 +106,6 @@ export default function CarForm({ car }) {
 	const onSubmit = async () => {
 		setDisableClick(true);
 		const formData = new FormData();
-		files.forEach((file) => formData.append('avatar', file));
 
 		const data = {
 			title,
@@ -131,6 +136,8 @@ export default function CarForm({ car }) {
 			});
 
 			const dataJson = await res.json();
+
+			files.forEach((file) => formData.append('avatar', file));
 
 			await axios.post(
 				`${BASE_URL}/api/cars/${dataJson.data[0].id}/images`,
@@ -179,6 +186,28 @@ export default function CarForm({ car }) {
 				method: 'PUT',
 			});
 
+			let shouldUploadPhotos = false;
+
+			files.forEach((file) => {
+				if (!initialFiles.includes(file.name)) {
+					formData.append('avatar', file);
+					shouldUploadPhotos = true;
+				}
+			});
+
+			if (shouldUploadPhotos) {
+				await axios.post(
+					`${BASE_URL}/api/cars/${car.car_id}/images`,
+					formData,
+					{
+						headers: {
+							'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+						},
+						withCredentials: true,
+					},
+				);
+			}
+
 			if (res.ok) {
 				toast.success('Araba başarılı bir şekilde güncellendi.', {
 					position: 'top-center',
@@ -189,6 +218,9 @@ export default function CarForm({ car }) {
 					draggable: true,
 					progress: undefined,
 				});
+				setTimeout(() => {
+					setDisableClick(false);
+				}, 1000);
 				history.goBack();
 			} else {
 				toast.error(
@@ -203,12 +235,11 @@ export default function CarForm({ car }) {
 						progress: undefined,
 					},
 				);
+				setTimeout(() => {
+					setDisableClick(false);
+				}, 1000);
 			}
 		}
-
-		setTimeout(() => {
-			setDisableClick(false);
-		}, 1000);
 	};
 
 	const handleCancel = () => {
