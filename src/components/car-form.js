@@ -195,6 +195,21 @@ export default function CarForm({ car }) {
 				}
 			});
 
+			const willBeDeletedFiles = [];
+
+			for (let initialFile of initialFiles) {
+				let shouldInitialFileBeDeleted = true;
+				for (let file of files) {
+					if (file.name === initialFile) {
+						shouldInitialFileBeDeleted = false;
+						break;
+					}
+				}
+				if (shouldInitialFileBeDeleted) {
+					willBeDeletedFiles.push(initialFile);
+				}
+			}
+
 			if (shouldUploadPhotos) {
 				await axios.post(
 					`${BASE_URL}/api/cars/${car.car_id}/images`,
@@ -206,6 +221,19 @@ export default function CarForm({ car }) {
 						withCredentials: true,
 					},
 				);
+			}
+
+			if (willBeDeletedFiles.length > 0) {
+				await fetch(`${BASE_URL}/api/cars/${car.car_id}/images`, {
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					credentials: 'include',
+					body: JSON.stringify({
+						images: willBeDeletedFiles,
+					}),
+					method: 'DELETE',
+				});
 			}
 
 			if (res.ok) {
