@@ -170,7 +170,7 @@ const CarDetail = () => {
 		history.push('/');
 	};
 
-	const handleEditClick = () => history.push(`/${car?.id}/edit`, { car });
+	const handleEditClick = () => history.push(`/${car?.car_id}/edit`, { car });
 
 	const handleDelete = () => setOpenStock(true);
 
