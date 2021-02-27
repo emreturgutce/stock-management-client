@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import {
@@ -31,10 +31,16 @@ import Page from '../components/page';
 import { formatPrice } from '../utils/format-price';
 import { getTotalRevenue } from '../actions/cars/get-total-revenue';
 import LChart from '../components/line-chart';
+import DateRangeSlider from '../components/date-range-slider';
+
+const fromDate = '2020-06-01';
+const toDate = '2021-06-01';
 
 const Chart = () => {
 	const dispatch = useDispatch();
-	const getSalesCb = useCallback(() => dispatch(getSales()), [dispatch]);
+	const getSalesCb = useCallback((from, to) => dispatch(getSales(from, to)), [
+		dispatch,
+	]);
 	const getTotalProfitCb = useCallback(() => dispatch(getTotalProfit()), [
 		dispatch,
 	]);
@@ -46,7 +52,10 @@ const Chart = () => {
 		dispatch,
 	]);
 
-	useEffect(getSalesCb, [getSalesCb]);
+	useEffect(() => {
+		getSalesCb(fromDate, toDate);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [getSalesCb]);
 	useEffect(getTotalProfitCb, [getTotalProfitCb]);
 	useEffect(getTotalCustomerCb, [getTotalCustomerCb]);
 	useEffect(getTotalRevenueCb, [getTotalRevenueCb]);
@@ -105,6 +114,9 @@ const Chart = () => {
 									</Grid>
 									<Grid item style={{ height: 70.8 }}>
 										<Divider />
+										<DateRangeSlider
+											getSalesCb={getSalesCb}
+										/>
 										<Box height='100%' />
 									</Grid>
 								</Grid>
