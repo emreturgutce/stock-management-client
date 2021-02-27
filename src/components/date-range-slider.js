@@ -22,7 +22,7 @@ const domain = [new Date('2020-12-01').getTime(), Date.now()];
 
 const DateRangeSlider = ({ getSalesCb }) => {
 	const [values, setValues] = useState([
-		new Date('2021-01-01').getTime(),
+		new Date('2020-12-01').getTime(),
 		Date.now(),
 	]);
 	const fetchChartData = _.debounce(() => {
