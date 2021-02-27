@@ -513,7 +513,10 @@ const CarDetail = () => {
 										</Typography>
 									</Grid>
 									<Grid item xs={12}>
-										<Typography variant='body1'>
+										<Typography
+											variant='body1'
+											style={{ whiteSpace: 'pre-wrap' }}
+										>
 											{car?.car_description}
 										</Typography>
 									</Grid>
