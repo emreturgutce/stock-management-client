@@ -18,7 +18,7 @@ const railStyle = {
 	backgroundColor: 'rgb(155,155,155)',
 };
 
-const domain = [new Date('2021-01-01').getTime(), Date.now()];
+const domain = [new Date('2020-12-01').getTime(), Date.now()];
 
 const DateRangeSlider = ({ getSalesCb }) => {
 	const [values, setValues] = useState([
