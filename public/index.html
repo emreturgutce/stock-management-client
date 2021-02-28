@@ -58,6 +58,40 @@
 				fill: #fff;
 			}
 
+			#customized-menu
+				> div.MuiPaper-root.MuiMenu-paper.Component-paper-4.MuiPopover-paper.MuiPaper-elevation0.MuiPaper-rounded::before {
+				width: 0;
+				height: 0;
+				border-left: 8px solid transparent;
+				border-right: 8px solid transparent;
+				border-bottom: 8px solid white;
+				position: absolute;
+				content: '';
+				top: -8px;
+				right: 35px;
+			}
+
+			#customized-menu
+				> div.MuiPaper-root.MuiMenu-paper.Component-paper-4.MuiPopover-paper.MuiPaper-elevation0.MuiPaper-rounded {
+				overflow: visible;
+			}
+
+			#simple-menu
+				> div.MuiPaper-root.MuiMenu-paper.Component-paper-6.MuiPopover-paper.MuiPaper-elevation0.MuiPaper-rounded {
+				overflow: visible;
+			}
+			.MuiPaper-root.MuiMenu-paper.Component-paper-6.MuiPopover-paper.MuiPaper-elevation0.MuiPaper-rounded::before {
+				width: 0;
+				height: 0;
+				border-left: 8px solid transparent;
+				border-right: 8px solid transparent;
+				border-bottom: 8px solid white;
+				position: absolute;
+				content: '';
+				top: -8px;
+				right: 5px;
+			}
+
 			#root
 				> div.MuiContainer-root.MuiContainer-maxWidthLg
 				> div
