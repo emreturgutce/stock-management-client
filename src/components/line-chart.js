@@ -13,6 +13,8 @@ const LineChart = () => {
 				fill: false,
 				backgroundColor: '#49789c',
 				borderColor: '#adcae1',
+				pointHoverRadius: 5,
+				lineTension: 0.1,
 			},
 		],
 	};

@@ -16,10 +16,10 @@ export const Handle = ({
 			left: `${percent}%`,
 			position: 'absolute',
 			marginLeft: '-11px',
-			marginTop: '-6px',
+			marginTop: '-4px',
 			zIndex: 2,
-			width: 24,
-			height: 24,
+			width: 16,
+			height: 16,
 			cursor: 'pointer',
 			borderRadius: '50%',
 			boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)',
@@ -33,7 +33,7 @@ export const Track = ({ source, target, getTrackProps }) => (
 	<div
 		style={{
 			position: 'absolute',
-			height: 14,
+			height: 8,
 			zIndex: 1,
 			backgroundColor: '#adcae1',
 			borderRadius: 7,

@@ -12,7 +12,7 @@ const sliderStyle = {
 const railStyle = {
 	position: 'absolute',
 	width: '100%',
-	height: 14,
+	height: 8,
 	borderRadius: 7,
 	cursor: 'pointer',
 	backgroundColor: 'rgb(155,155,155)',
@@ -26,7 +26,6 @@ const DateRangeSlider = ({ getSalesCb }) => {
 		Date.now(),
 	]);
 	const fetchChartData = _.debounce(() => {
-		console.log('REQUEST SENT');
 		getSalesCb(
 			new Date(values[0]).toISOString().split('T')[0],
 			new Date(values[1]).toISOString().split('T')[0],
@@ -39,7 +38,9 @@ const DateRangeSlider = ({ getSalesCb }) => {
 	}, [values]);
 
 	const onChange = (vals) => {
-		setValues(vals);
+		if (vals[0] !== values[0] || vals[1] !== values[1]) {
+			setValues(vals);
+		}
 	};
 
 	return (
