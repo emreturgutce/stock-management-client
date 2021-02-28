@@ -167,7 +167,7 @@ export default function CustomizedMenus({
 				<StyledMenuItem
 					onClick={() => {
 						handleClose();
-						handleRefresh();
+						setTimeout(handleRefresh, 500);
 					}}
 					disabled={disableRefresh}
 				>
