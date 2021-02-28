@@ -12,6 +12,7 @@ import {
 	Typography,
 	makeStyles,
 	Container,
+	Link,
 } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
 import { loginUser } from '../actions';
@@ -133,9 +134,12 @@ export default function SignIn() {
 								</Button>
 								<Grid container>
 									<Grid item xs>
-										<RouterLink to='/forgot-password'>
+										<Link
+											to='/forgot-password'
+											component={RouterLink}
+										>
 											Şifreni mi unuttun?
-										</RouterLink>
+										</Link>
 									</Grid>
 								</Grid>
 							</form>
