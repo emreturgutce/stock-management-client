@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import {
 	makeStyles,
@@ -18,6 +18,7 @@ import { KeyboardDatePicker } from '@material-ui/pickers';
 import { toast } from 'react-toastify';
 import { Carousel } from 'react-responsive-carousel';
 import ContentLoader from 'react-content-loader';
+import { throttle } from 'lodash';
 import { BASE_URL } from '../constants';
 import Loader from '../components/content-loader';
 import CarDetailRow from '../components/car-detail-row';
@@ -65,22 +66,31 @@ const CarDetail = () => {
 
 	const handleStockClose = () => setOpenStock(false);
 
-	const handleRefresh = () => {
-		setDisableRefresh(true);
-		getCarsCb();
-		toast.info('Araba bilgileri güncellendi.', {
-			position: 'top-center',
-			autoclose: 5000,
-			hideprogressbar: false,
-			closeonclick: true,
-			pauseonhover: true,
-			draggable: true,
-			progress: undefined,
-		});
-		setTimeout(() => {
-			setDisableRefresh(false);
-		}, 1000);
-	};
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const handleRefresh = useCallback(
+		throttle(
+			() => {
+				setDisableRefresh(true);
+				getCarsCb();
+				toast.info('Araba bilgileri güncellendi.', {
+					position: 'top-center',
+					autoclose: 5000,
+					hideprogressbar: false,
+					closeonclick: true,
+					pauseonhover: true,
+					draggable: true,
+					progress: undefined,
+				});
+				setTimeout(() => {
+					setDisableRefresh(false);
+				}, 1000);
+			},
+			5000,
+			{ trailing: false },
+		),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[throttle],
+	);
 
 	const onSubmit = async () => {
 		const res = await fetch(`${BASE_URL}/api/sales`, {

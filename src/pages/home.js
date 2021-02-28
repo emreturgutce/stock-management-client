@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { DataGrid, GridOverlay } from '@material-ui/data-grid';
 import {
@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import { Refresh, HighlightOff } from '@material-ui/icons';
 import { toast } from 'react-toastify';
+import { throttle } from 'lodash';
 import { useCarState, useGetCars } from '../hooks';
 import { formatPrice } from '../utils/format-price';
 import Page from '../components/page';
@@ -209,23 +210,32 @@ const Home = () => {
 		);
 	}, [cars, searchInput]);
 
-	const handleRefresh = () => {
-		setDisableRefresh(true);
-		setSearchInput('');
-		getCarsCb();
-		toast.info('Araba bilgileri güncellendi.', {
-			position: 'top-center',
-			autoclose: 5000,
-			hideprogressbar: false,
-			closeonclick: true,
-			pauseonhover: true,
-			draggable: true,
-			progress: undefined,
-		});
-		setTimeout(() => {
-			setDisableRefresh(false);
-		}, 1000);
-	};
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const handleRefresh = useCallback(
+		throttle(
+			() => {
+				setDisableRefresh(true);
+				setSearchInput('');
+				getCarsCb();
+				toast.info('Araba bilgileri güncellendi.', {
+					position: 'top-center',
+					autoclose: 5000,
+					hideprogressbar: false,
+					closeonclick: true,
+					pauseonhover: true,
+					draggable: true,
+					progress: undefined,
+				});
+				setTimeout(() => {
+					setDisableRefresh(false);
+				}, 1000);
+			},
+			5000,
+			{ trailing: false },
+		),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[throttle],
+	);
 
 	return (
 		<Page title='Anasayfa'>
