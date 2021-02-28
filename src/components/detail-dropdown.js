@@ -9,7 +9,6 @@ import {
 	Tooltip,
 } from '@material-ui/core';
 import { Delete, Edit, Refresh, ShoppingCart } from '@material-ui/icons';
-import { red } from '@material-ui/core/colors';
 import { BASE_URL } from '../constants';
 
 const StyledMenu = withStyles({
@@ -34,10 +33,13 @@ const StyledMenu = withStyles({
 
 const StyledMenuItem = withStyles((theme) => ({
 	root: {
-		'&:focus': {
+		'&:hover': {
 			backgroundColor: theme.palette.primary.main,
 			'& .MuiListItemIcon-root, & .MuiListItemText-primary': {
 				color: theme.palette.common.white,
+			},
+			'&.red-item': {
+				backgroundColor: theme.palette.secondary.main,
 			},
 		},
 	},
@@ -193,12 +195,10 @@ export default function CustomizedMenus({
 							handleClose();
 							handleDelete();
 						}}
+						className='red-item'
 					>
 						<ListItemIcon>
-							<Delete
-								style={{ color: red[900] }}
-								fontSize='small'
-							/>
+							<Delete fontSize='small' />
 						</ListItemIcon>
 						<ListItemText primary='Kayıtı kaldır' />
 					</StyledMenuItem>
@@ -209,12 +209,10 @@ export default function CustomizedMenus({
 							handleClose();
 							handleSell();
 						}}
+						className='red-item'
 					>
 						<ListItemIcon>
-							<ShoppingCart
-								style={{ color: red[900] }}
-								fontSize='small'
-							/>
+							<ShoppingCart fontSize='small' />
 						</ListItemIcon>
 						<ListItemText primary='Sat' />
 					</StyledMenuItem>
