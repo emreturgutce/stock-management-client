@@ -11,9 +11,10 @@ import {
 	Grid,
 	Tooltip,
 } from '@material-ui/core';
-import { Add, Equalizer, Home } from '@material-ui/icons';
+import { Equalizer, Home } from '@material-ui/icons';
 import LetterAvatar from './letter-avatar';
 import { useAuthState } from '../hooks';
+import AddDropDown from './add-dropdown';
 
 const useStyles = makeStyles((theme) =>
 	createStyles({
@@ -69,23 +70,12 @@ const Navbar = () => {
 							>
 								<Equalizer
 									style={{ fill: '#EEE' }}
-									width='125%'
+									fontSize='small'
 								/>
 							</IconButton>
 						</RouterLink>
 					</Tooltip>
-					<Tooltip title='Araba ekle'>
-						<RouterLink to='/cars/add'>
-							<IconButton
-								edge='start'
-								className={classes.menuButton}
-								color='inherit'
-								aria-label='menu'
-							>
-								<Add style={{ fill: '#EEE' }} width='125%' />
-							</IconButton>
-						</RouterLink>
-					</Tooltip>
+					<AddDropDown />
 					<LetterAvatar
 						firstLetter={
 							user.first_name.toUpperCase().charAt(0) || 'U'
