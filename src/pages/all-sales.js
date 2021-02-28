@@ -15,6 +15,7 @@ import {
 	Box,
 	CardHeader,
 	Link,
+	Tooltip,
 } from '@material-ui/core';
 import Page from '../components/page';
 import { formatPrice } from '../utils/format-price';
@@ -73,12 +74,16 @@ const AllSales = () => {
 												{sale.serial_number}
 											</TableCell>
 											<TableCell>
-												<Link
-													component={RouterLink}
-													to={`/${sale.car_id}`}
+												<Tooltip
+													title={`${sale.title}`}
 												>
-													{sale.title}
-												</Link>
+													<Link
+														component={RouterLink}
+														to={`/${sale.car_id}`}
+													>
+														{sale.title}
+													</Link>
+												</Tooltip>
 											</TableCell>
 											<TableCell>
 												<Chip

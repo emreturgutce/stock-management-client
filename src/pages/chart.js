@@ -16,6 +16,7 @@ import {
 	TableRow,
 	Container,
 	Link,
+	Tooltip,
 } from '@material-ui/core';
 import {
 	getSales,
@@ -165,14 +166,20 @@ const Chart = () => {
 																}
 															</TableCell>
 															<TableCell>
-																<Link
-																	component={
-																		RouterLink
-																	}
-																	to={`/${sale.car_id}`}
+																<Tooltip
+																	title={`${sale.title}`}
 																>
-																	{sale.title}
-																</Link>
+																	<Link
+																		component={
+																			RouterLink
+																		}
+																		to={`/${sale.car_id}`}
+																	>
+																		{
+																			sale.title
+																		}
+																	</Link>
+																</Tooltip>
 															</TableCell>
 															<TableCell>
 																<Chip
