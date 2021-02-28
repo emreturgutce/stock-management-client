@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import {
@@ -52,6 +52,14 @@ const Chart = () => {
 	const getTotalRevenueCb = useCallback(() => dispatch(getTotalRevenue()), [
 		dispatch,
 	]);
+	const mediaMatch = window.matchMedia('(min-width: 1200px)');
+	const [matches, setMatches] = useState(mediaMatch.matches);
+
+	useEffect(() => {
+		const handler = (e) => setMatches(e.matches);
+		mediaMatch.addListener(handler);
+		return () => mediaMatch.removeListener(handler);
+	});
 
 	useEffect(() => {
 		getSalesCb(fromDate, toDate);
@@ -80,13 +88,23 @@ const Chart = () => {
 					style={{ marginTop: '.5rem' }}
 				>
 					<Grid item container spacing={1} md={12} xs={12}>
-						<Grid item md={4} xs={12}>
+						<Grid
+							item
+							md={4}
+							xs={12}
+							style={{ paddingLeft: matches && 0 }}
+						>
 							<TotalProfit />
 						</Grid>
 						<Grid item md={4} xs={12}>
 							<TotalCustomers />
 						</Grid>
-						<Grid item md={4} xs={12}>
+						<Grid
+							item
+							md={4}
+							xs={12}
+							style={{ paddingRight: matches && 0 }}
+						>
 							<TotalRevenue />
 						</Grid>
 					</Grid>
@@ -96,6 +114,7 @@ const Chart = () => {
 						justify='center'
 						direction='row'
 						style={{ marginTop: '1rem' }}
+						spacing={1}
 					>
 						<Grid item md={6} sm={12} style={{ width: '100%' }}>
 							<Card style={{ height: '100%' }}>
