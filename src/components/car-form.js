@@ -21,6 +21,7 @@ import { Save, Cancel } from '@material-ui/icons';
 import { toast } from 'react-toastify';
 import { useCarState, useAuthState } from '../hooks';
 import { BASE_URL } from '../constants';
+import ExcelDropzone from './excel-dropzone';
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 			marginLeft: 'auto',
 			marginRight: 'auto',
 		},
+		marginTop: theme.spacing(4),
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
@@ -94,6 +96,7 @@ export default function CarForm({ car }) {
 	);
 	const { manufacturers, suppliers, colors } = useCarState();
 	const [disableClick, setDisableClick] = useState(false);
+	const [excelFiles, setExcelFiles] = useState([]);
 
 	const {
 		user: { id },
@@ -274,12 +277,76 @@ export default function CarForm({ car }) {
 		history.goBack();
 	};
 
+	const handleExcelSubmit = async () => {
+		if (excelFiles.length > 0) {
+			setDisableClick(true);
+			const formData = new FormData();
+
+			formData.append('excel', excelFiles[0]);
+
+			const res = await axios.post(
+				`${BASE_URL}/api/cars/excel`,
+				formData,
+				{
+					headers: {
+						'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+					},
+					withCredentials: true,
+				},
+			);
+
+			if (res.status === 201) {
+				toast.success('Arabalar başarılı bir şekilde eklendi.', {
+					position: 'top-center',
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				});
+
+				history.push('/');
+			} else {
+				toast.error(
+					'Araba ekleme işlemi başarısız lütfen tekrar deneyiniz.',
+					{
+						position: 'top-center',
+						autoClose: 5000,
+						hideProgressBar: false,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+					},
+				);
+			}
+
+			setTimeout(() => {
+				setDisableClick(false);
+			}, 1000);
+		}
+	};
+
 	return (
 		<main className={classes.layout}>
-			<Paper className={classes.paper}>
-				<Typography component='h1' variant='h4' align='center'>
-					{car ? 'Araba Güncelle' : 'Araba Ekle'}
+			{!car && (
+				<ExcelDropzone
+					handleCancel={handleCancel}
+					setFiles={setExcelFiles}
+					handleSubmit={handleExcelSubmit}
+					disable={disableClick}
+				/>
+			)}
+			{!car && (
+				<Typography
+					variant='h6'
+					style={{ textAlign: 'center', marginTop: '32px' }}
+				>
+					OR
 				</Typography>
+			)}
+			<Paper className={classes.paper}>
 				<Typography variant='h6' gutterBottom>
 					Araba Bilgileri
 				</Typography>
