@@ -343,7 +343,7 @@ export default function CarForm({ car }) {
 					variant='h6'
 					style={{ textAlign: 'center', marginTop: '32px' }}
 				>
-					OR
+					VEYA
 				</Typography>
 			)}
 			<Paper className={classes.paper}>
