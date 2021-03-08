@@ -527,7 +527,7 @@ const CarDetail = () => {
 											variant='body1'
 											style={{ whiteSpace: 'pre-wrap' }}
 										>
-											{car?.car_description}
+											{car?.description}
 										</Typography>
 									</Grid>
 								</>
