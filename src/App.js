@@ -21,6 +21,7 @@ import { useAuthState } from './hooks';
 import ForgotPassword from './pages/forgot-password';
 import ChangePassword from './pages/change-password';
 import Confirm from './pages/confirm';
+import AwaitingEvents from './pages/awaiting-events';
 
 const App = () => {
 	const { isLoading } = useAuthState();
@@ -72,6 +73,7 @@ const App = () => {
 						component={Personel}
 					/>
 					<PrivateRoute exact path='/sales' component={AllSales} />
+					<PrivateRoute exact path='/awaiting-events' component={AwaitingEvents} />
 					<PrivateRoute exact path='/:id' component={CarDetail} />
 					<PrivateRoute exact path='/:id/edit' component={CarEdit} />
 					<PrivateRoute exact path='/cars/add' component={CarAdd} />
