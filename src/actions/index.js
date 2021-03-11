@@ -10,3 +10,4 @@ export * from './auth/get-user';
 export * from './auth/login';
 export * from './auth/logout';
 export * from './cars/get-latest-sales'
+export * from './cars/get-awaiting-events'
