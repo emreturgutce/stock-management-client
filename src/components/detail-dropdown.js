@@ -53,6 +53,7 @@ export default function CustomizedMenus({
 	isSold,
 	carId,
 	disableRefresh,
+	isWaiting,
 }) {
 	const [anchorEl, setAnchorEl] = useState(null);
 
@@ -182,6 +183,7 @@ export default function CustomizedMenus({
 							handleClose();
 							handleEdit();
 						}}
+						disabled={isWaiting}
 					>
 						<ListItemIcon>
 							<Edit fontSize='small' />
@@ -196,6 +198,7 @@ export default function CustomizedMenus({
 							handleDelete();
 						}}
 						className='red-item'
+						disabled={isWaiting}
 					>
 						<ListItemIcon>
 							<Delete fontSize='small' />
@@ -209,6 +212,7 @@ export default function CustomizedMenus({
 							handleClose();
 							handleSell();
 						}}
+						disabled={isWaiting}
 						className='red-item'
 					>
 						<ListItemIcon>
