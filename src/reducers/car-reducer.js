@@ -12,6 +12,7 @@ const initialState = {
 	totalProfit: 0,
 	totalCustomer: 0,
 	totalRevenue: 0,
+	awaitingEvents: [],
 	errors: [],
 };
 
@@ -125,6 +126,25 @@ export function carReducer(state = initialState, action) {
 				allSales: action.payload,
 			};
 		case CarActionTypes.ALL_SALES_FAIL:
+			return {
+				...state,
+				isLoading: false,
+				errors: action.payload?.error
+					? [action.payload?.error]
+					: state.errors,
+			};
+		case CarActionTypes.AWAITING_EVENTS_LOADING:
+			return {
+				...state,
+				isLoading: true,
+			};
+		case CarActionTypes.AWAITING_EVENTS_LOADED:
+			return {
+				...state,
+				isLoading: false,
+				awaitingEvents: action.payload,
+			};
+		case CarActionTypes.AWAITING_EVENTS_FAIL:
 			return {
 				...state,
 				isLoading: false,
