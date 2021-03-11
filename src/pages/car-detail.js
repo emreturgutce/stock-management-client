@@ -114,7 +114,7 @@ const CarDetail = () => {
 		handleClose();
 
 		if (res.ok) {
-			toast.success('Araba satış işlemi başarılı.', {
+			toast.success('Araba satış işlemi başarılı bir şekilde admin onayına gönderildi.', {
 				position: 'top-center',
 				autoclose: 5000,
 				hideprogressbar: false,
@@ -125,7 +125,7 @@ const CarDetail = () => {
 			});
 		} else {
 			toast.error(
-				'Araba satış işlemi başarısız lütfen tekrar deneyiniz.',
+				'Araba satış işlemi sırasında bir hata oluştu lütfen tekrar deneyiniz.',
 				{
 					position: 'top-center',
 					autoclose: 5000,
@@ -153,7 +153,7 @@ const CarDetail = () => {
 		handleStockClose();
 
 		if (res.ok) {
-			toast.success('Araba stoktan başarılı bir şekilde kaldırıldı.', {
+			toast.success('Arabayı stoktan kaldırma işlemi başarılı bir şekilde admin onayına gönderildi.', {
 				position: 'top-center',
 				autoclose: 5000,
 				hideprogressbar: false,
@@ -164,7 +164,7 @@ const CarDetail = () => {
 			});
 		} else {
 			toast.error(
-				'Araba stoktan kaldırılırken bir hata oluştu lütfen tekrar deneyiniz.',
+				'Araba stoktan kaldırma işlemi sırasında bir hata oluştu lütfen tekrar deneyiniz.',
 				{
 					position: 'top-center',
 					autoclose: 5000,
@@ -332,6 +332,7 @@ const CarDetail = () => {
 												handleSell={handleSell}
 												carId={car?.car_id}
 												disableRefresh={disableRefresh}
+												isWaiting={car?.state === 'WAITING'}
 											/>
 
 											<Dialog
@@ -344,10 +345,6 @@ const CarDetail = () => {
 													<Typography variant='p'>
 														{
 															'Arabanın bilgileri tamamen silinecek bu işlemi gerçekleştirmek istediğinize emin misiniz?'
-														}
-														{'\n'}
-														{
-															'(Bu işlem geri alınamaz)'
 														}
 													</Typography>
 												</DialogTitle>
