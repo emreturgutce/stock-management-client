@@ -11,12 +11,10 @@ export const getUser = (data) => (dispatch) => {
 		.then((res) => res.json())
 		.then((res) => {
 			if (res.data) {
-				setTimeout(() => {
-					dispatch({
-						type: AuthActionTypes.AUTH_SUCCESS,
-						payload: res.data[0],
-					});
-				}, 500);
+				dispatch({
+					type: AuthActionTypes.AUTH_SUCCESS,
+					payload: res.data[0],
+				});
 			} else {
 				dispatch({
 					type: AuthActionTypes.AUTH_FAIL,

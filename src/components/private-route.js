@@ -1,26 +1,15 @@
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, useLocation } from 'react-router-dom';
 import { useAuthState } from '../hooks';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
 	const { isAuthenticated } = useAuthState();
+	const location = useLocation()
 
-	return (
-		<Route
-			{...rest}
-			render={(props) =>
-				isAuthenticated ? (
-					<Component {...props} />
-				) : (
-					<Redirect
-						to={{
-							pathname: '/login',
-							state: { from: props.location },
-						}}
-					/>
-				)
-			}
-		/>
-	);
+	if (isAuthenticated) {
+		return <Route {...rest} render={(props) => <Component {...props} />} />;
+	}
+
+	return <Redirect to={`/login?referrer=${location.pathname}`} />;
 };
 
 export default PrivateRoute;
