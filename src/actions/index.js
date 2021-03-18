@@ -3,6 +3,7 @@ export * from './cars/get-colors';
 export * from './cars/get-manufacturers';
 export * from './cars/get-sales';
 export * from './cars/get-suppliers';
+export * from './cars/get-personnels';
 export * from './cars/get-total-customer';
 export * from './cars/get-total-profit';
 export * from './cars/get-all-sales'
