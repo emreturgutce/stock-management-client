@@ -62,7 +62,7 @@ const Navbar = () => {
 					)}*/}
 					{user?.role === 'ADMIN' && (
 						<Tooltip title='Personeller'>
-							<RouterLink to='/awaiting-events'> {/* TODO! - Change Path */}
+							<RouterLink to='/personels'> {/* TODO! - Change Path */}
 								<IconButton
 									edge='start'
 									className={classes.menuButton}

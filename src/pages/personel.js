@@ -1,6 +1,16 @@
+import { useCallback, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getPersonnels } from '../actions';
 import Page from '../components/page';
 
 const Personel = () => {
+	const dispatch = useDispatch();
+	const getPersonnelsCb = useCallback(() => dispatch(getPersonnels()), [dispatch]);
+
+	useEffect(() => {
+		getPersonnelsCb();		
+	}, [])
+
 	return (
 		<Page title='Personeller'>
 			<div
