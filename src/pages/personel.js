@@ -200,6 +200,7 @@ const Personel = () => {
 														label='Admin'
 														variant='outlined'
 														size='small'
+														color='primary'
 														icon={
 															<Icon
 																color='primary'
@@ -210,6 +211,7 @@ const Personel = () => {
 																	width:
 																		'1.2rem',
 																	marginLeft: 10,
+																	marginTop: 3,
 																}}
 															/>
 														}
@@ -219,9 +221,9 @@ const Personel = () => {
 														label='Personel'
 														variant='outlined'
 														size='small'
+														color='primary'
 														icon={
 															<Icon
-																color='primary'
 																className='fas fa-user'
 																style={{
 																	fontSize:
@@ -229,6 +231,7 @@ const Personel = () => {
 																	width:
 																		'1.2rem',
 																	marginLeft: 10,
+																	marginTop: 3,
 																}}
 															/>
 														}
