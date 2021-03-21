@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import validator from 'validator';
@@ -46,6 +46,7 @@ export default function SignIn() {
 	const dispatch = useDispatch();
 	const { isAuthenticated: isAuth } = useAuthState();
 	const [disableClick, setDisableClick] = useState(false);
+	const location = useLocation();
 
 	const login = useCallback(
 		(email, password) => dispatch(loginUser({ email, password })),
@@ -147,7 +148,7 @@ export default function SignIn() {
 					</Container>
 				</Page>
 			) : (
-				<Redirect to='/' />
+				<Redirect to={`/${location.search.split('=/')[1]}`} />
 			)}
 		</>
 	);

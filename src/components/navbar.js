@@ -15,6 +15,8 @@ import { Equalizer, Home, EventBusy, People } from '@material-ui/icons';
 import LetterAvatar from './letter-avatar';
 import { useAuthState } from '../hooks';
 import AddDropDown from './add-dropdown';
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import Slide from '@material-ui/core/Slide';
 
 const useStyles = makeStyles((theme) =>
 	createStyles({
@@ -29,6 +31,17 @@ const useStyles = makeStyles((theme) =>
 		},
 	}),
 );
+
+function HideOnScroll(props) {
+	const { children, window } = props;
+	const trigger = useScrollTrigger({ target: window ? window() : undefined });
+
+	return (
+		<Slide appear={false} direction='down' in={!trigger}>
+			{children}
+		</Slide>
+	);
+}
 
 const Navbar = () => {
 	const classes = useStyles();
@@ -127,25 +140,30 @@ const Navbar = () => {
 	};
 
 	return (
-		<AppBar position='static'>
-			<Container>
-				<Grid container alignItems='center' justify='space-between'>
-					<Grid item>
-						<RouterLink to='/'>
-							<IconButton
-								edge='start'
-								className={classes.menuButton}
-								color='inherit'
-								aria-label='menu'
-							>
-								<Home style={{ fill: '#EEE' }} width='125%' />
-							</IconButton>
-						</RouterLink>
+		<HideOnScroll>
+			<AppBar position='fixed'>
+				<Container>
+					<Grid container alignItems='center' justify='space-between'>
+						<Grid item>
+							<RouterLink to='/'>
+								<IconButton
+									edge='start'
+									className={classes.menuButton}
+									color='inherit'
+									aria-label='menu'
+								>
+									<Home
+										style={{ fill: '#EEE' }}
+										width='125%'
+									/>
+								</IconButton>
+							</RouterLink>
+						</Grid>
+						<Grid item>{renderPhoto()}</Grid>
 					</Grid>
-					<Grid item>{renderPhoto()}</Grid>
-				</Grid>
-			</Container>
-		</AppBar>
+				</Container>
+			</AppBar>
+		</HideOnScroll>
 	);
 };
 

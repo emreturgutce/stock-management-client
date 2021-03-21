@@ -267,7 +267,6 @@ const Home = () => {
 					direction='column'
 					alignItems='center'
 					justify='center'
-					style={{ paddingTop: '1rem' }}
 				>
 					<Grid
 						item

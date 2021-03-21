@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { CssBaseline, makeStyles } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -23,9 +24,14 @@ import ChangePassword from './pages/change-password';
 import Confirm from './pages/confirm';
 import AwaitingEvents from './pages/awaiting-events';
 
+const useStyles = makeStyles((theme) => ({
+	offset: theme.mixins.toolbar,
+}));
+
 const App = () => {
 	const { isLoading } = useAuthState();
 	const dispatch = useDispatch();
+	const classes = useStyles();
 
 	const getUserCb = useCallback(() => dispatch(getUser()), [dispatch]);
 
@@ -35,7 +41,9 @@ const App = () => {
 
 	return (
 		<Router>
+			<CssBaseline />
 			<Navbar />
+			<div className={classes.offset} />
 			{isLoading ? (
 				<div
 					style={{
@@ -73,7 +81,11 @@ const App = () => {
 						component={Personel}
 					/>
 					<PrivateRoute exact path='/sales' component={AllSales} />
-					<PrivateRoute exact path='/awaiting-events' component={AwaitingEvents} />
+					<PrivateRoute
+						exact
+						path='/awaiting-events'
+						component={AwaitingEvents}
+					/>
 					<PrivateRoute exact path='/:id' component={CarDetail} />
 					<PrivateRoute exact path='/:id/edit' component={CarEdit} />
 					<PrivateRoute exact path='/cars/add' component={CarAdd} />
