@@ -151,7 +151,7 @@ const AwaitingEvents = () => {
 				>
 					<Card style={{ height: '100%', width: '100%' }}>
 						<Box>
-							<CardHeader title='Bekleyen Etkinlikler' />
+							<CardHeader title='Etkinlikler' />
 							<Divider />
 						</Box>
 						<Box
