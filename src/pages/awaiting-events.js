@@ -164,15 +164,9 @@ const AwaitingEvents = () => {
 							<Table>
 								<TableHead>
 									<TableRow>
-										<TableCell>
-											<b>İlan Başlığı</b>
-										</TableCell>
-										<TableCell>
-											<b>Personel Adı</b>
-										</TableCell>
-										<TableCell>
-											<b>İşlem Türü</b>
-										</TableCell>
+										<TableCell>İlan Başlığı</TableCell>
+										<TableCell>Personel Adı</TableCell>
+										<TableCell>İşlem Türü</TableCell>
 										<TableCell> </TableCell>
 									</TableRow>
 								</TableHead>
@@ -346,18 +340,10 @@ const AwaitingEvents = () => {
 							<Table>
 								<TableHead>
 									<TableRow>
-										<TableCell>
-											<b>İlan Başlığı</b>
-										</TableCell>
-										<TableCell>
-											<b>Personel Adı</b>
-										</TableCell>
-										<TableCell>
-											<b>İşlem Türü</b>
-										</TableCell>
-										<TableCell>
-											<b>Satış Tarihi</b>
-										</TableCell>
+										<TableCell>İlan Başlığı</TableCell>
+										<TableCell>Personel Adı</TableCell>
+										<TableCell>İşlem Türü</TableCell>
+										<TableCell>Satış Tarihi</TableCell>
 										<TableCell> </TableCell>
 									</TableRow>
 								</TableHead>
