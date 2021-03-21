@@ -11,7 +11,7 @@ import {
 	Grid,
 	Tooltip,
 } from '@material-ui/core';
-import { Equalizer, Home, EventBusy } from '@material-ui/icons';
+import { Equalizer, Home, EventBusy, People } from '@material-ui/icons';
 import LetterAvatar from './letter-avatar';
 import { useAuthState } from '../hooks';
 import AddDropDown from './add-dropdown';
@@ -74,7 +74,24 @@ const Navbar = () => {
 						</RouterLink>
 					)}*/}
 					{user?.role === 'ADMIN' && (
-						<Tooltip title='Bekleyen Etkinlikler'>
+						<Tooltip title='Personeller'>
+							<RouterLink to='/personels'> {/* TODO! - Change Path */}
+								<IconButton
+									edge='start'
+									className={classes.menuButton}
+									color='inherit'
+									aria-label='menu'
+								>
+									<People
+										style={{ fill: '#EEE' }}
+										fontSize='small'
+									/>
+								</IconButton>
+							</RouterLink>
+						</Tooltip>
+					)}
+					{user?.role === 'ADMIN' && (
+						<Tooltip title='Etkinlikler'>
 							<RouterLink to='/awaiting-events'>
 								<IconButton
 									edge='start'

@@ -1,10 +1,10 @@
-import { CarActionTypes } from '../actions/types';
-
+import { CarActionTypes } from '../actions/types'; 
 const initialState = {
 	isLoading: false,
 	cars: [],
 	manufacturers: [],
 	suppliers: [],
+	personnels: [],
 	colors: [],
 	sales: [],
 	latestSales: [],
@@ -13,6 +13,7 @@ const initialState = {
 	totalCustomer: 0,
 	totalRevenue: 0,
 	awaitingEvents: [],
+	completedEvents: [],
 	errors: [],
 };
 
@@ -50,6 +51,25 @@ export function carReducer(state = initialState, action) {
 				manufacturers: action.payload,
 			};
 		case CarActionTypes.MANUFACTURER_FAIL:
+			return {
+				...state,
+				isLoading: false,
+				errors: action.payload?.error
+					? [action.payload?.error]
+					: state.errors,
+			};
+		case CarActionTypes.PERSONNELS_LOADING:
+			return {
+				...state,
+				isLoading: true,
+			};
+		case CarActionTypes.PERSONNELS_LOADED:
+			return {
+				...state,
+				isLoading: false,
+				personnels: action.payload,
+			};
+		case CarActionTypes.PERSONNELS_FAIL:
 			return {
 				...state,
 				isLoading: false,
@@ -145,6 +165,25 @@ export function carReducer(state = initialState, action) {
 				awaitingEvents: action.payload,
 			};
 		case CarActionTypes.AWAITING_EVENTS_FAIL:
+			return {
+				...state,
+				isLoading: false,
+				errors: action.payload?.error
+					? [action.payload?.error]
+					: state.errors,
+			};
+		case CarActionTypes.COMPLETED_EVENTS_LOADING:
+			return {
+				...state,
+				isLoading: true,
+			};
+		case CarActionTypes.COMPLETED_EVENTS_LOADED:
+			return {
+				...state,
+				isLoading: false,
+				completedEvents: action.payload,
+			};
+		case CarActionTypes.COMPLETED_EVENTS_FAIL:
 			return {
 				...state,
 				isLoading: false,

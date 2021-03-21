@@ -1,10 +1,12 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { loadCSS } from 'fg-loadcss';
 import { DataGrid, GridOverlay } from '@material-ui/data-grid';
 import {
 	createStyles,
 	makeStyles,
 	Button,
+	Icon,
 	Grid,
 	Container,
 	Tooltip,
@@ -137,6 +139,15 @@ const Home = () => {
 							to={params.getValue('id') || ''}
 						>
 							{params.value}
+							<Icon
+								color='primary'
+								className='fas fa-external-link-alt'
+								style={{
+									fontSize: '.6rem',
+									width: '1rem',
+									marginLeft: 6,
+								}}
+							/>
 						</Link>
 					</Tooltip>
 				),
@@ -209,6 +220,17 @@ const Home = () => {
 			}),
 		);
 	}, [cars, searchInput]);
+
+	useEffect(() => {
+		const node = loadCSS(
+			'https://use.fontawesome.com/releases/v5.12.0/css/all.css',
+			document.querySelector('#font-awesome-css'),
+		);
+
+		return () => {
+			node.parentNode.removeChild(node);
+		};
+	}, []);
 
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const handleRefresh = useCallback(
