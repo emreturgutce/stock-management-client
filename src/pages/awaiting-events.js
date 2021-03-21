@@ -1,10 +1,12 @@
 import { useEffect, useCallback, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { loadCSS } from 'fg-loadcss';
 import {
 	Container,
 	Grid,
 	Table,
+	Icon,
 	TableBody,
 	TableCell,
 	TableHead,
@@ -23,16 +25,16 @@ import {
 	DialogActions,
 	Button,
 } from '@material-ui/core';
-import { Check, Close } from '@material-ui/icons';
+import { Delete, ShoppingCart, Check, Close } from '@material-ui/icons';
 import { toast } from 'react-toastify';
 import Page from '../components/page';
 import { useCarState } from '../hooks';
-import { getAwaitingEvents } from '../actions';
+import { getAwaitingEvents, getCompletedEvents } from '../actions';
 import { BASE_URL } from '../constants';
 
 const AwaitingEvents = () => {
 	const dispatch = useDispatch();
-	const { awaitingEvents } = useCarState();
+	const { awaitingEvents, completedEvents } = useCarState();
 	const [openStock, setOpenStock] = useState(false);
 
 	const handleStockClose = () => setOpenStock(false);
@@ -42,8 +44,12 @@ const AwaitingEvents = () => {
 		[dispatch],
 	);
 
+	const getCompletedEventsCb = useCallback(
+		() => dispatch(getCompletedEvents()),
+		[dispatch],
+	);
+
 	const handleConfirmAction = async (awaitingListId, type) => {
-		// TODO Confirm action
 		const res = await fetch(
 			`${BASE_URL}/api/cars/${awaitingListId}/confirm-action`,
 			{
@@ -80,11 +86,11 @@ const AwaitingEvents = () => {
 		}
 
 		getAwaitingEventsCb();
+		getCompletedEventsCb();
 
 		handleStockClose();
 	};
 	const handleAbortAction = async (carId) => {
-		// TODO Confirm action
 		const res = await fetch(`${BASE_URL}/api/cars/${carId}/abort-action`, {
 			method: 'GET',
 			credentials: 'include',
@@ -113,12 +119,23 @@ const AwaitingEvents = () => {
 		}
 
 		getAwaitingEventsCb();
+		getCompletedEventsCb();
 
 		handleStockClose();
 	};
 
 	useEffect(() => {
 		getAwaitingEventsCb();
+		getCompletedEventsCb();
+
+		const node = loadCSS(
+			'https://use.fontawesome.com/releases/v5.12.0/css/all.css',
+			document.querySelector('#font-awesome-css'),
+		);
+
+		return () => {
+			node.parentNode.removeChild(node);
+		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -147,9 +164,15 @@ const AwaitingEvents = () => {
 							<Table>
 								<TableHead>
 									<TableRow>
-										<TableCell>İlan Başlığı</TableCell>
-										<TableCell>Personel Adı</TableCell>
-										<TableCell>İşlem Türü</TableCell>
+										<TableCell>
+											<b>İlan Başlığı</b>
+										</TableCell>
+										<TableCell>
+											<b>Personel Adı</b>
+										</TableCell>
+										<TableCell>
+											<b>İşlem Türü</b>
+										</TableCell>
 										<TableCell> </TableCell>
 									</TableRow>
 								</TableHead>
@@ -165,6 +188,16 @@ const AwaitingEvents = () => {
 														to={`/${event.car_id}`}
 													>
 														{event.title}
+														<Icon
+															color='primary'
+															className='fas fa-external-link-alt'
+															style={{
+																fontSize:
+																	'.6rem',
+																width: '1rem',
+																marginLeft: 6,
+															}}
+														/>
 													</Link>
 												</Tooltip>
 											</TableCell>
@@ -172,15 +205,41 @@ const AwaitingEvents = () => {
 												{`${event.first_name} ${event.last_name}`}
 											</TableCell>
 											<TableCell>
-												<Chip
-													color='secondary'
-													label={
-														event.type === 'DELETE'
-															? 'Silme'
-															: 'Satış'
-													}
-													size='small'
-												/>
+												{event.type === 'DELETE' ? (
+													<Chip
+														label='Silme'
+														variant='outlined'
+														size='small'
+														color='secondary'
+														icon={
+															<Delete
+																color='secondary'
+																style={{
+																	width:
+																		'1rem',
+																	marginLeft: 10,
+																}}
+															/>
+														}
+													/>
+												) : (
+													<Chip
+														label='Satış'
+														variant='outlined'
+														size='small'
+														color='secondary'
+														icon={
+															<ShoppingCart
+																color='secondary'
+																style={{
+																	width:
+																		'1rem',
+																	marginLeft: 10,
+																}}
+															/>
+														}
+													/>
+												)}
 											</TableCell>
 											<TableCell>
 												<Tooltip title='İptal Et'>
@@ -260,6 +319,129 @@ const AwaitingEvents = () => {
 													</DialogActions>
 												</Dialog>
 											</TableCell>
+										</TableRow>
+									))}
+								</TableBody>
+							</Table>
+						</Box>
+					</Card>
+					<Card
+						style={{
+							height: '100%',
+							width: '100%',
+							marginTop: '1rem',
+						}}
+					>
+						<Box>
+							<CardHeader title='Tamamlanmış Etkinlikler' />
+							<Divider />
+						</Box>
+						<Box
+							maxWidth='100%'
+							style={{
+								marginBottom: 'auto',
+								overflowX: 'scroll',
+							}}
+						>
+							<Table>
+								<TableHead>
+									<TableRow>
+										<TableCell>
+											<b>İlan Başlığı</b>
+										</TableCell>
+										<TableCell>
+											<b>Personel Adı</b>
+										</TableCell>
+										<TableCell>
+											<b>İşlem Türü</b>
+										</TableCell>
+										<TableCell>
+											<b>Satış Tarihi</b>
+										</TableCell>
+										<TableCell> </TableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{completedEvents.map((event) => (
+										<TableRow hover key={event.title}>
+											<TableCell>
+												<Tooltip
+													title={`${event.title}`}
+												>
+													{event.type !== 'DELETE' ? (
+														<Link
+															component={
+																RouterLink
+															}
+															to={`/${event.car_id}`}
+														>
+															{event.title}
+															<Icon
+																color='primary'
+																className='fas fa-external-link-alt'
+																style={{
+																	fontSize:
+																		'.6rem',
+																	width:
+																		'1rem',
+																	marginLeft: 6,
+																}}
+															/>
+														</Link>
+													) : (
+														<>{event.title}</>
+													)}
+												</Tooltip>
+											</TableCell>
+											<TableCell>
+												{`${event.first_name} ${event.last_name}`}
+											</TableCell>
+											<TableCell>
+												{event.type === 'DELETE' ? (
+													<Chip
+														label='Silme'
+														variant='outlined'
+														size='small'
+														color='secondary'
+														icon={
+															<Delete
+																color='secondary'
+																style={{
+																	width:
+																		'1rem',
+																	marginLeft: 10,
+																}}
+															/>
+														}
+													/>
+												) : (
+													<Chip
+														label='Satış'
+														variant='outlined'
+														size='small'
+														color='secondary'
+														icon={
+															<ShoppingCart
+																color='secondary'
+																style={{
+																	width:
+																		'1rem',
+																	marginLeft: 10,
+																}}
+															/>
+														}
+													/>
+												)}
+											</TableCell>
+											<TableCell>
+												{event.sale_date &&
+													new Date(
+														event.sale_date,
+													).toLocaleDateString(
+														'tr-TR',
+													)}
+											</TableCell>
+											<TableCell> </TableCell>
 										</TableRow>
 									))}
 								</TableBody>
