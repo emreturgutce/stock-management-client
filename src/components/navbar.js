@@ -78,7 +78,7 @@ const Navbar = () => {
 						</Tooltip>
 					)}
 					{user?.role === 'ADMIN' && (
-						<Tooltip title='Bekleyen Etkinlikler'>
+						<Tooltip title='Etkinlikler'>
 							<RouterLink to='/awaiting-events'>
 								<IconButton
 									edge='start'
