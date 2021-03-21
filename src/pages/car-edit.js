@@ -21,7 +21,8 @@ const CarEdit = () => {
 		getManufacturersCb();
 		getSuppliersCb();
 		getColorsCb();
-	});
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<Page title='Araba Güncelleme'>
