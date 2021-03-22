@@ -55,12 +55,14 @@ const Chart = () => {
 	const getTotalRevenueCb = useCallback(() => dispatch(getTotalRevenue()), [
 		dispatch,
 	]);
-	const getTotalSaleMonthlyCb = useCallback(() => dispatch(getTotalSaleMonthly()), [
-		dispatch,
-	]);
-	const getTotalWorthMonthlyCb = useCallback(() => dispatch(getTotalWorthMonthly()), [
-		dispatch,
-	]);
+	const getTotalSaleMonthlyCb = useCallback(
+		() => dispatch(getTotalSaleMonthly()),
+		[dispatch],
+	);
+	const getTotalWorthMonthlyCb = useCallback(
+		() => dispatch(getTotalWorthMonthly()),
+		[dispatch],
+	);
 	const mediaMatch = window.matchMedia('(min-width: 1200px)');
 	const [matches, setMatches] = useState(mediaMatch.matches);
 
@@ -264,7 +266,7 @@ const Chart = () => {
 									style={{ height: '100%' }}
 								>
 									<Grid item>
-										<CardHeader title='Satış Grafiği' />
+										<CardHeader title='Kar/Ciro Grafiği' />
 
 										<Divider />
 									</Grid>
@@ -278,7 +280,30 @@ const Chart = () => {
 								</Grid>
 							</Card>
 						</Grid>
+						<Grid item md={6} sm={12} style={{ width: '100%' }}>
+							<Card style={{ height: '100%' }}>
+								<Grid
+									container
+									direction='column'
+									justify='space-between'
+									style={{ height: '100%' }}
+								>
+									<Grid item>
+										<CardHeader title='Kar/Ciro Grafiği' />
+
+										<Divider />
+									</Grid>
+									<Grid item>
+										<SaleWorthChart />
+									</Grid>
+									<Grid item style={{ height: 70.8 }}>
+										<Divider />
+										<Box height='100%' />
+									</Grid>
+								</Grid>
+							</Card>
 						</Grid>
+					</Grid>
 				</Grid>
 			</Container>
 		</Page>

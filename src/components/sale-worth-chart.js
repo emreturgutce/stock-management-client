@@ -32,6 +32,10 @@ const SaleWorthChart = () => {
 					},
 				},
 			],
+			xAxes: [{
+				categoryPercentage: .4,	
+				barPercentage: .5,
+			}]
 		},
 	};
 
