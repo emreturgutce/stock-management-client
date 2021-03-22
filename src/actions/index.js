@@ -13,3 +13,5 @@ export * from './auth/logout';
 export * from './cars/get-latest-sales'
 export * from './cars/get-awaiting-events'
 export * from './cars/get-completed-events'
+export * from './cars/get-total-sale-monthly'
+export * from './cars/get-total-worth-monthly'
