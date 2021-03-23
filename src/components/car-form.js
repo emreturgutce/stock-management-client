@@ -331,7 +331,7 @@ export default function CarForm({ car }) {
 	return (
 		<main className={classes.layout}>
 			{!car && (
-				<Typography variant="subtitle2" style={{paddingLeft: '.5rem', paddingRight: '.5rem'}}>
+				<Typography variant="subtitle2" style={{paddingLeft: '.5rem', paddingRight: '.5rem', fontSize: '0.625rem'}}>
 					* Excel dosyasına ikinci satırından itibaren veri girişi yaptığınızdan emin olunuz ve girmeniz gereken alanlar sırasıyla: ilan başlığı, açıklama, satış fiyatı, alış fiyatı, giriş tarihi (yıl-ay-gün), yıl, mode, yeni mi (true/false), araba renk kodu, araba üretici id, tedarikçi id, personel id
 				</Typography>
 			)}
