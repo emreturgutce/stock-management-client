@@ -170,17 +170,11 @@ const Personel = () => {
 							<Table>
 								<TableHead>
 									<TableRow>
+										<TableCell>Adı</TableCell>
+										<TableCell>Maili</TableCell>
+										<TableCell>Rolü</TableCell>
 										<TableCell>
-											<b>Adı</b>
-										</TableCell>
-										<TableCell>
-											<b>Maili</b>
-										</TableCell>
-										<TableCell>
-											<b>Rolü</b>
-										</TableCell>
-										<TableCell>
-											<b>İşe Başlama Tarihi</b>
+											İşe Başlama Tarihi
 										</TableCell>
 										<TableCell> </TableCell>
 									</TableRow>

@@ -9,6 +9,10 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 		return <Route {...rest} render={(props) => <Component {...props} />} />;
 	}
 
+	if (!location.pathname || location.pathname === '/undefined') {
+		return <Redirect to='/login' />;
+	}
+
 	return <Redirect to={`/login?referrer=${location.pathname}`} />;
 };
 
