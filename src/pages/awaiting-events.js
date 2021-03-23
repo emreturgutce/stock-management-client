@@ -25,7 +25,7 @@ import {
 	DialogActions,
 	Button,
 } from '@material-ui/core';
-import { Delete, ShoppingCart, Check, Close } from '@material-ui/icons';
+import { Delete, ShoppingCart, Check, Close, HighlightOff } from '@material-ui/icons';
 import { toast } from 'react-toastify';
 import Page from '../components/page';
 import { useCarState } from '../hooks';
@@ -140,7 +140,7 @@ const AwaitingEvents = () => {
 	}, []);
 
 	return (
-		<Page title='Bekleyen Etkinlikler'>
+		<Page title='Etkinlikler'>
 			<Container>
 				<Grid
 					container
@@ -167,7 +167,8 @@ const AwaitingEvents = () => {
 										<TableCell>İlan Başlığı</TableCell>
 										<TableCell>Personel Adı</TableCell>
 										<TableCell>İşlem Türü</TableCell>
-										<TableCell> </TableCell>
+										<TableCell>Müşteri Adı</TableCell>
+										<TableCell>Aksiyonlar</TableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
@@ -234,6 +235,12 @@ const AwaitingEvents = () => {
 														}
 													/>
 												)}
+											</TableCell>
+											<TableCell>
+												{
+													event.type === 'SELL' &&
+													event.customer_first_name + ' ' + event.customer_last_name
+												}
 											</TableCell>
 											<TableCell>
 												<Tooltip title='İptal Et'>
@@ -344,7 +351,7 @@ const AwaitingEvents = () => {
 										<TableCell>Personel Adı</TableCell>
 										<TableCell>İşlem Türü</TableCell>
 										<TableCell>Satış Tarihi</TableCell>
-										<TableCell> </TableCell>
+										<TableCell>Gerçekleşti Mi</TableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
@@ -354,7 +361,7 @@ const AwaitingEvents = () => {
 												<Tooltip
 													title={`${event.title}`}
 												>
-													{event.type !== 'DELETE' ? (
+													{event.type !== 'DELETE' || (event.type === 'DELETE' && event.is_aborted) ? (
 														<Link
 															component={
 																RouterLink
@@ -427,7 +434,31 @@ const AwaitingEvents = () => {
 														'tr-TR',
 													)}
 											</TableCell>
-											<TableCell> </TableCell>
+											<TableCell>
+												{
+													!event.is_aborted ? (
+														<Tooltip title='Gerçekleşti'>
+															<svg
+																focusable='false'
+																viewBox='0 0 24 24'
+																style={{ margin: 'auto' }}
+																aria-hidden='true'
+																width='24px'
+																height='24px'
+																fill='#4caf50'
+															>
+																<path d='M20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4C12.76,4 13.5,4.11 14.2, 4.31L15.77,2.74C14.61,2.26 13.34,2 12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0, 0 22,12M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z'></path>
+															</svg>
+														</Tooltip>
+													) : (
+														<Tooltip title='Gerçekleşmedi'>
+															<HighlightOff
+																style={{ fill: '#f44336', margin: 'auto' }}
+															/>
+														</Tooltip>
+													)
+												}
+											</TableCell>
 										</TableRow>
 									))}
 								</TableBody>

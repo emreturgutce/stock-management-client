@@ -205,7 +205,6 @@ const Personel = () => {
 																	width:
 																		'1.2rem',
 																	marginLeft: 10,
-																	marginTop: 3,
 																}}
 															/>
 														}
@@ -225,7 +224,6 @@ const Personel = () => {
 																	width:
 																		'1.2rem',
 																	marginLeft: 10,
-																	marginTop: 3,
 																}}
 															/>
 														}

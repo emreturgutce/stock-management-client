@@ -261,7 +261,7 @@ const Home = () => {
 
 	return (
 		<Page title='Anasayfa'>
-			<Container>
+			<Container style={{marginTop: '.5rem'}}>
 				<Grid
 					container
 					direction='column'

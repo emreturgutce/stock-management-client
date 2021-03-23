@@ -83,7 +83,7 @@ const App = () => {
 					<PrivateRoute exact path='/sales' component={AllSales} />
 					<PrivateRoute
 						exact
-						path='/awaiting-events'
+						path='/events'
 						component={AwaitingEvents}
 					/>
 					<PrivateRoute exact path='/:id' component={CarDetail} />

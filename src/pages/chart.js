@@ -1,6 +1,7 @@
 import { useEffect, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
+import { loadCSS } from 'fg-loadcss';
 import {
 	Grid,
 	Button,
@@ -8,6 +9,7 @@ import {
 	Card,
 	CardHeader,
 	Chip,
+	Icon,
 	Divider,
 	Table,
 	TableBody,
@@ -23,6 +25,9 @@ import {
 	getTotalProfit,
 	getTotalCustomer,
 	getLatestSales,
+	getTotalSaleMonthly,
+	getTotalWorthMonthly,
+	getTotalCustomerMonthly,
 } from '../actions';
 import { useCarState } from '../hooks/use-car-state';
 import TotalProfit from '../components/total-profit';
@@ -32,6 +37,8 @@ import Page from '../components/page';
 import { formatPrice } from '../utils/format-price';
 import { getTotalRevenue } from '../actions/cars/get-total-revenue';
 import LChart from '../components/line-chart';
+import SaleWorthChart from '../components/sale-worth-chart';
+import CustomerChart from '../components/customer-chart';
 import DateRangeSlider from '../components/date-range-slider';
 
 const fromDate = '2020-06-01';
@@ -52,6 +59,18 @@ const Chart = () => {
 	const getTotalRevenueCb = useCallback(() => dispatch(getTotalRevenue()), [
 		dispatch,
 	]);
+	const getTotalSaleMonthlyCb = useCallback(
+		() => dispatch(getTotalSaleMonthly()),
+		[dispatch],
+	);
+	const getTotalWorthMonthlyCb = useCallback(
+		() => dispatch(getTotalWorthMonthly()),
+		[dispatch],
+	);
+	const getTotalCustomerMonthlyCb = useCallback(
+		() => dispatch(getTotalCustomerMonthly()),
+		[dispatch],
+	);
 	const mediaMatch = window.matchMedia('(min-width: 1200px)');
 	const [matches, setMatches] = useState(mediaMatch.matches);
 
@@ -60,6 +79,16 @@ const Chart = () => {
 		mediaMatch.addListener(handler);
 		return () => mediaMatch.removeListener(handler);
 	});
+	useEffect(() => {
+		const node = loadCSS(
+			'https://use.fontawesome.com/releases/v5.12.0/css/all.css',
+			document.querySelector('#font-awesome-css'),
+		);
+
+		return () => {
+			node.parentNode.removeChild(node);
+		};
+	}, []);
 
 	useEffect(() => {
 		getSalesCb(fromDate, toDate);
@@ -68,6 +97,9 @@ const Chart = () => {
 	useEffect(getTotalProfitCb, [getTotalProfitCb]);
 	useEffect(getTotalCustomerCb, [getTotalCustomerCb]);
 	useEffect(getTotalRevenueCb, [getTotalRevenueCb]);
+	useEffect(getTotalWorthMonthlyCb, [getTotalWorthMonthlyCb]);
+	useEffect(getTotalSaleMonthlyCb, [getTotalSaleMonthlyCb]);
+	useEffect(getTotalCustomerMonthlyCb, [getTotalCustomerMonthlyCb]);
 
 	const { latestSales } = useCarState();
 
@@ -197,6 +229,17 @@ const Chart = () => {
 																		{
 																			sale.title
 																		}
+																		<Icon
+																			color='primary'
+																			className='fas fa-external-link-alt'
+																			style={{
+																				fontSize:
+																					'.6rem',
+																				width:
+																					'1rem',
+																				marginLeft: 6,
+																			}}
+																		/>
 																	</Link>
 																</Tooltip>
 															</TableCell>
@@ -229,8 +272,72 @@ const Chart = () => {
 												color='primary'
 											>
 												Hepsini Gör
+												<Icon
+													color='primary'
+													className='fas fa-external-link-alt'
+													style={{
+														fontSize: '.6rem',
+														width: '1rem',
+														marginLeft: 6,
+													}}
+												/>
 											</Button>
 										</Box>
+									</Grid>
+								</Grid>
+							</Card>
+						</Grid>
+					</Grid>
+					<Grid
+						item
+						container
+						justify='center'
+						direction='row'
+						style={{ marginTop: '1rem' }}
+						spacing={1}
+					>
+						<Grid item md={6} sm={12} style={{ width: '100%' }}>
+							<Card style={{ height: '100%' }}>
+								<Grid
+									container
+									direction='column'
+									justify='space-between'
+									style={{ height: '100%' }}
+								>
+									<Grid item>
+										<CardHeader title='Kar/Ciro Grafiği' />
+
+										<Divider />
+									</Grid>
+									<Grid item>
+										<SaleWorthChart />
+									</Grid>
+									<Grid item style={{ height: 70.8 }}>
+										<Divider />
+										<Box height='100%' />
+									</Grid>
+								</Grid>
+							</Card>
+						</Grid>
+						<Grid item md={6} sm={12} style={{ width: '100%' }}>
+							<Card style={{ height: '100%' }}>
+								<Grid
+									container
+									direction='column'
+									justify='space-between'
+									style={{ height: '100%' }}
+								>
+									<Grid item>
+										<CardHeader title='Müşteri Grafiği' />
+
+										<Divider />
+									</Grid>
+									<Grid item>
+										<CustomerChart />
+									</Grid>
+									<Grid item style={{ height: 70.8 }}>
+										<Divider />
+										<Box height='100%' />
 									</Grid>
 								</Grid>
 							</Card>

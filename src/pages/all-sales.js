@@ -1,10 +1,12 @@
 import { useEffect, useCallback } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { loadCSS } from 'fg-loadcss';
 import {
 	Container,
 	Grid,
 	Table,
+	Icon,
 	TableBody,
 	TableCell,
 	TableHead,
@@ -33,6 +35,14 @@ const AllSales = () => {
 	useEffect(() => {
 		getAllSalesCb();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
+		const node = loadCSS(
+			'https://use.fontawesome.com/releases/v5.12.0/css/all.css',
+			document.querySelector('#font-awesome-css'),
+		);
+
+		return () => {
+			node.parentNode.removeChild(node);
+		};
 	}, []);
 
 	return (
@@ -82,6 +92,16 @@ const AllSales = () => {
 														to={`/${sale.car_id}`}
 													>
 														{sale.title}
+														<Icon
+															color='primary'
+															className='fas fa-external-link-alt'
+															style={{
+																fontSize:
+																	'.6rem',
+																width: '1rem',
+																marginLeft: 6,
+															}}
+														/>
 													</Link>
 												</Tooltip>
 											</TableCell>
