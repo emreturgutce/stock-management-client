@@ -55,8 +55,22 @@ const CarDetail = () => {
 	const [disableRefresh, setDisableRefresh] = useState(false);
 
 	useEffect(() => {
-		setCar(cars.find((car) => car?.car_id === id));
-	}, [cars, setCar, id]);
+		const foundCar = cars.find((car) => car?.car_id === id);
+		if (!foundCar) {
+			toast.info('Araba bulunamadı.', {
+				position: 'top-center',
+				autoclose: 5000,
+				hideprogressbar: false,
+				closeonclick: true,
+				pauseonhover: true,
+				draggable: true,
+				progress: undefined,
+			});
+			history.push('/');
+		}
+		setCar(foundCar);
+
+	}, [cars, setCar, id, history]);
 
 	const handleDateChange = (date) => {
 		setSelectedDate(new Date(date).toISOString().split('T')[0]);

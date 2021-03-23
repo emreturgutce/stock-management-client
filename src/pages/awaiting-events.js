@@ -140,7 +140,7 @@ const AwaitingEvents = () => {
 	}, []);
 
 	return (
-		<Page title='Bekleyen Etkinlikler'>
+		<Page title='Etkinlikler'>
 			<Container>
 				<Grid
 					container
@@ -164,16 +164,11 @@ const AwaitingEvents = () => {
 							<Table>
 								<TableHead>
 									<TableRow>
-										<TableCell>
-											<b>İlan Başlığı</b>
-										</TableCell>
-										<TableCell>
-											<b>Personel Adı</b>
-										</TableCell>
-										<TableCell>
-											<b>İşlem Türü</b>
-										</TableCell>
-										<TableCell> </TableCell>
+										<TableCell>İlan Başlığı</TableCell>
+										<TableCell>Personel Adı</TableCell>
+										<TableCell>İşlem Türü</TableCell>
+										<TableCell>Müşteri Adı</TableCell>
+										<TableCell>Aksiyonlar</TableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
@@ -240,6 +235,12 @@ const AwaitingEvents = () => {
 														}
 													/>
 												)}
+											</TableCell>
+											<TableCell>
+												{
+													event.type === 'SELL' &&
+													event.customer_first_name + ' ' + event.customer_last_name
+												}
 											</TableCell>
 											<TableCell>
 												<Tooltip title='İptal Et'>
@@ -346,18 +347,10 @@ const AwaitingEvents = () => {
 							<Table>
 								<TableHead>
 									<TableRow>
-										<TableCell>
-											<b>İlan Başlığı</b>
-										</TableCell>
-										<TableCell>
-											<b>Personel Adı</b>
-										</TableCell>
-										<TableCell>
-											<b>İşlem Türü</b>
-										</TableCell>
-										<TableCell>
-											<b>Satış Tarihi</b>
-										</TableCell>
+										<TableCell>İlan Başlığı</TableCell>
+										<TableCell>Personel Adı</TableCell>
+										<TableCell>İşlem Türü</TableCell>
+										<TableCell>Satış Tarihi</TableCell>
 										<TableCell>Gerçekleşti Mi</TableCell>
 									</TableRow>
 								</TableHead>
@@ -368,7 +361,7 @@ const AwaitingEvents = () => {
 												<Tooltip
 													title={`${event.title}`}
 												>
-													{event.type !== 'DELETE' ? (
+													{event.type !== 'DELETE' || (event.type === 'DELETE' && event.is_aborted) ? (
 														<Link
 															component={
 																RouterLink
