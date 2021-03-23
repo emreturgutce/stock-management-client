@@ -1,6 +1,7 @@
 import { useEffect, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
+import { loadCSS } from 'fg-loadcss';
 import {
 	Grid,
 	Button,
@@ -8,6 +9,7 @@ import {
 	Card,
 	CardHeader,
 	Chip,
+	Icon,
 	Divider,
 	Table,
 	TableBody,
@@ -25,6 +27,7 @@ import {
 	getLatestSales,
 	getTotalSaleMonthly,
 	getTotalWorthMonthly,
+	getTotalCustomerMonthly,
 } from '../actions';
 import { useCarState } from '../hooks/use-car-state';
 import TotalProfit from '../components/total-profit';
@@ -35,6 +38,7 @@ import { formatPrice } from '../utils/format-price';
 import { getTotalRevenue } from '../actions/cars/get-total-revenue';
 import LChart from '../components/line-chart';
 import SaleWorthChart from '../components/sale-worth-chart';
+import CustomerChart from '../components/customer-chart';
 import DateRangeSlider from '../components/date-range-slider';
 
 const fromDate = '2020-06-01';
@@ -63,6 +67,10 @@ const Chart = () => {
 		() => dispatch(getTotalWorthMonthly()),
 		[dispatch],
 	);
+	const getTotalCustomerMonthlyCb = useCallback(
+		() => dispatch(getTotalCustomerMonthly()),
+		[dispatch],
+	);
 	const mediaMatch = window.matchMedia('(min-width: 1200px)');
 	const [matches, setMatches] = useState(mediaMatch.matches);
 
@@ -71,6 +79,16 @@ const Chart = () => {
 		mediaMatch.addListener(handler);
 		return () => mediaMatch.removeListener(handler);
 	});
+	useEffect(() => {
+		const node = loadCSS(
+			'https://use.fontawesome.com/releases/v5.12.0/css/all.css',
+			document.querySelector('#font-awesome-css'),
+		);
+
+		return () => {
+			node.parentNode.removeChild(node);
+		};
+	}, []);
 
 	useEffect(() => {
 		getSalesCb(fromDate, toDate);
@@ -81,6 +99,7 @@ const Chart = () => {
 	useEffect(getTotalRevenueCb, [getTotalRevenueCb]);
 	useEffect(getTotalWorthMonthlyCb, [getTotalWorthMonthlyCb]);
 	useEffect(getTotalSaleMonthlyCb, [getTotalSaleMonthlyCb]);
+	useEffect(getTotalCustomerMonthlyCb, [getTotalCustomerMonthlyCb]);
 
 	const { latestSales } = useCarState();
 
@@ -210,6 +229,17 @@ const Chart = () => {
 																		{
 																			sale.title
 																		}
+																		<Icon
+																			color='primary'
+																			className='fas fa-external-link-alt'
+																			style={{
+																				fontSize:
+																					'.6rem',
+																				width:
+																					'1rem',
+																				marginLeft: 6,
+																			}}
+																		/>
 																	</Link>
 																</Tooltip>
 															</TableCell>
@@ -242,6 +272,15 @@ const Chart = () => {
 												color='primary'
 											>
 												Hepsini Gör
+												<Icon
+													color='primary'
+													className='fas fa-external-link-alt'
+													style={{
+														fontSize: '.6rem',
+														width: '1rem',
+														marginLeft: 6,
+													}}
+												/>
 											</Button>
 										</Box>
 									</Grid>
@@ -289,12 +328,12 @@ const Chart = () => {
 									style={{ height: '100%' }}
 								>
 									<Grid item>
-										<CardHeader title='Kar/Ciro Grafiği' />
+										<CardHeader title='Müşteri Grafiği' />
 
 										<Divider />
 									</Grid>
 									<Grid item>
-										<SaleWorthChart />
+										<CustomerChart />
 									</Grid>
 									<Grid item style={{ height: 70.8 }}>
 										<Divider />

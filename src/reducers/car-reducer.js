@@ -16,6 +16,7 @@ const initialState = {
 	completedEvents: [],
 	monthlyTotalWorth: [],
 	monthlyTotalSale: [],
+	monthlyTotalCustomer: [],
 	errors: [],
 };
 
@@ -258,6 +259,25 @@ export function carReducer(state = initialState, action) {
 				monthlyTotalWorth: action.payload,
 			};
 		case CarActionTypes.TOTAL_WORTH_MONTHLY_FAIL:
+			return {
+				...state,
+				isLoading: false,
+				errors: action.payload?.error
+					? [action.payload?.error]
+					: state.errors,
+			};
+		case CarActionTypes.TOTAL_CUSTOMER_MONTHLY_LOADING:
+			return {
+				...state,
+				isLoading: true,
+			};
+		case CarActionTypes.TOTAL_CUSTOMER_MONTHLY_LOADED:
+			return {
+				...state,
+				isLoading: false,
+				monthlyTotalCustomer: action.payload,
+			};
+		case CarActionTypes.TOTAL_CUSTOMER_MONTHLY_FAIL:
 			return {
 				...state,
 				isLoading: false,
