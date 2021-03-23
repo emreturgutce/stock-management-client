@@ -43,6 +43,7 @@ const AllSales = () => {
 		return () => {
 			node.parentNode.removeChild(node);
 		};
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
