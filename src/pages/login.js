@@ -148,7 +148,7 @@ export default function SignIn() {
 					</Container>
 				</Page>
 			) : (
-				<Redirect to={`/${location.search.split('=/')[1]}`} />
+				<Redirect to={`/${location.search.split('=/')[1] ?? ''}`} />
 			)}
 		</>
 	);
