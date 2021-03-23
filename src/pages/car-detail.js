@@ -263,7 +263,7 @@ const CarDetail = () => {
 										/>
 									</ContentLoader>
 								) : (
-									<Carousel id="carousel">
+									<Carousel>
 										{car?.image_urls
 											?.split(';')
 											.map((image) => (
