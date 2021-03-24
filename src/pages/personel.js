@@ -24,7 +24,7 @@ import {
 	Button,
 } from '@material-ui/core';
 import { toast } from 'react-toastify';
-import { ImportExport, Delete } from '@material-ui/icons';
+import { ImportExport, Delete, ExitToApp } from '@material-ui/icons';
 import Page from '../components/page';
 import { useCarState } from '../hooks';
 import { getPersonnels } from '../actions';
@@ -35,12 +35,14 @@ const Personel = () => {
 	const { personnels } = useCarState();
 	const [openStock, setOpenStock] = useState(false);
 	const [openDelete, setOpenDelete] = useState(false);
+	const [openExpire, setOpenExpire] = useState(false);
 	const getPersonnelsCb = useCallback(() => dispatch(getPersonnels()), [
 		dispatch,
 	]);
 
 	const handleStockClose = () => setOpenStock(false);
 	const handleDeleteClose = () => setOpenDelete(false);
+	const handleExpireClose = () => setOpenExpire(false);
 
 	useEffect(() => {
 		getPersonnelsCb();
@@ -55,6 +57,43 @@ const Personel = () => {
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	const handleExpireAction = async (personnelId) => {
+		const res = await fetch(
+			`${BASE_URL}/api/personels/expire-session/${personnelId}`,
+			{
+				credentials: 'include',
+				method: 'GET',
+			},
+		);
+
+		if (res.ok) {
+			toast.success(
+				'Kullanıcının bütün oturumları başarılı bir şekilde kapatıldı',
+				{
+					position: 'top-center',
+					autoclose: 5000,
+					hideprogressbar: false,
+					closeonclick: true,
+					pauseonhover: true,
+					draggable: true,
+					progress: undefined,
+				},
+			);
+		} else {
+			toast.error('Oturum sonlandırma işlemi sırasında bir hata oluştu', {
+				position: 'top-center',
+				autoclose: 5000,
+				hideprogressbar: false,
+				closeonclick: true,
+				pauseonhover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		}
+
+		handleExpireClose();
+	};
 
 	const handleConfirmAction = async (type, personnelId) => {
 		let res;
@@ -176,6 +215,7 @@ const Personel = () => {
 										<TableCell>
 											İşe Başlama Tarihi
 										</TableCell>
+										<TableCell>Sisteme Son Giriş</TableCell>
 										<TableCell> </TableCell>
 									</TableRow>
 								</TableHead>
@@ -236,6 +276,74 @@ const Personel = () => {
 												).toLocaleDateString('tr-TR')}
 											</TableCell>
 											<TableCell>
+												{personnel.lastLogin
+													? new Date(
+															personnel.lastLogin,
+													  ).toLocaleTimeString(
+															'tr-TR',
+													  ) +
+													  ' - ' +
+													  new Date(
+															personnel.lastLogin,
+													  ).toLocaleDateString(
+															'tr-TR',
+													  )
+													: 'Yok'}
+											</TableCell>
+											<TableCell>
+												<Tooltip title='Bütün hesaplardan çıkış yap'>
+													<IconButton
+														edge='start'
+														color='inherit'
+														aria-label='menu'
+														onClick={() =>
+															setOpenExpire(true)
+														}
+													>
+														<ExitToApp
+															fontSize='small'
+															style={{
+																color:
+																	'#1769aa',
+															}}
+														/>
+													</IconButton>
+												</Tooltip>
+												<Dialog
+													open={openExpire}
+													onClose={handleExpireClose}
+													aria-labelledby='alert-dialog-title'
+													aria-describedby='alert-dialog-description'
+												>
+													<DialogTitle id='alert-dialog-title'>
+														<Typography variant='p'>
+															{
+																'Personelin bütün oturumları sonlanacak bu işleme devam etmek istediğinize emin misiniz?'
+															}
+														</Typography>
+													</DialogTitle>
+													<DialogActions>
+														<Button
+															onClick={
+																handleExpireClose
+															}
+															color='primary'
+														>
+															Hayır
+														</Button>
+														<Button
+															color='primary'
+															autoFocus
+															onClick={() => {
+																handleExpireAction(
+																	personnel.id,
+																);
+															}}
+														>
+															Evet
+														</Button>
+													</DialogActions>
+												</Dialog>
 												{personnel.role === 'ADMIN' ? (
 													<>
 														<Tooltip title='Personelin rolünü düşür'>
@@ -251,8 +359,8 @@ const Personel = () => {
 															>
 																<ImportExport
 																	style={{
-																		fill:
-																			'#4caf50',
+																		color:
+																			'#1769aa',
 																	}}
 																	fontSize='small'
 																/>
@@ -315,11 +423,11 @@ const Personel = () => {
 																}
 															>
 																<ImportExport
-																	style={{
-																		fill:
-																			'#4caf50',
-																	}}
 																	fontSize='small'
+																	style={{
+																		color:
+																			'#1769aa',
+																	}}
 																/>
 															</IconButton>
 														</Tooltip>
@@ -378,10 +486,11 @@ const Personel = () => {
 														}}
 													>
 														<Delete
-															style={{
-																fill: '#f44336',
-															}}
 															fontSize='small'
+															style={{
+																color:
+																	'#1769aa',
+															}}
 														/>
 													</IconButton>
 												</Tooltip>
