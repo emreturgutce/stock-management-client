@@ -13,6 +13,7 @@ import {
 	DialogTitle,
 	TextField,
 	Box,
+	DialogContentText,
 } from '@material-ui/core';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { toast } from 'react-toastify';
@@ -57,7 +58,6 @@ const CarDetail = () => {
 	useEffect(() => {
 		const foundCar = cars.find((car) => car?.car_id === id);
 		setCar(foundCar);
-
 	}, [cars, setCar, id]);
 
 	const handleDateChange = (date) => {
@@ -116,15 +116,18 @@ const CarDetail = () => {
 		handleClose();
 
 		if (res.ok) {
-			toast.success('Araba satış işlemi başarılı bir şekilde admin onayına gönderildi.', {
-				position: 'top-center',
-				autoclose: 5000,
-				hideprogressbar: false,
-				closeonclick: true,
-				pauseonhover: true,
-				draggable: true,
-				progress: undefined,
-			});
+			toast.success(
+				'Araba satış işlemi başarılı bir şekilde admin onayına gönderildi.',
+				{
+					position: 'top-center',
+					autoclose: 5000,
+					hideprogressbar: false,
+					closeonclick: true,
+					pauseonhover: true,
+					draggable: true,
+					progress: undefined,
+				},
+			);
 		} else {
 			toast.error(
 				'Araba satış işlemi sırasında bir hata oluştu lütfen tekrar deneyiniz.',
@@ -155,15 +158,18 @@ const CarDetail = () => {
 		handleStockClose();
 
 		if (res.ok) {
-			toast.success('Arabayı stoktan kaldırma işlemi başarılı bir şekilde admin onayına gönderildi.', {
-				position: 'top-center',
-				autoclose: 5000,
-				hideprogressbar: false,
-				closeonclick: true,
-				pauseonhover: true,
-				draggable: true,
-				progress: undefined,
-			});
+			toast.success(
+				'Arabayı stoktan kaldırma işlemi başarılı bir şekilde admin onayına gönderildi.',
+				{
+					position: 'top-center',
+					autoclose: 5000,
+					hideprogressbar: false,
+					closeonclick: true,
+					pauseonhover: true,
+					draggable: true,
+					progress: undefined,
+				},
+			);
 		} else {
 			toast.error(
 				'Araba stoktan kaldırma işlemi sırasında bir hata oluştu lütfen tekrar deneyiniz.',
@@ -334,7 +340,9 @@ const CarDetail = () => {
 												handleSell={handleSell}
 												carId={car?.car_id}
 												disableRefresh={disableRefresh}
-												isWaiting={car?.state === 'WAITING'}
+												isWaiting={
+													car?.state === 'WAITING'
+												}
 											/>
 
 											<Dialog
@@ -345,11 +353,17 @@ const CarDetail = () => {
 											>
 												<DialogTitle id='alert-dialog-title'>
 													<Typography variant='p'>
-														{
-															'Arabanın bilgileri tamamen silinecek bu işlemi gerçekleştirmek istediğinize emin misiniz?'
-														}
+														Kaldırma işlemi admin
+														onayına gönderilecek ?
 													</Typography>
 												</DialogTitle>
+												<DialogContent>
+													<DialogContentText id='alert-dialog-description'>
+														Araç stoktan kaldırma
+														işlemi admin onayına
+														gönderilecek.
+													</DialogContentText>
+												</DialogContent>
 												<DialogActions>
 													<Button
 														onClick={

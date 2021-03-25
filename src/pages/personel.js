@@ -22,6 +22,8 @@ import {
 	Typography,
 	DialogActions,
 	Button,
+	DialogContent,
+	DialogContentText,
 } from '@material-ui/core';
 import { toast } from 'react-toastify';
 import { ImportExport, Delete, ExitToApp } from '@material-ui/icons';
@@ -61,7 +63,7 @@ const Personel = () => {
 
 	const getLastLogin = (lastLogins) => {
 		return lastLogins.length > 0
-			? moment(+lastLogins[lastLogins.length - 1]?.lastLogin).fromNow() 
+			? moment(+lastLogins[lastLogins.length - 1]?.lastLogin).fromNow()
 			: 'Yok';
 	};
 
@@ -314,11 +316,20 @@ const Personel = () => {
 												>
 													<DialogTitle id='alert-dialog-title'>
 														<Typography variant='p'>
-															{
-																'Personelin bütün oturumları sonlanacak bu işleme devam etmek istediğinize emin misiniz?'
-															}
+															Tüm oturumlar
+															sonlandırılsın mı ?
 														</Typography>
 													</DialogTitle>
+													<DialogContent>
+														<DialogContentText id='alert-dialog-description'>
+															Personelin tüm
+															oturumları
+															sonlandırılacak. Ve
+															personel sisteme bir
+															daha giriş yapmak
+															zorunda kalacak.
+														</DialogContentText>
+													</DialogContent>
 													<DialogActions>
 														<Button
 															onClick={
@@ -326,7 +337,7 @@ const Personel = () => {
 															}
 															color='primary'
 														>
-															Hayır
+															Reddet
 														</Button>
 														<Button
 															color='primary'
@@ -337,7 +348,7 @@ const Personel = () => {
 																);
 															}}
 														>
-															Evet
+															Kabul Et
 														</Button>
 													</DialogActions>
 												</Dialog>
@@ -373,15 +384,21 @@ const Personel = () => {
 														>
 															<DialogTitle id='alert-dialog-title'>
 																<Typography variant='p'>
-																	{
-																		'Bu işlemi kabul etmek istediğinize emin misiniz ?'
-																	}
-																	{'\n'}
-																	{
-																		'(Bu işlem geri alınamaz)'
-																	}
+																	Rol
+																	düşürülsün
+																	mü ?
 																</Typography>
 															</DialogTitle>
+															<DialogContent>
+																<DialogContentText id='alert-dialog-description'>
+																	Admin
+																	personelinin
+																	rolü normal
+																	personel
+																	seviyesi
+																	düşürülecek.
+																</DialogContentText>
+															</DialogContent>
 															<DialogActions>
 																<Button
 																	onClick={
@@ -389,7 +406,7 @@ const Personel = () => {
 																	}
 																	color='primary'
 																>
-																	Hayır
+																	Reddet
 																</Button>
 																<Button
 																	color='primary'
@@ -401,7 +418,7 @@ const Personel = () => {
 																		);
 																	}}
 																>
-																	Evet
+																	Kabul Et
 																</Button>
 															</DialogActions>
 														</Dialog>
@@ -438,15 +455,21 @@ const Personel = () => {
 														>
 															<DialogTitle id='alert-dialog-title'>
 																<Typography variant='p'>
-																	{
-																		'Bu işlemi kabul etmek istediğinize emin misiniz ?'
-																	}
-																	{'\n'}
-																	{
-																		'(Bu işlem geri alınamaz)'
-																	}
+																	Rol
+																	yükseltilsin
+																	mi ?
 																</Typography>
 															</DialogTitle>
+															<DialogContent>
+																<DialogContentText id='alert-dialog-description'>
+																	Normal
+																	personelin
+																	rolü admin
+																	personel
+																	seviyesi
+																	yükseltilecek.
+																</DialogContentText>
+															</DialogContent>
 															<DialogActions>
 																<Button
 																	onClick={
@@ -454,7 +477,7 @@ const Personel = () => {
 																	}
 																	color='primary'
 																>
-																	Hayır
+																	Reddet
 																</Button>
 																<Button
 																	color='primary'
@@ -466,7 +489,7 @@ const Personel = () => {
 																		);
 																	}}
 																>
-																	Evet
+																	Kabul Et
 																</Button>
 															</DialogActions>
 														</Dialog>
@@ -499,18 +522,20 @@ const Personel = () => {
 												>
 													<DialogTitle id='alert-dialog-title'>
 														<Typography variant='p'>
-															{
-																'Bu işlemi kabul etmek istediğinize emin misiniz ?'
-															}
-															{'\n'}
-															{
-																'(Bu işlem geri alınamaz)'
-															}
+															Personel silinsin mi
+															?
 														</Typography>
 													</DialogTitle>
+													<DialogContent>
+														<DialogContentText id='alert-dialog-description'>
+															Personelin tüm
+															bilgileri kalıcı
+															olarak silinecek.
+														</DialogContentText>
+													</DialogContent>
 													<DialogActions>
 														<Button color='primary'>
-															Hayır
+															Reddet
 														</Button>
 														<Button
 															color='primary'
@@ -521,7 +546,7 @@ const Personel = () => {
 																);
 															}}
 														>
-															Evet
+															Kabul Et
 														</Button>
 													</DialogActions>
 												</Dialog>
