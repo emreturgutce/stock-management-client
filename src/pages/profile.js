@@ -214,7 +214,7 @@ const ProfileDetails = () => {
 							secondary={`${moment(
 								+lastLogin.lastLogin,
 							).fromNow()} - ${lastLogin.ip} ${
-								lastLogin.agent && `- ${lastLogin.agent}`
+								lastLogin.agent ? `- ${lastLogin.agent}` : ''
 							}`}
 						/>
 					</ListItem>
