@@ -58,6 +58,18 @@ const Personel = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	const getLastLogin = (lastLogins) => {
+		return lastLogins.length > 0
+			? new Date(
+					+lastLogins[lastLogins.length - 1]?.lastLogin,
+			  ).toLocaleTimeString('tr-TR') +
+					' - ' +
+					new Date(
+						+lastLogins[lastLogins.length - 1]?.lastLogin,
+					).toLocaleDateString('tr-TR')
+			: 'Yok';
+	};
+
 	const handleExpireAction = async (personnelId) => {
 		const res = await fetch(
 			`${BASE_URL}/api/personels/expire-session/${personnelId}`,
@@ -276,19 +288,9 @@ const Personel = () => {
 												).toLocaleDateString('tr-TR')}
 											</TableCell>
 											<TableCell>
-												{personnel.lastLogin
-													? new Date(
-															personnel.lastLogin,
-													  ).toLocaleTimeString(
-															'tr-TR',
-													  ) +
-													  ' - ' +
-													  new Date(
-															personnel.lastLogin,
-													  ).toLocaleDateString(
-															'tr-TR',
-													  )
-													: 'Yok'}
+												{getLastLogin(
+													personnel.lastLogins,
+												)}
 											</TableCell>
 											<TableCell>
 												<Tooltip title='Bütün hesaplardan çıkış yap'>

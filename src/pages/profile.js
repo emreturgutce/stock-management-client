@@ -13,18 +13,32 @@ import {
 	TextField,
 	Container,
 	Tooltip,
+	makeStyles,
+	ListItemIcon,
 } from '@material-ui/core';
 import validator from 'validator';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { Alert } from '@material-ui/lab';
-import { VerifiedUser, VpnKey } from '@material-ui/icons';
+import { VerifiedUser, VpnKey, LocationOn } from '@material-ui/icons';
 import { toast } from 'react-toastify';
 import { useAuthState } from '../hooks';
 import { BASE_URL } from '../constants';
 import useRefresh from '../hooks/use-refresh';
 import { getUser } from '../actions/auth/get-user';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import moment from 'moment';
+
+const useStyles = makeStyles((theme) => ({
+	root: {
+		width: '100%',
+		backgroundColor: theme.palette.background.paper,
+	},
+}));
 
 const ProfileDetails = () => {
+	const classes = useStyles();
 	const { user } = useAuthState();
 	const [firstName, setFirstName] = useState(user?.first_name);
 	const [lastName, setLastName] = useState(user?.last_name);
@@ -185,6 +199,29 @@ const ProfileDetails = () => {
 		}, 1000);
 	};
 
+	const getLastLogins = () => {
+		return user.lastLogins
+			?.slice(user.lastLogins.length - 5, user.lastLogins.length)
+			.reverse()
+			.map((lastLogin) => (
+				<>
+					<ListItem button>
+						<ListItemIcon>
+							<LocationOn />
+						</ListItemIcon>
+						<ListItemText
+							inset
+							primary={`${lastLogin.geo?.city || 'Bilinmiyor'}`}
+							secondary={`${moment(
+								+lastLogin.lastLogin,
+							).fromNow()} - ${lastLogin.ip} `}
+						/>
+					</ListItem>
+					<Divider />
+				</>
+			));
+	};
+
 	return (
 		<Page title='Profil'>
 			<Container>
@@ -318,7 +355,7 @@ const ProfileDetails = () => {
 							</Card>
 						</form>
 					</Grid>
-					<Grid item style={{ width: '100%' }}>
+					<Grid item style={{ marginBottom: '1rem', width: '100%' }}>
 						<form autoComplete='off' style={{ width: '100%' }}>
 							<Card>
 								{!user.verified && (
@@ -426,6 +463,24 @@ const ProfileDetails = () => {
 								</Box>
 							</Card>
 						</form>
+					</Grid>
+					<Grid item style={{ width: '100%' }}>
+						<Card>
+							<CardHeader
+								subheader='Bu hesaba son zamanlarda giriş yaptığın tarihler.'
+								title='Son Girişler'
+							/>
+							<Divider />
+							<CardContent>
+								<List
+									component='nav'
+									className={classes.root}
+									aria-label='contacts'
+								>
+									{getLastLogins()}
+								</List>
+							</CardContent>
+						</Card>
 					</Grid>
 				</Grid>
 			</Container>
