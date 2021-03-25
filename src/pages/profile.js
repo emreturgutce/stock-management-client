@@ -213,7 +213,9 @@ const ProfileDetails = () => {
 							primary={`${lastLogin.geo?.city || 'Bilinmiyor'}`}
 							secondary={`${moment(
 								+lastLogin.lastLogin,
-							).fromNow()} - ${lastLogin.ip} - ${lastLogin.agent}`}
+							).fromNow()} - ${lastLogin.ip} ${
+								lastLogin.agent && `- ${lastLogin.agent}`
+							}`}
 						/>
 					</ListItem>
 					<Divider />
