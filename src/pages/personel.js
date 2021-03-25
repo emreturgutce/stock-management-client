@@ -29,6 +29,7 @@ import Page from '../components/page';
 import { useCarState } from '../hooks';
 import { getPersonnels } from '../actions';
 import { BASE_URL } from '../constants';
+import moment from 'moment';
 
 const Personel = () => {
 	const dispatch = useDispatch();
@@ -60,13 +61,7 @@ const Personel = () => {
 
 	const getLastLogin = (lastLogins) => {
 		return lastLogins.length > 0
-			? new Date(
-					+lastLogins[lastLogins.length - 1]?.lastLogin,
-			  ).toLocaleTimeString('tr-TR') +
-					' - ' +
-					new Date(
-						+lastLogins[lastLogins.length - 1]?.lastLogin,
-					).toLocaleDateString('tr-TR')
+			? moment(+lastLogins[lastLogins.length - 1]?.lastLogin).fromNow() 
 			: 'Yok';
 	};
 
