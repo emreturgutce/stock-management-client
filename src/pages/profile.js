@@ -380,7 +380,9 @@ const ProfileDetails = () => {
 								<CardHeader
 									subheader='Şifreni buradan değiştirebilirsin'
 									title='Şifreni Değiştir'
-									avatar={<VpnKey />}
+									avatar={
+										<VpnKey style={{ fill: '#1769aa' }} />
+									}
 								/>
 								<Divider />
 								<CardContent>
@@ -469,7 +471,7 @@ const ProfileDetails = () => {
 							<CardHeader
 								subheader='Bu hesaba son zamanlarda giriş yaptığın tarihler.'
 								title='Son Girişler'
-								avatar={<Explore />}
+								avatar={<Explore style={{ fill: '#1769aa' }} />}
 							/>
 							<Divider />
 							<CardContent>
