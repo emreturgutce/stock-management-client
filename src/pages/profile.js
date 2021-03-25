@@ -210,11 +210,10 @@ const ProfileDetails = () => {
 							<LocationOn />
 						</ListItemIcon>
 						<ListItemText
-							inset
 							primary={`${lastLogin.geo?.city || 'Bilinmiyor'}`}
 							secondary={`${moment(
 								+lastLogin.lastLogin,
-							).fromNow()} - ${lastLogin.ip} `}
+							).fromNow()} - ${lastLogin.ip} - ${lastLogin.agent}`}
 						/>
 					</ListItem>
 					<Divider />
