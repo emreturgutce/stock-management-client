@@ -19,7 +19,7 @@ import {
 import validator from 'validator';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { Alert } from '@material-ui/lab';
-import { VerifiedUser, VpnKey, LocationOn, Map } from '@material-ui/icons';
+import { VerifiedUser, VpnKey, LocationOn, Explore } from '@material-ui/icons';
 import { toast } from 'react-toastify';
 import { useAuthState } from '../hooks';
 import { BASE_URL } from '../constants';
@@ -469,7 +469,7 @@ const ProfileDetails = () => {
 							<CardHeader
 								subheader='Bu hesaba son zamanlarda giriş yaptığın tarihler.'
 								title='Son Girişler'
-								avatar={<Map />}
+								avatar={<Explore />}
 							/>
 							<Divider />
 							<CardContent>
