@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Page from '../components/page';
@@ -53,6 +53,8 @@ const ProfileDetails = () => {
 	const [disableClick, setDisableClick] = useState(false);
 
 	const getUserCb = useCallback(() => dispatch(getUser()), [dispatch]);
+
+	useEffect(getUserCb, [getUserCb]);
 
 	const handleSubmit = async (e) => {
 		setDisableClick(true);
