@@ -19,7 +19,7 @@ import {
 import validator from 'validator';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { Alert } from '@material-ui/lab';
-import { VerifiedUser, VpnKey, LocationOn } from '@material-ui/icons';
+import { VerifiedUser, VpnKey, LocationOn, Map } from '@material-ui/icons';
 import { toast } from 'react-toastify';
 import { useAuthState } from '../hooks';
 import { BASE_URL } from '../constants';
@@ -53,8 +53,6 @@ const ProfileDetails = () => {
 	const [disableClick, setDisableClick] = useState(false);
 
 	const getUserCb = useCallback(() => dispatch(getUser()), [dispatch]);
-
-	useEffect(getUserCb, [getUserCb]);
 
 	const handleSubmit = async (e) => {
 		setDisableClick(true);
@@ -471,6 +469,7 @@ const ProfileDetails = () => {
 							<CardHeader
 								subheader='Bu hesaba son zamanlarda giriş yaptığın tarihler.'
 								title='Son Girişler'
+								avatar={<Map />}
 							/>
 							<Divider />
 							<CardContent>
