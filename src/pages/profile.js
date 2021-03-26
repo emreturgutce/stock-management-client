@@ -201,8 +201,7 @@ const ProfileDetails = () => {
 
 	const getLastLogins = () => {
 		return user.lastLogins
-			?.slice(user.lastLogins.length - 5, user.lastLogins.length)
-			.reverse()
+			?.sort((a, b) => Number(a.lastLogin) - Number(b.lastLogin))
 			.map((lastLogin) => (
 				<>
 					<ListItem button>
