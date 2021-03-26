@@ -7,12 +7,20 @@ import {
 	ListItemText,
 	Tooltip,
 	IconButton,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	TextField,
+	Button,
 } from '@material-ui/core';
 import { Add, ArrowDropDown } from '@material-ui/icons';
+import { toast } from 'react-toastify';
+import { BASE_URL } from '../constants';
 
 const StyledMenu = withStyles({
 	paper: {
-		border: '1px solid #d3d4d5',
+		Modalborder: '1px solid #d3d4d5',
 	},
 })((props) => (
 	<Menu
@@ -41,30 +49,82 @@ const StyledMenuItem = withStyles((theme) => ({
 export default function AddDropDown() {
 	const history = useHistory();
 	const [anchorEl, setAnchorEl] = useState(null);
+	const [color, setColor] = useState('');
+	const [openColorModal, setOpenColorModal] = useState(false);
 
-	const handleClick = (event) => {
-		setAnchorEl(event.currentTarget);
-	};
+	const handleClick = (event) => setAnchorEl(event.currentTarget);
+	const handleClose = () => setAnchorEl(null);
 
-	const handleClose = () => {
-		setAnchorEl(null);
+	const submitColor = async (e) => {
+		e.preventDefault();
+
+		const res = await fetch(`${BASE_URL}/api/cars/colors`, {
+			method: 'POST',
+			body: JSON.stringify({
+				name: color,
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			credentials: 'include',
+		});
+
+		if (res.ok) {
+			toast.success('Renk başarıyla eklendi', {
+				position: 'top-center',
+				autoclose: 5000,
+				hideprogressbar: false,
+				closeonclick: true,
+				pauseonhover: true,
+				draggable: true,
+				progress: undefined,
+			});
+
+			setOpenColorModal(false);
+		} else {
+			const resMessage = (await res.json()).message;
+
+			if (resMessage.match(/Unique Key/)) {
+				toast.error('Bu renk zaten mevcut.', {
+					position: 'top-center',
+					autoclose: 5000,
+					hideprogressbar: false,
+					closeonclick: true,
+					pauseonhover: true,
+					draggable: true,
+					progress: undefined,
+				});
+
+				setOpenColorModal(false);
+			} else {
+				toast.error('Renk ekleme sırasında bir hata oluştu', {
+					position: 'top-center',
+					autoclose: 5000,
+					hideprogressbar: false,
+					closeonclick: true,
+					pauseonhover: true,
+					draggable: true,
+					progress: undefined,
+				});
+			}
+		}
 	};
 
 	return (
 		<div>
-			<Tooltip title='Daha fazla'>
+			<Tooltip title="Daha fazla">
 				<IconButton
-					edge='start'
-					color='inherit'
-					aria-label='menu'
+					edge="start"
+					color="inherit"
+					aria-label="menu"
 					onClick={handleClick}
 				>
-					<Add style={{ fill: '#EEE' }} fontSize='small' />
-					<ArrowDropDown style={{ fill: '#EEE' }} fontSize='small' />
+					<Add style={{ fill: '#EEE' }} fontSize="small" />
+					<ArrowDropDown style={{ fill: '#EEE' }} fontSize="small" />
 				</IconButton>
 			</Tooltip>
 			<StyledMenu
-				id='customized-menu'
+				id="customized-menu"
 				anchorEl={anchorEl}
 				keepMounted
 				open={Boolean(anchorEl)}
@@ -87,7 +147,7 @@ export default function AddDropDown() {
 						history.push('/cars/add');
 					}}
 				>
-					<ListItemText disableTypography primary='Araba Ekle' />
+					<ListItemText disableTypography primary="Araba Ekle" />
 				</StyledMenuItem>
 				<StyledMenuItem
 					style={{
@@ -97,12 +157,45 @@ export default function AddDropDown() {
 						paddingRight: '1.5rem',
 					}}
 					onClick={() => {
+						setOpenColorModal(true);
 						handleClose();
-						history.push('/cars/add');
 					}}
 				>
-					<ListItemText disableTypography primary='Renk Ekle' />
+					<ListItemText disableTypography primary="Renk Ekle" />
 				</StyledMenuItem>
+				<Dialog
+					open={openColorModal}
+					onClose={() => setOpenColorModal(false)}
+					aria-labelledby="form-dialog-title"
+					id="color-modal"
+				>
+					<DialogTitle id="form-dialog-title">
+						Renk Ekleme
+					</DialogTitle>
+					<DialogContent>
+						<TextField
+							autoFocus
+							margin="dense"
+							id="color"
+							label="Renk Adı"
+							fullWidth
+							variant="outlined"
+							value={color}
+							onChange={(e) => setColor(e.target.value)}
+						/>
+					</DialogContent>
+					<DialogActions>
+						<Button
+							onClick={() => setOpenColorModal(false)}
+							color="primary"
+						>
+							Reddet
+						</Button>
+						<Button onClick={submitColor} color="primary">
+							Kabul Et
+						</Button>
+					</DialogActions>
+				</Dialog>
 				<StyledMenuItem
 					style={{
 						lineHeight: 'normal',
@@ -117,7 +210,7 @@ export default function AddDropDown() {
 				>
 					<ListItemText
 						disableTypography
-						primary='Araba Üreticisi Ekle'
+						primary="Araba Üreticisi Ekle"
 					/>
 				</StyledMenuItem>
 				<StyledMenuItem
@@ -132,7 +225,7 @@ export default function AddDropDown() {
 						history.push('/cars/add');
 					}}
 				>
-					<ListItemText disableTypography primary='Müşteri Ekle' />
+					<ListItemText disableTypography primary="Müşteri Ekle" />
 				</StyledMenuItem>
 			</StyledMenu>
 		</div>
