@@ -1,4 +1,5 @@
 import { useEffect, useCallback, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loadCSS } from 'fg-loadcss';
 import {
@@ -36,10 +37,16 @@ import {
 	makeStyles,
 } from '@material-ui/core';
 import { toast } from 'react-toastify';
-import { ImportExport, Delete, ExitToApp, MoreHoriz, LocationOn } from '@material-ui/icons';
+import {
+	ImportExport,
+	Delete,
+	ExitToApp,
+	MoreHoriz,
+	LocationOn,
+} from '@material-ui/icons';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import Page from '../components/page';
-import { useCarState } from '../hooks';
+import { useCarState, useAuthState } from '../hooks';
 import { getPersonnels } from '../actions';
 import { BASE_URL } from '../constants';
 import moment from 'moment';
@@ -54,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
 const Personel = () => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
+	const {
+		user
+	} = useAuthState();
 	const { personnels } = useCarState();
 	const [openStock, setOpenStock] = useState(false);
 	const [openDelete, setOpenDelete] = useState(false);
@@ -316,469 +326,454 @@ const Personel = () => {
 	};
 
 	return (
-		<Page title="Personeller">
-			<Container>
-				<Grid
-					container
-					direction="column"
-					alignItems="center"
-					justify="center"
-					style={{ marginTop: '.5rem' }}
-				>
-					<Card style={{ height: '100%', width: '100%' }}>
-						<Box>
-							<CardHeader
-								id="personel-header"
-								title="Personeller"
-								titleTypographyProps={{
-									variant: 'h5',
-								}}
-								subheader="Personeller ile ilgili tüm işlemlerin yapılabileceği bölüm."
-								subheaderTypographyProps={{
-									variant: 'subtitle',
-								}}
-								action={
-									<Button
-										style={{ textTransform: 'none' }}
-										disableElevation
-										color="primary"
-										variant="outlined"
-										onClick={() => setOpenPersonel(true)}
+		<>
+			{user?.role === 'ADMIN' ? (
+				<Page title="Personeller">
+					<Container>
+						<Grid
+							container
+							direction="column"
+							alignItems="center"
+							justify="center"
+							style={{ marginTop: '.5rem' }}
+						>
+							<Card style={{ height: '100%', width: '100%' }}>
+								<Box>
+									<CardHeader
+										id="personel-header"
+										title="Personeller"
+										titleTypographyProps={{
+											variant: 'h5',
+										}}
+										subheader="Personeller ile ilgili tüm işlemlerin yapılabileceği bölüm."
+										subheaderTypographyProps={{
+											variant: 'subtitle',
+										}}
+										action={
+											<Button
+												style={{
+													textTransform: 'none',
+												}}
+												disableElevation
+												color="primary"
+												variant="outlined"
+												onClick={() =>
+													setOpenPersonel(true)
+												}
+											>
+												Personel Ekle
+											</Button>
+										}
+									/>
+									<Dialog
+										open={openPersonel}
+										onClose={handlePersonelClose}
+										aria-labelledby="form-dialog-title"
 									>
-										Personel Ekle
-									</Button>
-								}
-							/>
-							<Dialog
-								open={openPersonel}
-								onClose={handlePersonelClose}
-								aria-labelledby="form-dialog-title"
-							>
-								<DialogTitle id="form-dialog-title">
-									Personel Ekleme
-								</DialogTitle>
-								<Divider />
-								<DialogContent>
-									{step === 0 && (
-										<>
-											<TextField
-												autoFocus
-												margin="dense"
-												id="first_name"
-												required
-												label="Ad"
-												fullWidth
-												variant="outlined"
-												value={first_name}
-												onChange={(e) =>
-													setFirstname(e.target.value)
-												}
-											/>
-											<TextField
-												margin="dense"
-												id="last_name"
-												label="Soyad"
-												required
-												fullWidth
-												variant="outlined"
-												value={last_name}
-												onChange={(e) =>
-													setLastname(e.target.value)
-												}
-											/>
-											<FormControl
-												variant="outlined"
-												fullWidth
-												required
-												className="personel-select"
-											>
-												<InputLabel>
-													Cinsiyet
-												</InputLabel>
-												<Select
-													labelId="gender"
-													id="gender-select"
-													native
-													value={gender}
-													onChange={(e) =>
-														setGender(
-															e.target.value,
-														)
-													}
-												>
-													<option
-														aria-label="None"
-														value=""
+										<DialogTitle id="form-dialog-title">
+											Personel Ekleme
+										</DialogTitle>
+										<Divider />
+										<DialogContent>
+											{step === 0 && (
+												<>
+													<TextField
+														autoFocus
+														margin="dense"
+														id="first_name"
+														required
+														label="Ad"
+														fullWidth
+														variant="outlined"
+														value={first_name}
+														onChange={(e) =>
+															setFirstname(
+																e.target.value,
+															)
+														}
+													/>
+													<TextField
+														margin="dense"
+														id="last_name"
+														label="Soyad"
+														required
+														fullWidth
+														variant="outlined"
+														value={last_name}
+														onChange={(e) =>
+															setLastname(
+																e.target.value,
+															)
+														}
+													/>
+													<FormControl
+														variant="outlined"
+														fullWidth
+														required
+														className="personel-select"
 													>
-														{' '}
-													</option>
-													<option value="MALE">
-														Erkek
-													</option>
-													<option value="FEMALE">
-														Kadın
-													</option>
-												</Select>
-											</FormControl>
-											<KeyboardDatePicker
-												fullWidth
-												required
-												inputVariant="outlined"
-												format="MM/dd/yyyy"
-												margin="normal"
-												id="enter_date"
-												label="Doğum Tarihi"
-												value={birth_date}
-												className="personel-date"
-												onChange={handleDateChange}
-												KeyboardButtonProps={{
-													'aria-label': 'change date',
-												}}
-											/>
-										</>
-									)}
-									{step === 1 && (
-										<>
-											<TextField
-												autoFocus
-												margin="dense"
-												id="email"
-												label="Email"
-												required
-												type="email"
-												fullWidth
-												variant="outlined"
-												value={email}
-												onChange={(e) =>
-													setEmail(e.target.value)
-												}
-											/>
-											<TextField
-												margin="dense"
-												required
-												id="password"
-												label="Şifre"
-												fullWidth
-												type="password"
-												variant="outlined"
-												value={password}
-												onChange={(e) =>
-													setPassword(e.target.value)
-												}
-											/>
-											<FormControl
-												variant="outlined"
-												fullWidth
-												required
-												className="personel-select"
-											>
-												<InputLabel>Rol</InputLabel>
-												<Select
-													native
-													value={role}
-													onChange={(e) =>
-														setRole(e.target.value)
-													}
+														<InputLabel>
+															Cinsiyet
+														</InputLabel>
+														<Select
+															labelId="gender"
+															id="gender-select"
+															native
+															value={gender}
+															onChange={(e) =>
+																setGender(
+																	e.target
+																		.value,
+																)
+															}
+														>
+															<option
+																aria-label="None"
+																value=""
+															>
+																{' '}
+															</option>
+															<option value="MALE">
+																Erkek
+															</option>
+															<option value="FEMALE">
+																Kadın
+															</option>
+														</Select>
+													</FormControl>
+													<KeyboardDatePicker
+														fullWidth
+														required
+														inputVariant="outlined"
+														format="MM/dd/yyyy"
+														margin="normal"
+														id="enter_date"
+														label="Doğum Tarihi"
+														value={birth_date}
+														className="personel-date"
+														onChange={
+															handleDateChange
+														}
+														KeyboardButtonProps={{
+															'aria-label':
+																'change date',
+														}}
+													/>
+												</>
+											)}
+											{step === 1 && (
+												<>
+													<TextField
+														autoFocus
+														margin="dense"
+														id="email"
+														label="Email"
+														required
+														type="email"
+														fullWidth
+														variant="outlined"
+														value={email}
+														onChange={(e) =>
+															setEmail(
+																e.target.value,
+															)
+														}
+													/>
+													<TextField
+														margin="dense"
+														required
+														id="password"
+														label="Şifre"
+														fullWidth
+														type="password"
+														variant="outlined"
+														value={password}
+														onChange={(e) =>
+															setPassword(
+																e.target.value,
+															)
+														}
+													/>
+													<FormControl
+														variant="outlined"
+														fullWidth
+														required
+														className="personel-select"
+													>
+														<InputLabel>
+															Rol
+														</InputLabel>
+														<Select
+															native
+															value={role}
+															onChange={(e) =>
+																setRole(
+																	e.target
+																		.value,
+																)
+															}
+														>
+															<option value="">
+																{' '}
+															</option>
+															<option value="PERSONEL">
+																Personel
+															</option>
+															<option value="ADMIN">
+																Admin
+															</option>
+														</Select>
+													</FormControl>
+													<KeyboardDatePicker
+														fullWidth
+														required
+														inputVariant="outlined"
+														format="MM/dd/yyyy"
+														className="personel-date"
+														margin="normal"
+														id="enter_date"
+														label="İşe Başlama Tarihi"
+														value={hire_date}
+														onChange={
+															handleHireDateChange
+														}
+														KeyboardButtonProps={{
+															'aria-label':
+																'change date',
+														}}
+													/>
+												</>
+											)}
+										</DialogContent>
+										<DialogActions
+											style={{
+												marginRight: '24px',
+												marginLeft: '24px',
+												padding: '16px 0',
+											}}
+										>
+											{step === 1 && (
+												<Button
+													onClick={handlePrevious}
+													color="primary"
+													variant="outlined"
 												>
-													<option value=""> </option>
-													<option value="PERSONEL">
-														Personel
-													</option>
-													<option value="ADMIN">
-														Admin
-													</option>
-												</Select>
-											</FormControl>
-											<KeyboardDatePicker
-												fullWidth
-												required
-												inputVariant="outlined"
-												format="MM/dd/yyyy"
-												className="personel-date"
-												margin="normal"
-												id="enter_date"
-												label="İşe Başlama Tarihi"
-												value={hire_date}
-												onChange={handleHireDateChange}
-												KeyboardButtonProps={{
-													'aria-label': 'change date',
-												}}
-											/>
-										</>
-									)}
-								</DialogContent>
-								<DialogActions
+													Geri
+												</Button>
+											)}
+											{step === 0 && (
+												<Button
+													onClick={handleNext}
+													color="primary"
+													variant="outlined"
+												>
+													Sonraki
+												</Button>
+											)}
+											{step === 1 && (
+												<Button
+													onClick={submitPersonel}
+													color="primary"
+													variant="contained"
+												>
+													Kabul Et
+												</Button>
+											)}
+										</DialogActions>
+									</Dialog>
+
+									<Divider />
+								</Box>
+								<Box
+									maxWidth="100%"
 									style={{
-										marginRight: '24px',
-										marginLeft: '24px',
-										padding: '16px 0',
+										marginBottom: 'auto',
+										overflowX: 'scroll',
 									}}
 								>
-									{step === 1 && (
-										<Button
-											onClick={handlePrevious}
-											color="primary"
-											variant="outlined"
-										>
-											Geri
-										</Button>
-									)}
-									{step === 0 && (
-										<Button
-											onClick={handleNext}
-											color="primary"
-											variant="outlined"
-										>
-											Sonraki
-										</Button>
-									)}
-									{step === 1 && (
-										<Button
-											onClick={submitPersonel}
-											color="primary"
-											variant="contained"
-										>
-											Kabul Et
-										</Button>
-									)}
-								</DialogActions>
-							</Dialog>
-
-							<Divider />
-						</Box>
-						<Box
-							maxWidth="100%"
-							style={{
-								marginBottom: 'auto',
-								overflowX: 'scroll',
-							}}
-						>
-							<Table>
-								<TableHead>
-									<TableRow>
-										<TableCell></TableCell>
-										<TableCell>Ad Soyad</TableCell>
-										<TableCell>Email</TableCell>
-										<TableCell>Rol</TableCell>
-										<TableCell>
-											İşe Başlama Tarihi
-										</TableCell>
-										<TableCell>Sisteme Son Giriş</TableCell>
-										<TableCell>Aksiyonlar</TableCell>
-									</TableRow>
-								</TableHead>
-								<TableBody>
-									{personnels.map((personnel) => (
-										<TableRow hover key={personnel.title}>
-											<TableCell>
-												<Avatar
-													style={{
-														backgroundColor:
-															'#1769aa',
-													}}
+									<Table>
+										<TableHead>
+											<TableRow>
+												<TableCell></TableCell>
+												<TableCell>Ad Soyad</TableCell>
+												<TableCell>Email</TableCell>
+												<TableCell>Rol</TableCell>
+												<TableCell>
+													İşe Başlama Tarihi
+												</TableCell>
+												<TableCell>
+													Sisteme Son Giriş
+												</TableCell>
+												<TableCell>
+													Aksiyonlar
+												</TableCell>
+											</TableRow>
+										</TableHead>
+										<TableBody>
+											{personnels.map((personnel) => (
+												<TableRow
+													hover
+													key={personnel.title}
 												>
-													{personnel.first_name
-														.toUpperCase()
-														.slice(0, 1)}
-												</Avatar>
-											</TableCell>
-											<TableCell>
-												{`${personnel.first_name} ${personnel.last_name}`}
-											</TableCell>
-											<TableCell>
-												{personnel.email}
-											</TableCell>
-											<TableCell>
-												{personnel.role === 'ADMIN' ? (
-													<Chip
-														label="Admin"
-														variant="outlined"
-														size="small"
-														color="primary"
-														icon={
-															<Icon
-																color="primary"
-																className="fas fa-user-shield"
-																style={{
-																	fontSize:
-																		'.8rem',
-																	width:
-																		'1.2rem',
-																	marginLeft: 10,
-																}}
-															/>
-														}
-													/>
-												) : (
-													<Chip
-														label="Personel"
-														variant="outlined"
-														size="small"
-														color="primary"
-														icon={
-															<Icon
-																className="fas fa-user"
-																style={{
-																	fontSize:
-																		'.8rem',
-																	width:
-																		'1.2rem',
-																	marginLeft: 10,
-																}}
-															/>
-														}
-													/>
-												)}
-											</TableCell>
-											<TableCell>
-												{new Date(
-													personnel.hire_date,
-												).toLocaleDateString('tr-TR')}
-											</TableCell>
-											<TableCell>
-												{getLastLogin(
-													personnel.lastLogins,
-												)}
-												<IconButton onClick={() => setOpenMoreLogin(true)}>
-													<MoreHoriz fontSize="small" />
-												</IconButton>
-												<Dialog
-													id="more-login-personel"
-													open={openMoreLogin}
-													onClose={
-														handleMoreLogin
-													}
-													aria-labelledby="form-dialog-title"
-												>
-													<DialogContent>
-														<List
-															component="nav"
-															className={
-																classes.root
-															}
-															aria-label="contacts"
-														>
-															{getAllLastLogins(
-																personnel.lastLogins,
-															)}
-														</List>
-													</DialogContent>
-												</Dialog>
-											</TableCell>
-											<TableCell>
-												<Tooltip title="Bütün hesaplardan çıkış yap">
-													<IconButton
-														edge="start"
-														color="inherit"
-														aria-label="menu"
-														onClick={() =>
-															setOpenExpire(true)
-														}
-													>
-														<ExitToApp
-															fontSize="small"
+													<TableCell>
+														<Avatar
 															style={{
-																color:
+																backgroundColor:
 																	'#1769aa',
 															}}
-														/>
-													</IconButton>
-												</Tooltip>
-												<Dialog
-													open={openExpire}
-													onClose={handleExpireClose}
-													aria-labelledby="alert-dialog-title"
-													aria-describedby="alert-dialog-description"
-												>
-													<DialogTitle id="alert-dialog-title">
-														<Typography variant="p">
-															Tüm oturumlar
-															sonlandırılsın mı ?
-														</Typography>
-													</DialogTitle>
-													<DialogContent>
-														<DialogContentText id="alert-dialog-description">
-															Personelin tüm
-															oturumları
-															sonlandırılacak. Ve
-															personel sisteme bir
-															daha giriş yapmak
-															zorunda kalacak.
-														</DialogContentText>
-													</DialogContent>
-													<DialogActions>
-														<Button
-															onClick={
+														>
+															{personnel.first_name
+																.toUpperCase()
+																.slice(0, 1)}
+														</Avatar>
+													</TableCell>
+													<TableCell>
+														{`${personnel.first_name} ${personnel.last_name}`}
+													</TableCell>
+													<TableCell>
+														{personnel.email}
+													</TableCell>
+													<TableCell>
+														{personnel.role ===
+														'ADMIN' ? (
+															<Chip
+																label="Admin"
+																variant="outlined"
+																size="small"
+																color="primary"
+																icon={
+																	<Icon
+																		color="primary"
+																		className="fas fa-user-shield"
+																		style={{
+																			fontSize:
+																				'.8rem',
+																			width:
+																				'1.2rem',
+																			marginLeft: 10,
+																		}}
+																	/>
+																}
+															/>
+														) : (
+															<Chip
+																label="Personel"
+																variant="outlined"
+																size="small"
+																color="primary"
+																icon={
+																	<Icon
+																		className="fas fa-user"
+																		style={{
+																			fontSize:
+																				'.8rem',
+																			width:
+																				'1.2rem',
+																			marginLeft: 10,
+																		}}
+																	/>
+																}
+															/>
+														)}
+													</TableCell>
+													<TableCell>
+														{new Date(
+															personnel.hire_date,
+														).toLocaleDateString(
+															'tr-TR',
+														)}
+													</TableCell>
+													<TableCell>
+														{getLastLogin(
+															personnel.lastLogins,
+														)}
+														<IconButton
+															onClick={() =>
+																setOpenMoreLogin(
+																	true,
+																)
+															}
+														>
+															<MoreHoriz fontSize="small" />
+														</IconButton>
+														<Dialog
+															id="more-login-personel"
+															open={openMoreLogin}
+															onClose={
+																handleMoreLogin
+															}
+															aria-labelledby="form-dialog-title"
+														>
+															<DialogContent>
+																<List
+																	component="nav"
+																	className={
+																		classes.root
+																	}
+																	aria-label="contacts"
+																>
+																	{getAllLastLogins(
+																		personnel.lastLogins,
+																	)}
+																</List>
+															</DialogContent>
+														</Dialog>
+													</TableCell>
+													<TableCell>
+														<Tooltip title="Bütün hesaplardan çıkış yap">
+															<IconButton
+																edge="start"
+																color="inherit"
+																aria-label="menu"
+																onClick={() =>
+																	setOpenExpire(
+																		true,
+																	)
+																}
+															>
+																<ExitToApp
+																	fontSize="small"
+																	style={{
+																		color:
+																			'#1769aa',
+																	}}
+																/>
+															</IconButton>
+														</Tooltip>
+														<Dialog
+															open={openExpire}
+															onClose={
 																handleExpireClose
 															}
-															color="primary"
-														>
-															Reddet
-														</Button>
-														<Button
-															color="primary"
-															autoFocus
-															onClick={() => {
-																handleExpireAction(
-																	personnel.id,
-																);
-															}}
-														>
-															Kabul Et
-														</Button>
-													</DialogActions>
-												</Dialog>
-												{personnel.role === 'ADMIN' ? (
-													<>
-														<Tooltip title="Personelin rolünü düşür">
-															<IconButton
-																edge="start"
-																color="inherit"
-																aria-label="menu"
-																onClick={() =>
-																	setOpenStock(
-																		true,
-																	)
-																}
-															>
-																<ImportExport
-																	style={{
-																		color:
-																			'#1769aa',
-																	}}
-																	fontSize="small"
-																/>
-															</IconButton>
-														</Tooltip>
-														<Dialog
-															open={openStock}
-															onClose={
-																handleStockClose
-															}
 															aria-labelledby="alert-dialog-title"
 															aria-describedby="alert-dialog-description"
 														>
 															<DialogTitle id="alert-dialog-title">
 																<Typography variant="p">
-																	Rol
-																	düşürülsün
-																	mü ?
+																	Tüm
+																	oturumlar
+																	sonlandırılsın
+																	mı ?
 																</Typography>
 															</DialogTitle>
 															<DialogContent>
 																<DialogContentText id="alert-dialog-description">
-																	Admin
-																	personelinin
-																	rolü normal
-																	personel
-																	seviyesi
-																	düşürülecek.
+																	Personelin
+																	tüm
+																	oturumları
+																	sonlandırılacak.
+																	Ve personel
+																	sisteme bir
+																	daha giriş
+																	yapmak
+																	zorunda
+																	kalacak.
 																</DialogContentText>
 															</DialogContent>
 															<DialogActions>
 																<Button
 																	onClick={
-																		handleStockClose
+																		handleExpireClose
 																	}
 																	color="primary"
 																>
@@ -788,8 +783,7 @@ const Personel = () => {
 																	color="primary"
 																	autoFocus
 																	onClick={() => {
-																		handleConfirmAction(
-																			'DROP',
+																		handleExpireAction(
 																			personnel.id,
 																		);
 																	}}
@@ -798,144 +792,235 @@ const Personel = () => {
 																</Button>
 															</DialogActions>
 														</Dialog>
-													</>
-												) : (
-													<>
-														<Tooltip title="Personelin rolünü arttır">
-															<IconButton
-																edge="start"
-																color="inherit"
-																aria-label="menu"
-																onClick={() =>
-																	setOpenStock(
-																		true,
-																	)
-																}
-															>
-																<ImportExport
-																	fontSize="small"
-																	style={{
-																		color:
-																			'#1769aa',
-																	}}
-																/>
-															</IconButton>
-														</Tooltip>
-														<Dialog
-															open={openStock}
-															onClose={
-																handleStockClose
-															}
-															aria-labelledby="alert-dialog-title"
-															aria-describedby="alert-dialog-description"
-														>
-															<DialogTitle id="alert-dialog-title">
-																<Typography variant="p">
-																	Rol
-																	yükseltilsin
-																	mi ?
-																</Typography>
-															</DialogTitle>
-															<DialogContent>
-																<DialogContentText id="alert-dialog-description">
-																	Normal
-																	personelin
-																	rolü admin
-																	personel
-																	seviyesi
-																	yükseltilecek.
-																</DialogContentText>
-															</DialogContent>
-															<DialogActions>
-																<Button
-																	onClick={
+														{personnel.role ===
+														'ADMIN' ? (
+															<>
+																<Tooltip title="Personelin rolünü düşür">
+																	<IconButton
+																		edge="start"
+																		color="inherit"
+																		aria-label="menu"
+																		onClick={() =>
+																			setOpenStock(
+																				true,
+																			)
+																		}
+																	>
+																		<ImportExport
+																			style={{
+																				color:
+																					'#1769aa',
+																			}}
+																			fontSize="small"
+																		/>
+																	</IconButton>
+																</Tooltip>
+																<Dialog
+																	open={
+																		openStock
+																	}
+																	onClose={
 																		handleStockClose
 																	}
-																	color="primary"
+																	aria-labelledby="alert-dialog-title"
+																	aria-describedby="alert-dialog-description"
 																>
-																	Reddet
-																</Button>
-																<Button
-																	color="primary"
-																	autoFocus
-																	onClick={() => {
-																		handleConfirmAction(
-																			'ENHANCE',
-																			personnel.id,
-																		);
-																	}}
+																	<DialogTitle id="alert-dialog-title">
+																		<Typography variant="p">
+																			Rol
+																			düşürülsün
+																			mü ?
+																		</Typography>
+																	</DialogTitle>
+																	<DialogContent>
+																		<DialogContentText id="alert-dialog-description">
+																			Admin
+																			personelinin
+																			rolü
+																			normal
+																			personel
+																			seviyesi
+																			düşürülecek.
+																		</DialogContentText>
+																	</DialogContent>
+																	<DialogActions>
+																		<Button
+																			onClick={
+																				handleStockClose
+																			}
+																			color="primary"
+																		>
+																			Reddet
+																		</Button>
+																		<Button
+																			color="primary"
+																			autoFocus
+																			onClick={() => {
+																				handleConfirmAction(
+																					'DROP',
+																					personnel.id,
+																				);
+																			}}
+																		>
+																			Kabul
+																			Et
+																		</Button>
+																	</DialogActions>
+																</Dialog>
+															</>
+														) : (
+															<>
+																<Tooltip title="Personelin rolünü arttır">
+																	<IconButton
+																		edge="start"
+																		color="inherit"
+																		aria-label="menu"
+																		onClick={() =>
+																			setOpenStock(
+																				true,
+																			)
+																		}
+																	>
+																		<ImportExport
+																			fontSize="small"
+																			style={{
+																				color:
+																					'#1769aa',
+																			}}
+																		/>
+																	</IconButton>
+																</Tooltip>
+																<Dialog
+																	open={
+																		openStock
+																	}
+																	onClose={
+																		handleStockClose
+																	}
+																	aria-labelledby="alert-dialog-title"
+																	aria-describedby="alert-dialog-description"
 																>
-																	Kabul Et
-																</Button>
-															</DialogActions>
-														</Dialog>
-													</>
-												)}
+																	<DialogTitle id="alert-dialog-title">
+																		<Typography variant="p">
+																			Rol
+																			yükseltilsin
+																			mi ?
+																		</Typography>
+																	</DialogTitle>
+																	<DialogContent>
+																		<DialogContentText id="alert-dialog-description">
+																			Normal
+																			personelin
+																			rolü
+																			admin
+																			personel
+																			seviyesi
+																			yükseltilecek.
+																		</DialogContentText>
+																	</DialogContent>
+																	<DialogActions>
+																		<Button
+																			onClick={
+																				handleStockClose
+																			}
+																			color="primary"
+																		>
+																			Reddet
+																		</Button>
+																		<Button
+																			color="primary"
+																			autoFocus
+																			onClick={() => {
+																				handleConfirmAction(
+																					'ENHANCE',
+																					personnel.id,
+																				);
+																			}}
+																		>
+																			Kabul
+																			Et
+																		</Button>
+																	</DialogActions>
+																</Dialog>
+															</>
+														)}
 
-												<Tooltip title="Personeli sil">
-													<IconButton
-														edge="start"
-														color="inherit"
-														aria-label="menu"
-														onClick={() => {
-															setOpenDelete(true);
-														}}
-													>
-														<Delete
-															fontSize="small"
-															style={{
-																color:
-																	'#1769aa',
-															}}
-														/>
-													</IconButton>
-												</Tooltip>
-												<Dialog
-													open={openDelete}
-													onClose={handleDeleteClose}
-													aria-labelledby="alert-dialog-title"
-													aria-describedby="alert-dialog-description"
-												>
-													<DialogTitle id="alert-dialog-title">
-														<Typography variant="p">
-															Personel silinsin mi
-															?
-														</Typography>
-													</DialogTitle>
-													<DialogContent>
-														<DialogContentText id="alert-dialog-description">
-															Personelin tüm
-															bilgileri kalıcı
-															olarak silinecek.
-														</DialogContentText>
-													</DialogContent>
-													<DialogActions>
-														<Button color="primary">
-															Reddet
-														</Button>
-														<Button
-															color="primary"
-															autoFocus
-															onClick={() => {
-																handleDeleteAction(
-																	personnel.id,
-																);
-															}}
+														<Tooltip title="Personeli sil">
+															<IconButton
+																edge="start"
+																color="inherit"
+																aria-label="menu"
+																onClick={() => {
+																	setOpenDelete(
+																		true,
+																	);
+																}}
+															>
+																<Delete
+																	fontSize="small"
+																	style={{
+																		color:
+																			'#1769aa',
+																	}}
+																/>
+															</IconButton>
+														</Tooltip>
+														<Dialog
+															open={openDelete}
+															onClose={
+																handleDeleteClose
+															}
+															aria-labelledby="alert-dialog-title"
+															aria-describedby="alert-dialog-description"
 														>
-															Kabul Et
-														</Button>
-													</DialogActions>
-												</Dialog>
-											</TableCell>
-										</TableRow>
-									))}
-								</TableBody>
-							</Table>
-						</Box>
-					</Card>
-				</Grid>
-			</Container>
-		</Page>
+															<DialogTitle id="alert-dialog-title">
+																<Typography variant="p">
+																	Personel
+																	silinsin mi
+																	?
+																</Typography>
+															</DialogTitle>
+															<DialogContent>
+																<DialogContentText id="alert-dialog-description">
+																	Personelin
+																	tüm
+																	bilgileri
+																	kalıcı
+																	olarak
+																	silinecek.
+																</DialogContentText>
+															</DialogContent>
+															<DialogActions>
+																<Button color="primary">
+																	Reddet
+																</Button>
+																<Button
+																	color="primary"
+																	autoFocus
+																	onClick={() => {
+																		handleDeleteAction(
+																			personnel.id,
+																		);
+																	}}
+																>
+																	Kabul Et
+																</Button>
+															</DialogActions>
+														</Dialog>
+													</TableCell>
+												</TableRow>
+											))}
+										</TableBody>
+									</Table>
+								</Box>
+							</Card>
+						</Grid>
+					</Container>
+				</Page>
+			) : (
+				<Redirect to="/" />
+			)}
+		</>
 	);
 };
 

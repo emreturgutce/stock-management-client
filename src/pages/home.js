@@ -287,6 +287,8 @@ const Home = () => {
 									variant='outlined'
 									style={{
 										marginRight: 5,
+										width: '100%',
+										height: '100%',
 									}}
 									disabled={disableRefresh}
 									onClick={handleRefresh}
