@@ -148,22 +148,28 @@ const AwaitingEvents = () => {
 	}, []);
 
 	return (
-		<Page title='Etkinlikler'>
+		<Page title="Etkinlikler">
 			<Container>
 				<Grid
 					container
-					direction='column'
-					alignItems='center'
-					justify='center'
+					direction="column"
+					alignItems="center"
+					justify="center"
 					style={{ marginTop: '.5rem' }}
 				>
 					<Card style={{ height: '100%', width: '100%' }}>
 						<Box>
-							<CardHeader title='Etkinlikler' />
+							<CardHeader
+								title="Onay Bekleyen Etkinlikler"
+								subheader="Stok yönetim sisteminde bulunan personellerin admin onayı göndermiş olduğu etkinlikler."
+								subheaderTypographyProps={{
+									variant: 'subtitle',
+								}}
+							/>
 							<Divider />
 						</Box>
 						<Box
-							maxWidth='100%'
+							maxWidth="100%"
 							style={{
 								marginBottom: 'auto',
 								overflowX: 'scroll',
@@ -192,8 +198,8 @@ const AwaitingEvents = () => {
 													>
 														{event.title}
 														<Icon
-															color='primary'
-															className='fas fa-external-link-alt'
+															color="primary"
+															className="fas fa-external-link-alt"
 															style={{
 																fontSize:
 																	'.6rem',
@@ -210,13 +216,13 @@ const AwaitingEvents = () => {
 											<TableCell>
 												{event.type === 'DELETE' ? (
 													<Chip
-														label='Silme'
-														variant='outlined'
-														size='small'
-														color='secondary'
+														label="Silme"
+														variant="outlined"
+														size="small"
+														color="secondary"
 														icon={
 															<Delete
-																color='secondary'
+																color="secondary"
 																style={{
 																	width:
 																		'1rem',
@@ -227,13 +233,13 @@ const AwaitingEvents = () => {
 													/>
 												) : (
 													<Chip
-														label='Satış'
-														variant='outlined'
-														size='small'
-														color='secondary'
+														label="Satış"
+														variant="outlined"
+														size="small"
+														color="secondary"
 														icon={
 															<ShoppingCart
-																color='secondary'
+																color="secondary"
 																style={{
 																	width:
 																		'1rem',
@@ -251,11 +257,11 @@ const AwaitingEvents = () => {
 														event.customer_last_name}
 											</TableCell>
 											<TableCell>
-												<Tooltip title='İptal Et'>
+												<Tooltip title="İptal Et">
 													<IconButton
-														edge='start'
-														color='inherit'
-														aria-label='menu'
+														edge="start"
+														color="inherit"
+														aria-label="menu"
 														onClick={() => {
 															handleAbortAction(
 																event.car_id,
@@ -266,15 +272,15 @@ const AwaitingEvents = () => {
 															style={{
 																fill: '#f44336',
 															}}
-															fontSize='small'
+															fontSize="small"
 														/>
 													</IconButton>
 												</Tooltip>
-												<Tooltip title='Onayla'>
+												<Tooltip title="Onayla">
 													<IconButton
-														edge='start'
-														color='inherit'
-														aria-label='menu'
+														edge="start"
+														color="inherit"
+														aria-label="menu"
 														onClick={() =>
 															setOpenStock(true)
 														}
@@ -283,18 +289,18 @@ const AwaitingEvents = () => {
 															style={{
 																fill: '#4caf50',
 															}}
-															fontSize='small'
+															fontSize="small"
 														/>
 													</IconButton>
 												</Tooltip>
 												<Dialog
 													open={openStock}
 													onClose={handleStockClose}
-													aria-labelledby='alert-dialog-title'
-													aria-describedby='alert-dialog-description'
+													aria-labelledby="alert-dialog-title"
+													aria-describedby="alert-dialog-description"
 												>
-													<DialogTitle id='alert-dialog-title'>
-														<Typography variant='p'>
+													<DialogTitle id="alert-dialog-title">
+														<Typography variant="p">
 															{`${
 																event.type ===
 																'DELETE'
@@ -304,7 +310,7 @@ const AwaitingEvents = () => {
 														</Typography>
 													</DialogTitle>
 													<DialogContent>
-														<DialogContentText id='alert-dialog-description'>
+														<DialogContentText id="alert-dialog-description">
 															{event.type ===
 															'DELETE'
 																? 'Araç bilgileri tamamen kaldırılacak ve bir daha ulaşılamayacak.'
@@ -316,12 +322,12 @@ const AwaitingEvents = () => {
 															onClick={
 																handleStockClose
 															}
-															color='primary'
+															color="primary"
 														>
 															Hayır
 														</Button>
 														<Button
-															color='primary'
+															color="primary"
 															autoFocus
 															onClick={() => {
 																handleConfirmAction(
@@ -349,11 +355,17 @@ const AwaitingEvents = () => {
 						}}
 					>
 						<Box>
-							<CardHeader title='Tamamlanmış Etkinlikler' />
+							<CardHeader
+								title="Onaylanmış Etkinlikler"
+								subheader="Adminlerin onaylamış olduğu etkinlikler"
+								subheaderTypographyProps={{
+									variant: 'subtitle',
+								}}
+							/>
 							<Divider />
 						</Box>
 						<Box
-							maxWidth='100%'
+							maxWidth="100%"
 							style={{
 								marginBottom: 'auto',
 								overflowX: 'scroll',
@@ -387,8 +399,8 @@ const AwaitingEvents = () => {
 														>
 															{event.title}
 															<Icon
-																color='primary'
-																className='fas fa-external-link-alt'
+																color="primary"
+																className="fas fa-external-link-alt"
 																style={{
 																	fontSize:
 																		'.6rem',
@@ -409,13 +421,13 @@ const AwaitingEvents = () => {
 											<TableCell>
 												{event.type === 'DELETE' ? (
 													<Chip
-														label='Silme'
-														variant='outlined'
-														size='small'
-														color='secondary'
+														label="Silme"
+														variant="outlined"
+														size="small"
+														color="secondary"
 														icon={
 															<Delete
-																color='secondary'
+																color="secondary"
 																style={{
 																	width:
 																		'1rem',
@@ -426,13 +438,13 @@ const AwaitingEvents = () => {
 													/>
 												) : (
 													<Chip
-														label='Satış'
-														variant='outlined'
-														size='small'
-														color='secondary'
+														label="Satış"
+														variant="outlined"
+														size="small"
+														color="secondary"
 														icon={
 															<ShoppingCart
-																color='secondary'
+																color="secondary"
 																style={{
 																	width:
 																		'1rem',
@@ -453,23 +465,23 @@ const AwaitingEvents = () => {
 											</TableCell>
 											<TableCell>
 												{!event.is_aborted ? (
-													<Tooltip title='Gerçekleşti'>
+													<Tooltip title="Gerçekleşti">
 														<svg
-															focusable='false'
-															viewBox='0 0 24 24'
+															focusable="false"
+															viewBox="0 0 24 24"
 															style={{
 																margin: 'auto',
 															}}
-															aria-hidden='true'
-															width='24px'
-															height='24px'
-															fill='#4caf50'
+															aria-hidden="true"
+															width="24px"
+															height="24px"
+															fill="#4caf50"
 														>
-															<path d='M20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4C12.76,4 13.5,4.11 14.2, 4.31L15.77,2.74C14.61,2.26 13.34,2 12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0, 0 22,12M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z'></path>
+															<path d="M20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4C12.76,4 13.5,4.11 14.2, 4.31L15.77,2.74C14.61,2.26 13.34,2 12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0, 0 22,12M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z"></path>
 														</svg>
 													</Tooltip>
 												) : (
-													<Tooltip title='Gerçekleşmedi'>
+													<Tooltip title="Gerçekleşmedi">
 														<HighlightOff
 															style={{
 																fill: '#f44336',

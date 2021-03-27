@@ -28,9 +28,15 @@ import {
 	FormControl,
 	InputLabel,
 	Select,
+	Avatar,
+	List,
+	ListItem,
+	ListItemIcon,
+	ListItemText,
+	makeStyles,
 } from '@material-ui/core';
 import { toast } from 'react-toastify';
-import { ImportExport, Delete, ExitToApp } from '@material-ui/icons';
+import { ImportExport, Delete, ExitToApp, MoreHoriz, LocationOn } from '@material-ui/icons';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import Page from '../components/page';
 import { useCarState } from '../hooks';
@@ -38,7 +44,15 @@ import { getPersonnels } from '../actions';
 import { BASE_URL } from '../constants';
 import moment from 'moment';
 
+const useStyles = makeStyles((theme) => ({
+	root: {
+		width: '100%',
+		backgroundColor: theme.palette.background.paper,
+	},
+}));
+
 const Personel = () => {
+	const classes = useStyles();
 	const dispatch = useDispatch();
 	const { personnels } = useCarState();
 	const [openStock, setOpenStock] = useState(false);
@@ -54,6 +68,7 @@ const Personel = () => {
 	const [role, setRole] = useState('');
 	const [openPersonel, setOpenPersonel] = useState(false);
 	const [step, setStep] = useState(0);
+	const [openMoreLogin, setOpenMoreLogin] = useState(false);
 	const getPersonnelsCb = useCallback(() => dispatch(getPersonnels()), [
 		dispatch,
 	]);
@@ -62,6 +77,7 @@ const Personel = () => {
 	const handleDeleteClose = () => setOpenDelete(false);
 	const handleExpireClose = () => setOpenExpire(false);
 	const handlePersonelClose = () => setOpenPersonel(false);
+	const handleMoreLogin = () => setOpenMoreLogin(false);
 	const handleHireDateChange = (date) =>
 		setHireDate(new Date(date).toISOString().split('T')[0]);
 	const handleDateChange = (date) =>
@@ -95,7 +111,33 @@ const Personel = () => {
 
 	const getLastLogin = (lastLogins) => {
 		return lastLogins.length > 0
-			? moment(+lastLogins[lastLogins.length - 1]?.lastLogin).fromNow()
+			? moment(
+					+lastLogins.sort((a, b) => a.lastLogin - b.lastLogin)[
+						lastLogins.length - 1
+					]?.lastLogin,
+			  ).fromNow()
+			: 'Yok';
+	};
+
+	const getAllLastLogins = (lastLogins) => {
+		return lastLogins.length > 0
+			? lastLogins
+					.sort((a, b) => a.lastLogin - b.lastLogin)
+					.map((login) => (
+						<ListItem button>
+							<ListItemIcon>
+								<LocationOn />
+							</ListItemIcon>
+							<ListItemText
+								primary={`${login.geo?.city || 'Bilinmiyor'}`}
+								secondary={`${moment(
+									+login.lastLogin,
+								).fromNow()} - ${login.ip} ${
+									login.agent ? `- ${login.agent}` : ''
+								}`}
+							/>
+						</ListItem>
+					))
 			: 'Yok';
 	};
 
@@ -143,6 +185,8 @@ const Personel = () => {
 				progress: undefined,
 			});
 		}
+
+		getPersonnelsCb();
 	};
 
 	const handleExpireAction = async (personnelId) => {
@@ -268,7 +312,7 @@ const Personel = () => {
 		}
 
 		getPersonnelsCb();
-		handleStockClose();
+		handleDeleteClose();
 	};
 
 	return (
@@ -286,6 +330,13 @@ const Personel = () => {
 							<CardHeader
 								id="personel-header"
 								title="Personeller"
+								titleTypographyProps={{
+									variant: 'h5',
+								}}
+								subheader="Personeller ile ilgili tüm işlemlerin yapılabileceği bölüm."
+								subheaderTypographyProps={{
+									variant: 'subtitle',
+								}}
 								action={
 									<Button
 										style={{ textTransform: 'none' }}
@@ -306,13 +357,15 @@ const Personel = () => {
 								<DialogTitle id="form-dialog-title">
 									Personel Ekleme
 								</DialogTitle>
+								<Divider />
 								<DialogContent>
 									{step === 0 && (
 										<>
 											<TextField
 												autoFocus
 												margin="dense"
-												id="personel"
+												id="first_name"
+												required
 												label="Ad"
 												fullWidth
 												variant="outlined"
@@ -323,8 +376,9 @@ const Personel = () => {
 											/>
 											<TextField
 												margin="dense"
-												id="personel"
+												id="last_name"
 												label="Soyad"
+												required
 												fullWidth
 												variant="outlined"
 												value={last_name}
@@ -335,14 +389,16 @@ const Personel = () => {
 											<FormControl
 												variant="outlined"
 												fullWidth
+												required
 												className="personel-select"
 											>
 												<InputLabel>
 													Cinsiyet
 												</InputLabel>
 												<Select
+													labelId="gender"
+													id="gender-select"
 													native
-													required
 													value={gender}
 													onChange={(e) =>
 														setGender(
@@ -353,7 +409,9 @@ const Personel = () => {
 													<option
 														aria-label="None"
 														value=""
-													/>
+													>
+														{' '}
+													</option>
 													<option value="MALE">
 														Erkek
 													</option>
@@ -365,7 +423,6 @@ const Personel = () => {
 											<KeyboardDatePicker
 												fullWidth
 												required
-												disableToolbar
 												inputVariant="outlined"
 												format="MM/dd/yyyy"
 												margin="normal"
@@ -385,8 +442,9 @@ const Personel = () => {
 											<TextField
 												autoFocus
 												margin="dense"
-												id="personel"
+												id="email"
 												label="Email"
+												required
 												type="email"
 												fullWidth
 												variant="outlined"
@@ -397,7 +455,8 @@ const Personel = () => {
 											/>
 											<TextField
 												margin="dense"
-												id="personel"
+												required
+												id="password"
 												label="Şifre"
 												fullWidth
 												type="password"
@@ -410,22 +469,19 @@ const Personel = () => {
 											<FormControl
 												variant="outlined"
 												fullWidth
+												required
 												className="personel-select"
 											>
 												<InputLabel>Rol</InputLabel>
 												<Select
 													native
-													required
 													value={role}
 													onChange={(e) =>
 														setRole(e.target.value)
 													}
 												>
-													<option
-														aria-label="None"
-														value=""
-													/>
-													<option value="PERSONNEL">
+													<option value=""> </option>
+													<option value="PERSONEL">
 														Personel
 													</option>
 													<option value="ADMIN">
@@ -436,7 +492,6 @@ const Personel = () => {
 											<KeyboardDatePicker
 												fullWidth
 												required
-												disableToolbar
 												inputVariant="outlined"
 												format="MM/dd/yyyy"
 												className="personel-date"
@@ -456,7 +511,7 @@ const Personel = () => {
 									style={{
 										marginRight: '24px',
 										marginLeft: '24px',
-										padding: '16px 0'
+										padding: '16px 0',
 									}}
 								>
 									{step === 1 && (
@@ -501,19 +556,32 @@ const Personel = () => {
 							<Table>
 								<TableHead>
 									<TableRow>
-										<TableCell>Adı</TableCell>
-										<TableCell>Maili</TableCell>
-										<TableCell>Rolü</TableCell>
+										<TableCell></TableCell>
+										<TableCell>Ad Soyad</TableCell>
+										<TableCell>Email</TableCell>
+										<TableCell>Rol</TableCell>
 										<TableCell>
 											İşe Başlama Tarihi
 										</TableCell>
 										<TableCell>Sisteme Son Giriş</TableCell>
-										<TableCell> </TableCell>
+										<TableCell>Aksiyonlar</TableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
 									{personnels.map((personnel) => (
 										<TableRow hover key={personnel.title}>
+											<TableCell>
+												<Avatar
+													style={{
+														backgroundColor:
+															'#1769aa',
+													}}
+												>
+													{personnel.first_name
+														.toUpperCase()
+														.slice(0, 1)}
+												</Avatar>
+											</TableCell>
 											<TableCell>
 												{`${personnel.first_name} ${personnel.last_name}`}
 											</TableCell>
@@ -571,6 +639,31 @@ const Personel = () => {
 												{getLastLogin(
 													personnel.lastLogins,
 												)}
+												<IconButton onClick={() => setOpenMoreLogin(true)}>
+													<MoreHoriz fontSize="small" />
+												</IconButton>
+												<Dialog
+													id="more-login-personel"
+													open={openMoreLogin}
+													onClose={
+														handleMoreLogin
+													}
+													aria-labelledby="form-dialog-title"
+												>
+													<DialogContent>
+														<List
+															component="nav"
+															className={
+																classes.root
+															}
+															aria-label="contacts"
+														>
+															{getAllLastLogins(
+																personnel.lastLogins,
+															)}
+														</List>
+													</DialogContent>
+												</Dialog>
 											</TableCell>
 											<TableCell>
 												<Tooltip title="Bütün hesaplardan çıkış yap">
