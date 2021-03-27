@@ -331,8 +331,20 @@ export default function CarForm({ car }) {
 	return (
 		<main className={classes.layout}>
 			{!car && (
-				<Typography variant="subtitle2" style={{paddingLeft: '.5rem', paddingRight: '.5rem', fontSize: '0.625rem'}}>
-					* Excel dosyasına ikinci satırından itibaren veri girişi yaptığınızdan emin olunuz ve girmeniz gereken alanlar sırasıyla: ilan başlığı, açıklama, satış fiyatı, alış fiyatı, giriş tarihi (yıl-ay-gün), yıl, mode, yeni mi (true/false), araba renk kodu, araba üretici id, tedarikçi id, personel id
+				<Typography
+					variant="subtitle2"
+					style={{
+						paddingLeft: '.5rem',
+						paddingRight: '.5rem',
+						fontSize: '0.625rem',
+					}}
+				>
+					* Excel dosyasına ikinci satırından itibaren veri girişi
+					yaptığınızdan emin olunuz ve girmeniz gereken alanlar
+					sırasıyla: ilan başlığı, açıklama, satış fiyatı, alış
+					fiyatı, giriş tarihi (yıl-ay-gün), yıl, mode, yeni mi
+					(true/false), araba renk kodu, araba üretici id, tedarikçi
+					id, personel id
 				</Typography>
 			)}
 			{!car && (
@@ -345,26 +357,26 @@ export default function CarForm({ car }) {
 			)}
 			{!car && (
 				<Typography
-					variant='h6'
+					variant="h6"
 					style={{ textAlign: 'center', marginTop: '32px' }}
 				>
 					VEYA
 				</Typography>
 			)}
 			<Paper className={classes.paper}>
-				<Typography variant='h6' gutterBottom>
+				<Typography variant="h6" gutterBottom>
 					Araba Bilgileri
 				</Typography>
 				<Grid container spacing={3}>
 					<Grid item xs={12} sm={12}>
 						<TextField
 							required
-							id='title'
-							name='title'
-							label='Başlık'
+							id="title"
+							name="title"
+							label="Başlık"
 							fullWidth
-							autoComplete='title'
-							variant='outlined'
+							autoComplete="title"
+							variant="outlined"
 							value={title}
 							onChange={(e) => setTitle(e.target.value)}
 						/>
@@ -372,29 +384,29 @@ export default function CarForm({ car }) {
 					<Grid item xs={12}>
 						<TextField
 							fullWidth
-							id='outlined-description-static'
-							label='Açıklama'
+							id="outlined-description-static"
+							label="Açıklama"
 							multiline
 							required
 							rows={4}
-							variant='outlined'
+							variant="outlined"
 							value={description}
 							onChange={(e) => setDescription(e.target.value)}
 						/>
 					</Grid>
 
 					<Grid item xs={12} sm={6}>
-						<FormControl fullWidth variant='outlined'>
-							<InputLabel htmlFor='outlined-adornment-amount'>
+						<FormControl fullWidth variant="outlined">
+							<InputLabel htmlFor="outlined-adornment-amount">
 								Satış Fiyatı
 							</InputLabel>
 							<OutlinedInput
-								id='outlined-adornment-amount'
+								id="outlined-adornment-amount"
 								value={salePrice}
 								required
 								onChange={(e) => setSalePrice(e.target.value)}
 								endAdornment={
-									<InputAdornment position='end'>
+									<InputAdornment position="end">
 										₺
 									</InputAdornment>
 								}
@@ -403,19 +415,19 @@ export default function CarForm({ car }) {
 						</FormControl>
 					</Grid>
 					<Grid item xs={12} sm={6}>
-						<FormControl fullWidth variant='outlined'>
-							<InputLabel htmlFor='outlined-adornment-amount'>
+						<FormControl fullWidth variant="outlined">
+							<InputLabel htmlFor="outlined-adornment-amount">
 								Alış Fiyatı
 							</InputLabel>
 							<OutlinedInput
 								required
-								id='outlined-adornment-amount'
+								id="outlined-adornment-amount"
 								value={purchasePrice}
 								onChange={(e) =>
 									setPurchasePrice(e.target.value)
 								}
 								endAdornment={
-									<InputAdornment position='end'>
+									<InputAdornment position="end">
 										₺
 									</InputAdornment>
 								}
@@ -428,11 +440,11 @@ export default function CarForm({ car }) {
 							fullWidth
 							required
 							disableToolbar
-							inputVariant='outlined'
-							format='MM/dd/yyyy'
-							margin='normal'
-							id='enter_date'
-							label='Giriş Tarihi'
+							inputVariant="outlined"
+							format="MM/dd/yyyy"
+							margin="normal"
+							id="enter_date"
+							label="Giriş Tarihi"
 							value={selectedDate}
 							onChange={handleDateChange}
 							KeyboardButtonProps={{
@@ -444,9 +456,9 @@ export default function CarForm({ car }) {
 						<TextField
 							fullWidth
 							required
-							id='outlined-basic'
-							label='Yıl'
-							variant='outlined'
+							id="outlined-basic"
+							label="Yıl"
+							variant="outlined"
 							value={year}
 							onChange={(e) => setYear(e.target.value)}
 						/>
@@ -455,16 +467,16 @@ export default function CarForm({ car }) {
 						<TextField
 							fullWidth
 							required
-							id='outlined-basic'
-							label='Model'
-							variant='outlined'
+							id="outlined-basic"
+							label="Model"
+							variant="outlined"
 							value={model}
 							onChange={(e) => setModel(e.target.value)}
 						/>
 					</Grid>
 					<Grid item xs={6}>
-						<FormControl variant='outlined' fullWidth>
-							<InputLabel htmlFor='filled-age-native-simple'>
+						<FormControl variant="outlined" fullWidth>
+							<InputLabel htmlFor="filled-age-native-simple">
 								Yeni Mi?
 							</InputLabel>
 							<Select
@@ -477,15 +489,15 @@ export default function CarForm({ car }) {
 									id: 'filled-is_new-native-simple',
 								}}
 							>
-								<option aria-label='None' value='' />
+								<option aria-label="None" value="" />
 								<option value={true}>Sıfır</option>
 								<option value={false}>İkinci El</option>
 							</Select>
 						</FormControl>
 					</Grid>
 					<Grid item xs={6}>
-						<FormControl variant='outlined' fullWidth>
-							<InputLabel htmlFor='filled-age-native-simple'>
+						<FormControl variant="outlined" fullWidth>
+							<InputLabel htmlFor="filled-age-native-simple">
 								Renk
 							</InputLabel>
 							<Select
@@ -498,7 +510,7 @@ export default function CarForm({ car }) {
 									id: 'filled-color-native-simple',
 								}}
 							>
-								<option aria-label='None' value='' />
+								<option aria-label="None" value="" />
 								{colors.map((color) => (
 									<option key={color.id} value={color.id}>
 										{color.name}
@@ -508,8 +520,8 @@ export default function CarForm({ car }) {
 						</FormControl>
 					</Grid>
 					<Grid item xs={6}>
-						<FormControl variant='outlined' fullWidth>
-							<InputLabel htmlFor='filled-age-native-simple'>
+						<FormControl variant="outlined" fullWidth>
+							<InputLabel htmlFor="filled-age-native-simple">
 								Üretici Firma
 							</InputLabel>
 							<Select
@@ -525,7 +537,7 @@ export default function CarForm({ car }) {
 									id: 'filled-manufacturer-native-simple',
 								}}
 							>
-								<option aria-label='None' value='' />
+								<option aria-label="None" value="" />
 								{manufacturers &&
 									manufacturers.map((manufacturer) => (
 										<option
@@ -539,12 +551,12 @@ export default function CarForm({ car }) {
 						</FormControl>
 					</Grid>
 					<Grid item xs={6}>
-						<FormControl variant='outlined' fullWidth>
-							<InputLabel htmlFor='filled-supplier-native-simple'>
+						<FormControl variant="outlined" fullWidth>
+							<InputLabel htmlFor="filled-supplier-native-simple">
 								Tedarikçi
 							</InputLabel>
 							<Select
-								variant='outlined'
+								variant="outlined"
 								native
 								required
 								value={supplier}
@@ -554,7 +566,7 @@ export default function CarForm({ car }) {
 									id: 'filled-supplier-native-simple',
 								}}
 							>
-								<option aria-label='None' value='' />
+								<option aria-label="None" value="" />
 								{suppliers &&
 									suppliers.map((supplier) => (
 										<option
@@ -573,7 +585,7 @@ export default function CarForm({ car }) {
 							showFileNames
 							initialFiles={files}
 							onChange={(f) => setFiles(f)}
-							dropzoneText='Resimleri buraya sürükleyin veya seçmek için tıklayın'
+							dropzoneText="Resimleri buraya sürükleyin veya seçmek için tıklayın"
 							showAlerts={false}
 							filesLimit={20}
 						/>
@@ -582,8 +594,8 @@ export default function CarForm({ car }) {
 
 				<div className={classes.buttons}>
 					<Button
-						variant='outlined'
-						color='primary'
+						variant="outlined"
+						color="primary"
 						startIcon={<Cancel />}
 						className={classes.button}
 						disabled={disableClick}
@@ -592,8 +604,8 @@ export default function CarForm({ car }) {
 						İptal et
 					</Button>
 					<Button
-						variant='outlined'
-						color='secondary'
+						variant="outlined"
+						color="secondary"
 						startIcon={<Save />}
 						className={classes.button}
 						disabled={disableClick}

@@ -24,21 +24,51 @@ import {
 	Button,
 	DialogContent,
 	DialogContentText,
+	TextField,
+	FormControl,
+	InputLabel,
+	Select,
+	Avatar,
+	List,
+	ListItem,
+	ListItemIcon,
+	ListItemText,
+	makeStyles,
 } from '@material-ui/core';
 import { toast } from 'react-toastify';
-import { ImportExport, Delete, ExitToApp } from '@material-ui/icons';
+import { ImportExport, Delete, ExitToApp, MoreHoriz, LocationOn } from '@material-ui/icons';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import Page from '../components/page';
 import { useCarState } from '../hooks';
 import { getPersonnels } from '../actions';
 import { BASE_URL } from '../constants';
 import moment from 'moment';
 
+const useStyles = makeStyles((theme) => ({
+	root: {
+		width: '100%',
+		backgroundColor: theme.palette.background.paper,
+	},
+}));
+
 const Personel = () => {
+	const classes = useStyles();
 	const dispatch = useDispatch();
 	const { personnels } = useCarState();
 	const [openStock, setOpenStock] = useState(false);
 	const [openDelete, setOpenDelete] = useState(false);
 	const [openExpire, setOpenExpire] = useState(false);
+	const [first_name, setFirstname] = useState('');
+	const [last_name, setLastname] = useState('');
+	const [birth_date, setBirthDate] = useState(new Date(Date.now()));
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [gender, setGender] = useState('');
+	const [hire_date, setHireDate] = useState(new Date(Date.now()));
+	const [role, setRole] = useState('');
+	const [openPersonel, setOpenPersonel] = useState(false);
+	const [step, setStep] = useState(0);
+	const [openMoreLogin, setOpenMoreLogin] = useState(false);
 	const getPersonnelsCb = useCallback(() => dispatch(getPersonnels()), [
 		dispatch,
 	]);
@@ -46,6 +76,24 @@ const Personel = () => {
 	const handleStockClose = () => setOpenStock(false);
 	const handleDeleteClose = () => setOpenDelete(false);
 	const handleExpireClose = () => setOpenExpire(false);
+	const handlePersonelClose = () => setOpenPersonel(false);
+	const handleMoreLogin = () => setOpenMoreLogin(false);
+	const handleHireDateChange = (date) =>
+		setHireDate(new Date(date).toISOString().split('T')[0]);
+	const handleDateChange = (date) =>
+		setBirthDate(new Date(date).toISOString().split('T')[0]);
+
+	const handleNext = () => {
+		if (step < 1) {
+			setStep(step + 1);
+		}
+	};
+
+	const handlePrevious = () => {
+		if (step > 0) {
+			setStep(step - 1);
+		}
+	};
 
 	useEffect(() => {
 		getPersonnelsCb();
@@ -63,8 +111,82 @@ const Personel = () => {
 
 	const getLastLogin = (lastLogins) => {
 		return lastLogins.length > 0
-			? moment(+lastLogins[lastLogins.length - 1]?.lastLogin).fromNow()
+			? moment(
+					+lastLogins.sort((a, b) => a.lastLogin - b.lastLogin)[
+						lastLogins.length - 1
+					]?.lastLogin,
+			  ).fromNow()
 			: 'Yok';
+	};
+
+	const getAllLastLogins = (lastLogins) => {
+		return lastLogins.length > 0
+			? lastLogins
+					.sort((a, b) => a.lastLogin - b.lastLogin)
+					.map((login) => (
+						<ListItem button>
+							<ListItemIcon>
+								<LocationOn />
+							</ListItemIcon>
+							<ListItemText
+								primary={`${login.geo?.city || 'Bilinmiyor'}`}
+								secondary={`${moment(
+									+login.lastLogin,
+								).fromNow()} - ${login.ip} ${
+									login.agent ? `- ${login.agent}` : ''
+								}`}
+							/>
+						</ListItem>
+					))
+			: 'Yok';
+	};
+
+	const submitPersonel = async (e) => {
+		e.preventDefault();
+
+		const res = await fetch(`${BASE_URL}/api/personels`, {
+			method: 'POST',
+			body: JSON.stringify({
+				first_name,
+				last_name,
+				birth_date,
+				email,
+				password,
+				gender,
+				hire_date,
+				role,
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			credentials: 'include',
+		});
+
+		if (res.ok) {
+			toast.success('Personel başarılı bir şekilde eklendi.', {
+				position: 'top-center',
+				autoclose: 5000,
+				hideprogressbar: false,
+				closeonclick: true,
+				pauseonhover: true,
+				draggable: true,
+				progress: undefined,
+			});
+
+			setOpenPersonel(false);
+		} else {
+			toast.error('Personel ekleme işlemi sırasında bir hata oluştu.', {
+				position: 'top-center',
+				autoclose: 5000,
+				hideprogressbar: false,
+				closeonclick: true,
+				pauseonhover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		}
+
+		getPersonnelsCb();
 	};
 
 	const handleExpireAction = async (personnelId) => {
@@ -190,26 +312,242 @@ const Personel = () => {
 		}
 
 		getPersonnelsCb();
-		handleStockClose();
+		handleDeleteClose();
 	};
 
 	return (
-		<Page title='Personeller'>
+		<Page title="Personeller">
 			<Container>
 				<Grid
 					container
-					direction='column'
-					alignItems='center'
-					justify='center'
+					direction="column"
+					alignItems="center"
+					justify="center"
 					style={{ marginTop: '.5rem' }}
 				>
 					<Card style={{ height: '100%', width: '100%' }}>
 						<Box>
-							<CardHeader title='Personeller' />
+							<CardHeader
+								id="personel-header"
+								title="Personeller"
+								titleTypographyProps={{
+									variant: 'h5',
+								}}
+								subheader="Personeller ile ilgili tüm işlemlerin yapılabileceği bölüm."
+								subheaderTypographyProps={{
+									variant: 'subtitle',
+								}}
+								action={
+									<Button
+										style={{ textTransform: 'none' }}
+										disableElevation
+										color="primary"
+										variant="outlined"
+										onClick={() => setOpenPersonel(true)}
+									>
+										Personel Ekle
+									</Button>
+								}
+							/>
+							<Dialog
+								open={openPersonel}
+								onClose={handlePersonelClose}
+								aria-labelledby="form-dialog-title"
+							>
+								<DialogTitle id="form-dialog-title">
+									Personel Ekleme
+								</DialogTitle>
+								<Divider />
+								<DialogContent>
+									{step === 0 && (
+										<>
+											<TextField
+												autoFocus
+												margin="dense"
+												id="first_name"
+												required
+												label="Ad"
+												fullWidth
+												variant="outlined"
+												value={first_name}
+												onChange={(e) =>
+													setFirstname(e.target.value)
+												}
+											/>
+											<TextField
+												margin="dense"
+												id="last_name"
+												label="Soyad"
+												required
+												fullWidth
+												variant="outlined"
+												value={last_name}
+												onChange={(e) =>
+													setLastname(e.target.value)
+												}
+											/>
+											<FormControl
+												variant="outlined"
+												fullWidth
+												required
+												className="personel-select"
+											>
+												<InputLabel>
+													Cinsiyet
+												</InputLabel>
+												<Select
+													labelId="gender"
+													id="gender-select"
+													native
+													value={gender}
+													onChange={(e) =>
+														setGender(
+															e.target.value,
+														)
+													}
+												>
+													<option
+														aria-label="None"
+														value=""
+													>
+														{' '}
+													</option>
+													<option value="MALE">
+														Erkek
+													</option>
+													<option value="FEMALE">
+														Kadın
+													</option>
+												</Select>
+											</FormControl>
+											<KeyboardDatePicker
+												fullWidth
+												required
+												inputVariant="outlined"
+												format="MM/dd/yyyy"
+												margin="normal"
+												id="enter_date"
+												label="Doğum Tarihi"
+												value={birth_date}
+												className="personel-date"
+												onChange={handleDateChange}
+												KeyboardButtonProps={{
+													'aria-label': 'change date',
+												}}
+											/>
+										</>
+									)}
+									{step === 1 && (
+										<>
+											<TextField
+												autoFocus
+												margin="dense"
+												id="email"
+												label="Email"
+												required
+												type="email"
+												fullWidth
+												variant="outlined"
+												value={email}
+												onChange={(e) =>
+													setEmail(e.target.value)
+												}
+											/>
+											<TextField
+												margin="dense"
+												required
+												id="password"
+												label="Şifre"
+												fullWidth
+												type="password"
+												variant="outlined"
+												value={password}
+												onChange={(e) =>
+													setPassword(e.target.value)
+												}
+											/>
+											<FormControl
+												variant="outlined"
+												fullWidth
+												required
+												className="personel-select"
+											>
+												<InputLabel>Rol</InputLabel>
+												<Select
+													native
+													value={role}
+													onChange={(e) =>
+														setRole(e.target.value)
+													}
+												>
+													<option value=""> </option>
+													<option value="PERSONEL">
+														Personel
+													</option>
+													<option value="ADMIN">
+														Admin
+													</option>
+												</Select>
+											</FormControl>
+											<KeyboardDatePicker
+												fullWidth
+												required
+												inputVariant="outlined"
+												format="MM/dd/yyyy"
+												className="personel-date"
+												margin="normal"
+												id="enter_date"
+												label="İşe Başlama Tarihi"
+												value={hire_date}
+												onChange={handleHireDateChange}
+												KeyboardButtonProps={{
+													'aria-label': 'change date',
+												}}
+											/>
+										</>
+									)}
+								</DialogContent>
+								<DialogActions
+									style={{
+										marginRight: '24px',
+										marginLeft: '24px',
+										padding: '16px 0',
+									}}
+								>
+									{step === 1 && (
+										<Button
+											onClick={handlePrevious}
+											color="primary"
+											variant="outlined"
+										>
+											Geri
+										</Button>
+									)}
+									{step === 0 && (
+										<Button
+											onClick={handleNext}
+											color="primary"
+											variant="outlined"
+										>
+											Sonraki
+										</Button>
+									)}
+									{step === 1 && (
+										<Button
+											onClick={submitPersonel}
+											color="primary"
+											variant="contained"
+										>
+											Kabul Et
+										</Button>
+									)}
+								</DialogActions>
+							</Dialog>
+
 							<Divider />
 						</Box>
 						<Box
-							maxWidth='100%'
+							maxWidth="100%"
 							style={{
 								marginBottom: 'auto',
 								overflowX: 'scroll',
@@ -218,19 +556,32 @@ const Personel = () => {
 							<Table>
 								<TableHead>
 									<TableRow>
-										<TableCell>Adı</TableCell>
-										<TableCell>Maili</TableCell>
-										<TableCell>Rolü</TableCell>
+										<TableCell></TableCell>
+										<TableCell>Ad Soyad</TableCell>
+										<TableCell>Email</TableCell>
+										<TableCell>Rol</TableCell>
 										<TableCell>
 											İşe Başlama Tarihi
 										</TableCell>
 										<TableCell>Sisteme Son Giriş</TableCell>
-										<TableCell> </TableCell>
+										<TableCell>Aksiyonlar</TableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
 									{personnels.map((personnel) => (
 										<TableRow hover key={personnel.title}>
+											<TableCell>
+												<Avatar
+													style={{
+														backgroundColor:
+															'#1769aa',
+													}}
+												>
+													{personnel.first_name
+														.toUpperCase()
+														.slice(0, 1)}
+												</Avatar>
+											</TableCell>
 											<TableCell>
 												{`${personnel.first_name} ${personnel.last_name}`}
 											</TableCell>
@@ -240,14 +591,14 @@ const Personel = () => {
 											<TableCell>
 												{personnel.role === 'ADMIN' ? (
 													<Chip
-														label='Admin'
-														variant='outlined'
-														size='small'
-														color='primary'
+														label="Admin"
+														variant="outlined"
+														size="small"
+														color="primary"
 														icon={
 															<Icon
-																color='primary'
-																className='fas fa-user-shield'
+																color="primary"
+																className="fas fa-user-shield"
 																style={{
 																	fontSize:
 																		'.8rem',
@@ -260,13 +611,13 @@ const Personel = () => {
 													/>
 												) : (
 													<Chip
-														label='Personel'
-														variant='outlined'
-														size='small'
-														color='primary'
+														label="Personel"
+														variant="outlined"
+														size="small"
+														color="primary"
 														icon={
 															<Icon
-																className='fas fa-user'
+																className="fas fa-user"
 																style={{
 																	fontSize:
 																		'.8rem',
@@ -288,19 +639,44 @@ const Personel = () => {
 												{getLastLogin(
 													personnel.lastLogins,
 												)}
+												<IconButton onClick={() => setOpenMoreLogin(true)}>
+													<MoreHoriz fontSize="small" />
+												</IconButton>
+												<Dialog
+													id="more-login-personel"
+													open={openMoreLogin}
+													onClose={
+														handleMoreLogin
+													}
+													aria-labelledby="form-dialog-title"
+												>
+													<DialogContent>
+														<List
+															component="nav"
+															className={
+																classes.root
+															}
+															aria-label="contacts"
+														>
+															{getAllLastLogins(
+																personnel.lastLogins,
+															)}
+														</List>
+													</DialogContent>
+												</Dialog>
 											</TableCell>
 											<TableCell>
-												<Tooltip title='Bütün hesaplardan çıkış yap'>
+												<Tooltip title="Bütün hesaplardan çıkış yap">
 													<IconButton
-														edge='start'
-														color='inherit'
-														aria-label='menu'
+														edge="start"
+														color="inherit"
+														aria-label="menu"
 														onClick={() =>
 															setOpenExpire(true)
 														}
 													>
 														<ExitToApp
-															fontSize='small'
+															fontSize="small"
 															style={{
 																color:
 																	'#1769aa',
@@ -311,17 +687,17 @@ const Personel = () => {
 												<Dialog
 													open={openExpire}
 													onClose={handleExpireClose}
-													aria-labelledby='alert-dialog-title'
-													aria-describedby='alert-dialog-description'
+													aria-labelledby="alert-dialog-title"
+													aria-describedby="alert-dialog-description"
 												>
-													<DialogTitle id='alert-dialog-title'>
-														<Typography variant='p'>
+													<DialogTitle id="alert-dialog-title">
+														<Typography variant="p">
 															Tüm oturumlar
 															sonlandırılsın mı ?
 														</Typography>
 													</DialogTitle>
 													<DialogContent>
-														<DialogContentText id='alert-dialog-description'>
+														<DialogContentText id="alert-dialog-description">
 															Personelin tüm
 															oturumları
 															sonlandırılacak. Ve
@@ -335,12 +711,12 @@ const Personel = () => {
 															onClick={
 																handleExpireClose
 															}
-															color='primary'
+															color="primary"
 														>
 															Reddet
 														</Button>
 														<Button
-															color='primary'
+															color="primary"
 															autoFocus
 															onClick={() => {
 																handleExpireAction(
@@ -354,11 +730,11 @@ const Personel = () => {
 												</Dialog>
 												{personnel.role === 'ADMIN' ? (
 													<>
-														<Tooltip title='Personelin rolünü düşür'>
+														<Tooltip title="Personelin rolünü düşür">
 															<IconButton
-																edge='start'
-																color='inherit'
-																aria-label='menu'
+																edge="start"
+																color="inherit"
+																aria-label="menu"
 																onClick={() =>
 																	setOpenStock(
 																		true,
@@ -370,7 +746,7 @@ const Personel = () => {
 																		color:
 																			'#1769aa',
 																	}}
-																	fontSize='small'
+																	fontSize="small"
 																/>
 															</IconButton>
 														</Tooltip>
@@ -379,18 +755,18 @@ const Personel = () => {
 															onClose={
 																handleStockClose
 															}
-															aria-labelledby='alert-dialog-title'
-															aria-describedby='alert-dialog-description'
+															aria-labelledby="alert-dialog-title"
+															aria-describedby="alert-dialog-description"
 														>
-															<DialogTitle id='alert-dialog-title'>
-																<Typography variant='p'>
+															<DialogTitle id="alert-dialog-title">
+																<Typography variant="p">
 																	Rol
 																	düşürülsün
 																	mü ?
 																</Typography>
 															</DialogTitle>
 															<DialogContent>
-																<DialogContentText id='alert-dialog-description'>
+																<DialogContentText id="alert-dialog-description">
 																	Admin
 																	personelinin
 																	rolü normal
@@ -404,12 +780,12 @@ const Personel = () => {
 																	onClick={
 																		handleStockClose
 																	}
-																	color='primary'
+																	color="primary"
 																>
 																	Reddet
 																</Button>
 																<Button
-																	color='primary'
+																	color="primary"
 																	autoFocus
 																	onClick={() => {
 																		handleConfirmAction(
@@ -425,11 +801,11 @@ const Personel = () => {
 													</>
 												) : (
 													<>
-														<Tooltip title='Personelin rolünü arttır'>
+														<Tooltip title="Personelin rolünü arttır">
 															<IconButton
-																edge='start'
-																color='inherit'
-																aria-label='menu'
+																edge="start"
+																color="inherit"
+																aria-label="menu"
 																onClick={() =>
 																	setOpenStock(
 																		true,
@@ -437,7 +813,7 @@ const Personel = () => {
 																}
 															>
 																<ImportExport
-																	fontSize='small'
+																	fontSize="small"
 																	style={{
 																		color:
 																			'#1769aa',
@@ -450,18 +826,18 @@ const Personel = () => {
 															onClose={
 																handleStockClose
 															}
-															aria-labelledby='alert-dialog-title'
-															aria-describedby='alert-dialog-description'
+															aria-labelledby="alert-dialog-title"
+															aria-describedby="alert-dialog-description"
 														>
-															<DialogTitle id='alert-dialog-title'>
-																<Typography variant='p'>
+															<DialogTitle id="alert-dialog-title">
+																<Typography variant="p">
 																	Rol
 																	yükseltilsin
 																	mi ?
 																</Typography>
 															</DialogTitle>
 															<DialogContent>
-																<DialogContentText id='alert-dialog-description'>
+																<DialogContentText id="alert-dialog-description">
 																	Normal
 																	personelin
 																	rolü admin
@@ -475,12 +851,12 @@ const Personel = () => {
 																	onClick={
 																		handleStockClose
 																	}
-																	color='primary'
+																	color="primary"
 																>
 																	Reddet
 																</Button>
 																<Button
-																	color='primary'
+																	color="primary"
 																	autoFocus
 																	onClick={() => {
 																		handleConfirmAction(
@@ -496,17 +872,17 @@ const Personel = () => {
 													</>
 												)}
 
-												<Tooltip title='Personeli sil'>
+												<Tooltip title="Personeli sil">
 													<IconButton
-														edge='start'
-														color='inherit'
-														aria-label='menu'
+														edge="start"
+														color="inherit"
+														aria-label="menu"
 														onClick={() => {
 															setOpenDelete(true);
 														}}
 													>
 														<Delete
-															fontSize='small'
+															fontSize="small"
 															style={{
 																color:
 																	'#1769aa',
@@ -517,28 +893,28 @@ const Personel = () => {
 												<Dialog
 													open={openDelete}
 													onClose={handleDeleteClose}
-													aria-labelledby='alert-dialog-title'
-													aria-describedby='alert-dialog-description'
+													aria-labelledby="alert-dialog-title"
+													aria-describedby="alert-dialog-description"
 												>
-													<DialogTitle id='alert-dialog-title'>
-														<Typography variant='p'>
+													<DialogTitle id="alert-dialog-title">
+														<Typography variant="p">
 															Personel silinsin mi
 															?
 														</Typography>
 													</DialogTitle>
 													<DialogContent>
-														<DialogContentText id='alert-dialog-description'>
+														<DialogContentText id="alert-dialog-description">
 															Personelin tüm
 															bilgileri kalıcı
 															olarak silinecek.
 														</DialogContentText>
 													</DialogContent>
 													<DialogActions>
-														<Button color='primary'>
+														<Button color="primary">
 															Reddet
 														</Button>
 														<Button
-															color='primary'
+															color="primary"
 															autoFocus
 															onClick={() => {
 																handleDeleteAction(
