@@ -35,7 +35,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import moment from 'moment';
-import {logout} from '../actions';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -64,7 +63,6 @@ const ProfileDetails = () => {
 
 	const handleLogoutAllClose = () => setOpenLogoutAll(false);
 
-	const handleLogout = useCallback(() => dispatch(logout()), [dispatch]);
 	const handleLogoutAllAction = async () => {
 		const res = await fetch(`${BASE_URL}/api/personels/expire-session/current`, {
 			method: 'GET',
