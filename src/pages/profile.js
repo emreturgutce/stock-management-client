@@ -15,6 +15,12 @@ import {
 	Tooltip,
 	makeStyles,
 	ListItemIcon,
+	Dialog,
+	DialogTitle,
+	Typography,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
 } from '@material-ui/core';
 import validator from 'validator';
 import { KeyboardDatePicker } from '@material-ui/pickers';
@@ -29,6 +35,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import moment from 'moment';
+import {logout} from '../actions';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -51,8 +58,47 @@ const ProfileDetails = () => {
 	const refresh = useRefresh(history, '/personels/profile');
 	const dispatch = useDispatch();
 	const [disableClick, setDisableClick] = useState(false);
+	const [openLogoutAll, setOpenLogoutAll] = useState(false);
 
 	const getUserCb = useCallback(() => dispatch(getUser()), [dispatch]);
+
+	const handleLogoutAllClose = () => setOpenLogoutAll(false);
+
+	const handleLogout = useCallback(() => dispatch(logout()), [dispatch]);
+	const handleLogoutAllAction = async () => {
+		const res = await fetch(`${BASE_URL}/api/personels/expire-session/current`, {
+			method: 'GET',
+			credentials: 'include',
+		});
+
+		if (res.ok) {
+			toast.success('Bütün oturumlar başarılı bir şekilde kapatıldı.', {
+				position: 'top-center',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		} else {
+			toast.error(
+				'Bütün oturumları kapatma sırasında bir hata oluştu.',
+				{
+					position: 'top-center',
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				},
+			);
+		}
+		
+		getUserCb();
+		history.push('/login');
+	};
 
 	const handleSubmit = async (e) => {
 		setDisableClick(true);
@@ -223,24 +269,24 @@ const ProfileDetails = () => {
 	};
 
 	return (
-		<Page title='Profil'>
+		<Page title="Profil">
 			<Container>
 				<Grid
 					container
-					direction='column'
-					alignItems='center'
-					justify='center'
+					direction="column"
+					alignItems="center"
+					justify="center"
 					style={{ marginTop: '.5rem' }}
 				>
 					<Grid item style={{ marginBottom: '1rem', width: '100%' }}>
-						<form autoComplete='off'>
+						<form autoComplete="off">
 							<Card>
 								<CardHeader
-									subheader='Detay bilgileri değiştirilebilir.'
-									title='Profil'
+									subheader="Detay bilgileri değiştirilebilir."
+									title="Profil"
 									avatar={
 										user?.verified && (
-											<Tooltip title='Onaylanmış kullanıcı'>
+											<Tooltip title="Onaylanmış kullanıcı">
 												<VerifiedUser
 													style={{ color: '#4caf50' }}
 												/>
@@ -254,52 +300,52 @@ const ProfileDetails = () => {
 										<Grid item md={6} xs={12}>
 											<TextField
 												fullWidth
-												label='Ad'
-												name='firstName'
+												label="Ad"
+												name="firstName"
 												onChange={(e) =>
 													setFirstName(e.target.value)
 												}
 												required
 												value={firstName}
-												variant='outlined'
+												variant="outlined"
 											/>
 										</Grid>
 										<Grid item md={6} xs={12}>
 											<TextField
 												fullWidth
-												label='Soyad'
-												name='lastName'
+												label="Soyad"
+												name="lastName"
 												onChange={(e) =>
 													setLastName(e.target.value)
 												}
 												required
 												value={lastName}
-												variant='outlined'
+												variant="outlined"
 											/>
 										</Grid>
 										<Grid item md={6} xs={12}>
 											<TextField
 												fullWidth
-												label='Email Adresi'
-												name='email'
+												label="Email Adresi"
+												name="email"
 												onChange={(e) =>
 													setEmail(e.target.value)
 												}
 												disabled={user?.verified}
 												required
 												value={email}
-												variant='outlined'
+												variant="outlined"
 											/>
 										</Grid>
 										<Grid item md={6} xs={12}>
 											<KeyboardDatePicker
 												fullWidth
 												required
-												inputVariant='outlined'
-												format='dd.MM.yyyy'
-												margin='auto'
-												id='birth_date'
-												label='Doğum Tarihi'
+												inputVariant="outlined"
+												format="dd.MM.yyyy"
+												margin="auto"
+												id="birth_date"
+												label="Doğum Tarihi"
 												value={birthDate}
 												lang
 												onChange={(date) =>
@@ -313,8 +359,8 @@ const ProfileDetails = () => {
 										<Grid item md={6} xs={12}>
 											<TextField
 												fullWidth
-												label='Cinsiyet'
-												name='gender'
+												label="Cinsiyet"
+												name="gender"
 												onChange={(e) =>
 													setGender(e.target.value)
 												}
@@ -322,14 +368,14 @@ const ProfileDetails = () => {
 												select
 												SelectProps={{ native: true }}
 												value={gender}
-												variant='outlined'
+												variant="outlined"
 											>
-												<option key='MALE' value='MALE'>
+												<option key="MALE" value="MALE">
 													Erkek
 												</option>
 												<option
-													key='FEMALE'
-													value='FEMALE'
+													key="FEMALE"
+													value="FEMALE"
 												>
 													Kadın
 												</option>
@@ -339,13 +385,13 @@ const ProfileDetails = () => {
 								</CardContent>
 								<Divider />
 								<Box
-									display='flex'
-									justifyContent='flex-end'
+									display="flex"
+									justifyContent="flex-end"
 									p={2}
 								>
 									<Button
-										color='primary'
-										variant='outlined'
+										color="primary"
+										variant="outlined"
 										disabled={disableClick}
 										onClick={handleSubmit}
 									>
@@ -356,15 +402,15 @@ const ProfileDetails = () => {
 						</form>
 					</Grid>
 					<Grid item style={{ marginBottom: '1rem', width: '100%' }}>
-						<form autoComplete='off' style={{ width: '100%' }}>
+						<form autoComplete="off" style={{ width: '100%' }}>
 							<Card>
 								{!user.verified && (
 									<Alert
-										severity='warning'
+										severity="warning"
 										action={
 											<Button
-												color='inherit'
-												size='small'
+												color="inherit"
+												size="small"
 												disabled={disableClick}
 												onClick={handleSubmitEmail}
 											>
@@ -378,8 +424,8 @@ const ProfileDetails = () => {
 								)}
 
 								<CardHeader
-									subheader='Şifreni buradan değiştirebilirsin'
-									title='Şifreni Değiştir'
+									subheader="Şifreni buradan değiştirebilirsin"
+									title="Şifreni Değiştir"
 									avatar={
 										<VpnKey style={{ fill: '#1769aa' }} />
 									}
@@ -389,14 +435,14 @@ const ProfileDetails = () => {
 									<Grid container spacing={3}>
 										<Grid item md={6} xs={12}>
 											<TextField
-												variant='outlined'
-												margin='normal'
+												variant="outlined"
+												margin="normal"
 												required
 												fullWidth
-												name='password'
-												label='Şifre'
-												type='password'
-												id='password'
+												name="password"
+												label="Şifre"
+												type="password"
+												id="password"
 												disabled={!user?.verified}
 												error={
 													password !== '' &&
@@ -407,7 +453,7 @@ const ProfileDetails = () => {
 														},
 													)
 												}
-												autoComplete='current-password'
+												autoComplete="current-password"
 												value={password}
 												onChange={(e) =>
 													setPassword(e.target.value)
@@ -416,14 +462,14 @@ const ProfileDetails = () => {
 										</Grid>
 										<Grid item md={6} xs={12}>
 											<TextField
-												variant='outlined'
-												margin='normal'
+												variant="outlined"
+												margin="normal"
 												required
 												fullWidth
-												name='secondpassword'
-												label='Şifre Tekrar'
-												type='password'
-												id='secondpassword'
+												name="secondpassword"
+												label="Şifre Tekrar"
+												type="password"
+												id="secondpassword"
 												disabled={!user?.verified}
 												error={
 													secondpassword !== '' &&
@@ -435,7 +481,7 @@ const ProfileDetails = () => {
 													) &&
 													secondpassword !== password
 												}
-												autoComplete='current-password'
+												autoComplete="current-password"
 												value={secondpassword}
 												onChange={(e) =>
 													setSecondpassword(
@@ -448,13 +494,13 @@ const ProfileDetails = () => {
 								</CardContent>
 								<Divider />
 								<Box
-									display='flex'
-									justifyContent='flex-end'
+									display="flex"
+									justifyContent="flex-end"
 									p={2}
 								>
 									<Button
-										color='primary'
-										variant='outlined'
+										color="primary"
+										variant="outlined"
 										onClick={handleSubmitPassword}
 										disabled={
 											!user?.verified || disableClick
@@ -469,16 +515,75 @@ const ProfileDetails = () => {
 					<Grid item style={{ width: '100%' }}>
 						<Card>
 							<CardHeader
-								subheader='Bu hesaba son zamanlarda giriş yaptığın tarihler.'
-								title='Son Girişler'
+								id="all-sessions-header"
+								subheader="Bu hesaba son zamanlarda giriş yaptığın tarihler."
+								title="Son Girişler"
 								avatar={<Explore style={{ fill: '#1769aa' }} />}
+								action={
+									<>
+										<Button
+											style={{
+												textTransform: 'none',
+											}}
+											disableElevation
+											color="secondary"
+											variant="outlined"
+											onClick={() =>
+												setOpenLogoutAll(true)
+											}
+										>
+											Bütün Oturumları Kapat
+										</Button>
+
+										<Dialog
+											open={openLogoutAll}
+											onClose={handleLogoutAllClose}
+											aria-labelledby="alert-dialog-title"
+											aria-describedby="alert-dialog-description"
+										>
+											<DialogTitle id="alert-dialog-title">
+												<Typography variant="p">
+													Tüm oturumlar kapatılsın mı
+													?
+												</Typography>
+											</DialogTitle>
+											<DialogContent>
+												<DialogContentText id="alert-dialog-description">
+													Personelin giriş yapmış
+													olduğu tüm oturumlar
+													kapatılacak ve bir daha
+													giriş yapması gerekecek.
+												</DialogContentText>
+											</DialogContent>
+											<DialogActions>
+												<Button
+													onClick={
+														handleLogoutAllClose
+													}
+													color="primary"
+												>
+													Reddet
+												</Button>
+												<Button
+													color="primary"
+													autoFocus
+													onClick={
+														handleLogoutAllAction
+													}
+												>
+													Kabul Et
+												</Button>
+											</DialogActions>
+										</Dialog>
+									</>
+								}
 							/>
 							<Divider />
 							<CardContent>
 								<List
-									component='nav'
+									component="nav"
 									className={classes.root}
-									aria-label='contacts'
+									aria-label="contacts"
 								>
 									{getLastLogins()}
 								</List>
