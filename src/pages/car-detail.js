@@ -19,7 +19,7 @@ import { KeyboardDatePicker } from '@material-ui/pickers';
 import { toast } from 'react-toastify';
 import { Carousel } from 'react-responsive-carousel';
 import ContentLoader from 'react-content-loader';
-import { throttle } from 'lodash';
+import { throttle, startCase } from 'lodash';
 import { BASE_URL } from '../constants';
 import Loader from '../components/content-loader';
 import CarDetailRow from '../components/car-detail-row';
@@ -473,7 +473,7 @@ const CarDetail = () => {
 									<CarDetailRow
 										key={car?.car_brand}
 										name='Marka'
-										value={car?.car_brand}
+										value={startCase(car?.car_brand)}
 									/>
 									<CarDetailRow
 										key={car?.model}

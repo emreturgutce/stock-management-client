@@ -50,10 +50,67 @@ export default function AddDropDown() {
 	const history = useHistory();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [color, setColor] = useState('');
+	const [manufacturer, setManufacturer] = useState('');
 	const [openColorModal, setOpenColorModal] = useState(false);
+	const [openManufacturerModal, setOpenManufacturerModal] = useState(false);
 
 	const handleClick = (event) => setAnchorEl(event.currentTarget);
 	const handleClose = () => setAnchorEl(null);
+	
+	const submitManufacturer = async (e) => {
+		e.preventDefault();
+
+		const res = await fetch(`${BASE_URL}/api/cars/manufacturers`, {
+			method: 'POST',
+			body: JSON.stringify({
+				name: manufacturer,
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			credentials: 'include',
+		});
+
+		if (res.ok) {
+			toast.success('Üretici başarıyla eklendi', {
+				position: 'top-center',
+				autoclose: 5000,
+				hideprogressbar: false,
+				closeonclick: true,
+				pauseonhover: true,
+				draggable: true,
+				progress: undefined,
+			});
+
+			setOpenColorModal(false);
+		} else {
+			const resMessage = (await res.json()).message;
+
+			if (resMessage.match(/Unique Key/)) {
+				toast.error('Bu üretici zaten mevcut.', {
+					position: 'top-center',
+					autoclose: 5000,
+					hideprogressbar: false,
+					closeonclick: true,
+					pauseonhover: true,
+					draggable: true,
+					progress: undefined,
+				});
+
+				setOpenColorModal(false);
+			} else {
+				toast.error('Üretici ekleme sırasında bir hata oluştu', {
+					position: 'top-center',
+					autoclose: 5000,
+					hideprogressbar: false,
+					closeonclick: true,
+					pauseonhover: true,
+					draggable: true,
+					progress: undefined,
+				});
+			}
+		}
+	};
 
 	const submitColor = async (e) => {
 		e.preventDefault();
@@ -204,8 +261,8 @@ export default function AddDropDown() {
 						paddingRight: '1.5rem',
 					}}
 					onClick={() => {
+						setOpenManufacturerModal(true);
 						handleClose();
-						history.push('/cars/add');
 					}}
 				>
 					<ListItemText
@@ -213,6 +270,39 @@ export default function AddDropDown() {
 						primary="Araba Üreticisi Ekle"
 					/>
 				</StyledMenuItem>
+				<Dialog
+					open={openManufacturerModal}
+					onClose={() => setOpenManufacturerModal(false)}
+					aria-labelledby="form-dialog-title"
+					id="color-modal"
+				>
+					<DialogTitle id="form-dialog-title">
+						Üretici Ekleme
+					</DialogTitle>
+					<DialogContent>
+						<TextField
+							autoFocus
+							margin="dense"
+							id="color"
+							label="Üretici Adı"
+							fullWidth
+							variant="outlined"
+							value={manufacturer}
+							onChange={(e) => setManufacturer(e.target.value)}
+						/>
+					</DialogContent>
+					<DialogActions>
+						<Button
+							onClick={() => setOpenManufacturerModal(false)}
+							color="primary"
+						>
+							Reddet
+						</Button>
+						<Button onClick={submitManufacturer} color="primary">
+							Kabul Et
+						</Button>
+					</DialogActions>
+				</Dialog>
 				<StyledMenuItem
 					style={{
 						lineHeight: 'normal',

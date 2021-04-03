@@ -19,6 +19,7 @@ import { KeyboardDatePicker } from '@material-ui/pickers';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { Save, Cancel } from '@material-ui/icons';
 import { toast } from 'react-toastify';
+import { startCase } from 'lodash';
 import { useCarState, useAuthState } from '../hooks';
 import { BASE_URL } from '../constants';
 import ExcelDropzone from './excel-dropzone';
@@ -513,7 +514,7 @@ export default function CarForm({ car }) {
 								<option aria-label="None" value="" />
 								{colors.map((color) => (
 									<option key={color.id} value={color.id}>
-										{color.name}
+										{startCase(color.name)}
 									</option>
 								))}
 							</Select>
@@ -544,7 +545,7 @@ export default function CarForm({ car }) {
 											key={manufacturer.id}
 											value={manufacturer.id}
 										>
-											{manufacturer.name}
+											{startCase(manufacturer.name)}
 										</option>
 									))}
 							</Select>
@@ -573,7 +574,7 @@ export default function CarForm({ car }) {
 											key={supplier.id}
 											value={supplier.id}
 										>
-											{`${supplier.first_name} ${supplier.last_name}`}
+											{startCase(`${supplier.first_name} ${supplier.last_name}`)}
 										</option>
 									))}
 							</Select>
