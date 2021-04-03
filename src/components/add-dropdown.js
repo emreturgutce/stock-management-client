@@ -82,7 +82,7 @@ export default function AddDropDown() {
 				progress: undefined,
 			});
 
-			setOpenColorModal(false);
+			setOpenManufacturerModal(false);
 		} else {
 			const resMessage = (await res.json()).message;
 
@@ -97,7 +97,7 @@ export default function AddDropDown() {
 					progress: undefined,
 				});
 
-				setOpenColorModal(false);
+				setOpenManufacturerModal(false);
 			} else {
 				toast.error('Üretici ekleme sırasında bir hata oluştu', {
 					position: 'top-center',
