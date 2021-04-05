@@ -39,7 +39,6 @@ import { getTotalRevenue } from '../actions/cars/get-total-revenue';
 import LChart from '../components/line-chart';
 import SaleWorthChart from '../components/sale-worth-chart';
 import CustomerChart from '../components/customer-chart';
-import DateRangeSlider from '../components/date-range-slider';
 
 const fromDate = '2020-06-01';
 const toDate = '2021-06-01';
