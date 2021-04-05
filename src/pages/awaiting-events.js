@@ -181,7 +181,7 @@ const AwaitingEvents = () => {
 										overflowX: 'scroll',
 									}}
 								>
-									<Table>
+									<Table style={{ minWidth: '800px' }}>
 										<TableHead>
 											<TableRow>
 												<TableCell>
@@ -386,7 +386,7 @@ const AwaitingEvents = () => {
 							>
 								<Box>
 									<CardHeader
-										title="Onaylanmış Etkinlikler"
+										title="Tamamlanmış Etkinlikler"
 										subheader="Adminlerin onaylamış olduğu etkinlikler"
 										subheaderTypographyProps={{
 											variant: 'subtitle',
@@ -401,7 +401,7 @@ const AwaitingEvents = () => {
 										overflowX: 'scroll',
 									}}
 								>
-									<Table>
+									<Table style={{ minWidth: '800px' }}>
 										<TableHead>
 											<TableRow>
 												<TableCell>

@@ -166,9 +166,6 @@ const Chart = () => {
 									</Grid>
 									<Grid item style={{ height: 70.8 }}>
 										<Divider />
-										<DateRangeSlider
-											getSalesCb={getSalesCb}
-										/>
 										<Box height='100%' />
 									</Grid>
 								</Grid>

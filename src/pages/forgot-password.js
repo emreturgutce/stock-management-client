@@ -65,7 +65,7 @@ const ForgotPassword = () => {
 
 	return (
 		<Container
-			maxWidth='xs'
+			maxWidth="xs"
 			style={{
 				marginTop: '16px',
 				height: '70vh',
@@ -74,29 +74,28 @@ const ForgotPassword = () => {
 			}}
 		>
 			<form onSubmit={onSubmit}>
-				<Grid container spacing={3}>
+				<Grid container spacing={2}>
 					<Grid item style={{ width: '100%' }}>
-						<Typography variant='h5' style={{ fontWeight: 700 }}>
+						<Typography variant="h5" style={{ fontWeight: 700 }}>
 							Şifreni Sıfırla
 						</Typography>
 					</Grid>
 					<Grid item style={{ width: '100%' }}>
-						<p>
-							Hesabına bağlı olan Email adresini gir ve biz
-							Email'ine şifreni sıfırlaman için gerekli komutları
-							göndereceğiz.
-						</p>
+						<Typography>
+							Hesabına bağlı olan Email adresini gir ve şifreni
+							sıfırla.
+						</Typography>
 					</Grid>
 					<Grid item style={{ width: '100%' }}>
 						<TextField
-							variant='outlined'
-							margin='normal'
+							variant="outlined"
+							margin="normal"
 							required
 							fullWidth
-							id='email'
-							label='Email Adresi'
-							name='email'
-							autoComplete='email'
+							id="email"
+							label="Email Adresi"
+							name="email"
+							autoComplete="email"
 							autoFocus
 							error={email !== '' && !validator.isEmail(email)}
 							value={email}
@@ -105,11 +104,11 @@ const ForgotPassword = () => {
 					</Grid>
 					<Grid item style={{ width: '100%' }}>
 						<Button
-							type='submit'
+							type="submit"
 							fullWidth
-							variant='contained'
+							variant="contained"
 							disabled={disableClick}
-							color='primary'
+							color="primary"
 						>
 							Kodu Gönder
 						</Button>

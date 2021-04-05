@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 	layout: {
 		width: 'auto',
 		[theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
-			width: 750,
+			width: 850,
 			marginLeft: 'auto',
 			marginRight: 'auto',
 		},
@@ -389,7 +389,7 @@ export default function CarForm({ car }) {
 							label="Açıklama"
 							multiline
 							required
-							rows={4}
+							rows={6}
 							variant="outlined"
 							value={description}
 							onChange={(e) => setDescription(e.target.value)}

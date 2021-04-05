@@ -591,7 +591,7 @@ const Personel = () => {
 										overflowX: 'scroll',
 									}}
 								>
-									<Table>
+									<Table style={{ minWidth: '1040px' }}>
 										<TableHead>
 											<TableRow>
 												<TableCell></TableCell>
