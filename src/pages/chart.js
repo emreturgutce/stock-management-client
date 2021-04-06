@@ -109,13 +109,13 @@ const Chart = () => {
 	useEffect(getLatestSalesCb, [getLatestSalesCb]);
 
 	return (
-		<Page title='Satış Grafiği'>
+		<Page title="Satış Grafiği">
 			<Container>
 				<Grid
 					container
-					direction='column'
-					alignItems='center'
-					justify='center'
+					direction="column"
+					alignItems="center"
+					justify="center"
 					style={{ marginTop: '.5rem' }}
 				>
 					<Grid item container spacing={1} md={12} xs={12}>
@@ -142,8 +142,8 @@ const Chart = () => {
 					<Grid
 						item
 						container
-						justify='center'
-						direction='row'
+						justify="center"
+						direction="row"
 						style={{ marginTop: '1rem' }}
 						spacing={1}
 					>
@@ -151,12 +151,24 @@ const Chart = () => {
 							<Card style={{ height: '100%' }}>
 								<Grid
 									container
-									direction='column'
-									justify='space-between'
+									direction="column"
+									justify="space-between"
 									style={{ height: '100%' }}
 								>
 									<Grid item>
-										<CardHeader title='Satış Grafiği' />
+										<CardHeader
+											titleTypographyProps={{
+												style: {
+													color:
+														'rgba(0, 0, 0, 0.54)',
+													fontSize: '1.25rem',
+													fontWeight: 500,
+													lineHeight: 1.6,
+													letterSpacing: '0.0075em',
+												},
+											}}
+											title="Satış Grafiği"
+										/>
 
 										<Divider />
 									</Grid>
@@ -165,7 +177,7 @@ const Chart = () => {
 									</Grid>
 									<Grid item style={{ height: 70.8 }}>
 										<Divider />
-										<Box height='100%' />
+										<Box height="100%" />
 									</Grid>
 								</Grid>
 							</Card>
@@ -174,17 +186,30 @@ const Chart = () => {
 							<Card style={{ height: '100%' }}>
 								<Grid
 									container
-									direction='column'
-									justify='space-between'
+									direction="column"
+									justify="space-between"
 									style={{ height: '100%' }}
 								>
 									<Grid item>
 										<Box>
-											<CardHeader title='Son Satışlar' />
+											<CardHeader
+												titleTypographyProps={{
+													style: {
+														color:
+															'rgba(0, 0, 0, 0.54)',
+														fontSize: '1.25rem',
+														fontWeight: 500,
+														lineHeight: 1.6,
+														letterSpacing:
+															'0.0075em',
+													},
+												}}
+												title="Son Satışlar"
+											/>
 											<Divider />
 										</Box>
 										<Box
-											maxWidth='100%'
+											maxWidth="100%"
 											style={{ marginBottom: 'auto' }}
 										>
 											<Table>
@@ -226,8 +251,8 @@ const Chart = () => {
 																			sale.title
 																		}
 																		<Icon
-																			color='primary'
-																			className='fas fa-external-link-alt'
+																			color="primary"
+																			className="fas fa-external-link-alt"
 																			style={{
 																				fontSize:
 																					'.6rem',
@@ -241,11 +266,11 @@ const Chart = () => {
 															</TableCell>
 															<TableCell>
 																<Chip
-																	color='primary'
+																	color="primary"
 																	label={formatPrice(
 																		sale.price,
 																	)}
-																	size='small'
+																	size="small"
 																/>
 															</TableCell>
 														</TableRow>
@@ -257,20 +282,20 @@ const Chart = () => {
 									<Grid item>
 										<Divider />
 										<Box
-											display='flex'
-											justifyContent='flex-end'
+											display="flex"
+											justifyContent="flex-end"
 											p={2}
 										>
 											<Button
 												component={RouterLink}
-												to='/sales'
-												variant='outlined'
-												color='primary'
+												to="/sales"
+												variant="outlined"
+												color="primary"
 											>
 												Hepsini Gör
 												<Icon
-													color='primary'
-													className='fas fa-external-link-alt'
+													color="primary"
+													className="fas fa-external-link-alt"
 													style={{
 														fontSize: '.6rem',
 														width: '1rem',
@@ -287,8 +312,8 @@ const Chart = () => {
 					<Grid
 						item
 						container
-						justify='center'
-						direction='row'
+						justify="center"
+						direction="row"
 						style={{ marginTop: '1rem' }}
 						spacing={1}
 					>
@@ -296,12 +321,24 @@ const Chart = () => {
 							<Card style={{ height: '100%' }}>
 								<Grid
 									container
-									direction='column'
-									justify='space-between'
+									direction="column"
+									justify="space-between"
 									style={{ height: '100%' }}
 								>
 									<Grid item>
-										<CardHeader title='Kar/Ciro Grafiği' />
+										<CardHeader
+											titleTypographyProps={{
+												style: {
+													color:
+														'rgba(0, 0, 0, 0.54)',
+													fontSize: '1.25rem',
+													fontWeight: 500,
+													lineHeight: 1.6,
+													letterSpacing: '0.0075em',
+												},
+											}}
+											title="Kar/Ciro Grafiği"
+										/>
 
 										<Divider />
 									</Grid>
@@ -310,7 +347,7 @@ const Chart = () => {
 									</Grid>
 									<Grid item style={{ height: 70.8 }}>
 										<Divider />
-										<Box height='100%' />
+										<Box height="100%" />
 									</Grid>
 								</Grid>
 							</Card>
@@ -319,12 +356,24 @@ const Chart = () => {
 							<Card style={{ height: '100%' }}>
 								<Grid
 									container
-									direction='column'
-									justify='space-between'
+									direction="column"
+									justify="space-between"
 									style={{ height: '100%' }}
 								>
 									<Grid item>
-										<CardHeader title='Müşteri Grafiği' />
+										<CardHeader
+											titleTypographyProps={{
+												style: {
+													color:
+														'rgba(0, 0, 0, 0.54)',
+													fontSize: '1.25rem',
+													fontWeight: 500,
+													lineHeight: 1.6,
+													letterSpacing: '0.0075em',
+												},
+											}}
+											title="Müşteri Grafiği"
+										/>
 
 										<Divider />
 									</Grid>
@@ -333,7 +382,7 @@ const Chart = () => {
 									</Grid>
 									<Grid item style={{ height: 70.8 }}>
 										<Divider />
-										<Box height='100%' />
+										<Box height="100%" />
 									</Grid>
 								</Grid>
 							</Card>

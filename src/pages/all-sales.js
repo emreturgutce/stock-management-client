@@ -43,26 +43,37 @@ const AllSales = () => {
 		return () => {
 			node.parentNode.removeChild(node);
 		};
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
-		<Page title='Bütün satışlar'>
+		<Page title="Bütün satışlar">
 			<Container>
 				<Grid
 					container
-					direction='column'
-					alignItems='center'
-					justify='center'
+					direction="column"
+					alignItems="center"
+					justify="center"
 					style={{ marginTop: '.5rem' }}
 				>
 					<Card style={{ height: '100%', width: '100%' }}>
 						<Box>
-							<CardHeader title='Bütün Satışlar' />
+							<CardHeader
+								title="Bütün Satışlar"
+								titleTypographyProps={{
+									style: {
+										color: 'rgba(0, 0, 0, 0.54)',
+										fontSize: '1.25rem',
+										fontWeight: 500,
+										lineHeight: 1.6,
+										letterSpacing: '0.0075em',
+									},
+								}}
+							/>
 							<Divider />
 						</Box>
 						<Box
-							maxWidth='100%'
+							maxWidth="100%"
 							style={{
 								marginBottom: 'auto',
 								overflowX: 'scroll',
@@ -94,8 +105,8 @@ const AllSales = () => {
 													>
 														{sale.title}
 														<Icon
-															color='primary'
-															className='fas fa-external-link-alt'
+															color="primary"
+															className="fas fa-external-link-alt"
 															style={{
 																fontSize:
 																	'.6rem',
@@ -108,20 +119,20 @@ const AllSales = () => {
 											</TableCell>
 											<TableCell>
 												<Chip
-													color='primary'
+													color="primary"
 													label={formatPrice(
 														sale.sale_price,
 													)}
-													size='small'
+													size="small"
 												/>
 											</TableCell>
 											<TableCell>
 												<Chip
-													color='primary'
+													color="primary"
 													label={formatPrice(
 														sale.purchase_price,
 													)}
-													size='small'
+													size="small"
 												/>
 											</TableCell>
 											<TableCell>

@@ -343,7 +343,13 @@ const Personel = () => {
 										id="personel-header"
 										title="Personeller"
 										titleTypographyProps={{
-											variant: 'h5',
+											style: {
+												color: 'rgba(0, 0, 0, 0.54)',
+												fontSize: '1.25rem',
+												fontWeight: 500,
+												lineHeight: 1.6,
+												letterSpacing: '0.0075em',
+											},
 										}}
 										subheader="Personeller ile ilgili tüm işlemlerin yapılabileceği bölüm."
 										subheaderTypographyProps={{

@@ -171,6 +171,15 @@ const AwaitingEvents = () => {
 										subheaderTypographyProps={{
 											variant: 'subtitle',
 										}}
+										titleTypographyProps={{
+											style: {
+												color: 'rgba(0, 0, 0, 0.54)',
+												fontSize: '1.25rem',
+												fontWeight: 500,
+												lineHeight: 1.6,
+												letterSpacing: '0.0075em',
+											},
+										}}
 									/>
 									<Divider />
 								</Box>
@@ -390,6 +399,15 @@ const AwaitingEvents = () => {
 										subheader="Adminlerin onaylamış olduğu etkinlikler"
 										subheaderTypographyProps={{
 											variant: 'subtitle',
+										}}
+										titleTypographyProps={{
+											style: {
+												color: 'rgba(0, 0, 0, 0.54)',
+												fontSize: '1.25rem',
+												fontWeight: 500,
+												lineHeight: 1.6,
+												letterSpacing: '0.0075em',
+											},
 										}}
 									/>
 									<Divider />

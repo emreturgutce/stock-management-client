@@ -64,10 +64,13 @@ const ProfileDetails = () => {
 	const handleLogoutAllClose = () => setOpenLogoutAll(false);
 
 	const handleLogoutAllAction = async () => {
-		const res = await fetch(`${BASE_URL}/api/personels/expire-session/current`, {
-			method: 'GET',
-			credentials: 'include',
-		});
+		const res = await fetch(
+			`${BASE_URL}/api/personels/expire-session/current`,
+			{
+				method: 'GET',
+				credentials: 'include',
+			},
+		);
 
 		if (res.ok) {
 			toast.success('Bütün oturumlar başarılı bir şekilde kapatıldı.', {
@@ -80,20 +83,17 @@ const ProfileDetails = () => {
 				progress: undefined,
 			});
 		} else {
-			toast.error(
-				'Bütün oturumları kapatma sırasında bir hata oluştu.',
-				{
-					position: 'top-center',
-					autoClose: 5000,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-				},
-			);
+			toast.error('Bütün oturumları kapatma sırasında bir hata oluştu.', {
+				position: 'top-center',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
 		}
-		
+
 		getUserCb();
 		history.push('/login');
 	};
@@ -282,6 +282,15 @@ const ProfileDetails = () => {
 								<CardHeader
 									subheader="Detay bilgileri değiştirilebilir."
 									title="Profil"
+									titleTypographyProps={{
+										style: {
+											color: 'rgba(0, 0, 0, 0.54)',
+											fontSize: '1rem',
+											fontWeight: 500,
+											lineHeight: 1.6,
+											letterSpacing: '0.0075em',
+										},
+									}}
 									avatar={
 										user?.verified && (
 											<Tooltip title="Onaylanmış kullanıcı">
@@ -423,6 +432,15 @@ const ProfileDetails = () => {
 
 								<CardHeader
 									subheader="Şifreni buradan değiştirebilirsin"
+									titleTypographyProps={{
+										style: {
+											color: 'rgba(0, 0, 0, 0.54)',
+											fontSize: '1rem',
+											fontWeight: 500,
+											lineHeight: 1.6,
+											letterSpacing: '0.0075em',
+										},
+									}}
 									title="Şifreni Değiştir"
 									avatar={
 										<VpnKey style={{ fill: '#1769aa' }} />
@@ -516,6 +534,15 @@ const ProfileDetails = () => {
 								id="all-sessions-header"
 								subheader="Bu hesaba son zamanlarda giriş yaptığın tarihler."
 								title="Son Girişler"
+								titleTypographyProps={{
+									style: {
+										color: 'rgba(0, 0, 0, 0.54)',
+										fontSize: '1rem',
+										fontWeight: 500,
+										lineHeight: 1.6,
+										letterSpacing: '0.0075em',
+									},
+								}}
 								avatar={<Explore style={{ fill: '#1769aa' }} />}
 								action={
 									<>
