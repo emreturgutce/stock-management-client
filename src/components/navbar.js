@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) =>
 			flexGrow: 1,
 		},
 		menuButton: {
-			marginRight: theme.spacing(2),
 		},
 		title: {
 			flexGrow: 1,
@@ -75,7 +74,7 @@ const Navbar = () => {
 					)}*/}
 					{user?.role === 'ADMIN' && (
 						<Tooltip title='Personeller'>
-							<RouterLink to='/personels'> {/* TODO! - Change Path */}
+							<RouterLink style={{ display: 'block', marginRight: '12px' }} to='/personels'> {/* TODO! - Change Path */}
 								<IconButton
 									edge='start'
 									className={classes.menuButton}
@@ -92,7 +91,7 @@ const Navbar = () => {
 					)}
 					{user?.role === 'ADMIN' && (
 						<Tooltip title='Etkinlikler'>
-							<RouterLink to='/events'>
+							<RouterLink style={{ display: 'block', marginRight: '12px' }} to='/events'>
 								<IconButton
 									edge='start'
 									className={classes.menuButton}
@@ -108,7 +107,7 @@ const Navbar = () => {
 						</Tooltip>
 					)}
 					<Tooltip title='Satış grafiği'>
-						<RouterLink to='/cars/chart'>
+						<RouterLink style={{ display: 'block', marginRight: '12px' }} to='/cars/chart'>
 							<IconButton
 								edge='start'
 								className={classes.menuButton}
