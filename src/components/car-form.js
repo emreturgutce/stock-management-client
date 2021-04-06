@@ -31,18 +31,16 @@ const useStyles = makeStyles((theme) => ({
 	layout: {
 		width: 'auto',
 		[theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
-			width: 850,
+			width: 900,
 			marginLeft: 'auto',
 			marginRight: 'auto',
 		},
-		marginTop: theme.spacing(4),
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	paper: {
-		marginTop: theme.spacing(2),
 		marginBottom: theme.spacing(3),
 		padding: theme.spacing(2),
 		[theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
@@ -574,7 +572,9 @@ export default function CarForm({ car }) {
 											key={supplier.id}
 											value={supplier.id}
 										>
-											{startCase(`${supplier.first_name} ${supplier.last_name}`)}
+											{startCase(
+												`${supplier.first_name} ${supplier.last_name}`,
+											)}
 										</option>
 									))}
 							</Select>

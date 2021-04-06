@@ -6,7 +6,6 @@ import {
 	CardContent,
 	Grid,
 	Typography,
-	colors,
 	makeStyles,
 } from '@material-ui/core';
 import { ArrowUpward, People } from '@material-ui/icons';

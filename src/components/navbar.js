@@ -12,7 +12,6 @@ import {
 	Grid,
 	Tooltip,
 	Icon,
-	Typography,
 } from '@material-ui/core';
 import { Equalizer, EventBusy, People } from '@material-ui/icons';
 import LetterAvatar from './letter-avatar';

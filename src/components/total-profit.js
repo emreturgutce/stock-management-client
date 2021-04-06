@@ -6,7 +6,6 @@ import {
 	Grid,
 	Typography,
 	makeStyles,
-	colors,
 } from '@material-ui/core';
 import { AttachMoney, ArrowUpward } from '@material-ui/icons';
 import { useCarState } from '../hooks/use-car-state';
