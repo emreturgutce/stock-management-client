@@ -245,8 +245,8 @@ const AwaitingEvents = () => {
 																color="secondary"
 																icon={
 																	<Delete
-																		color="secondary"
 																		style={{
+																			color: '#881254',
 																			width:
 																				'1rem',
 																			marginLeft: 10,
@@ -262,8 +262,8 @@ const AwaitingEvents = () => {
 																color="secondary"
 																icon={
 																	<ShoppingCart
-																		color="secondary"
 																		style={{
+																			color: '#881254',
 																			width:
 																				'1rem',
 																			marginLeft: 10,
@@ -295,7 +295,7 @@ const AwaitingEvents = () => {
 																<Close
 																	style={{
 																		fill:
-																			'#f44336',
+																			'#881254',
 																	}}
 																	fontSize="small"
 																/>
@@ -315,7 +315,7 @@ const AwaitingEvents = () => {
 																<Check
 																	style={{
 																		fill:
-																			'#4caf50',
+																			'#69aa17',
 																	}}
 																	fontSize="small"
 																/>
@@ -479,8 +479,8 @@ const AwaitingEvents = () => {
 																color="secondary"
 																icon={
 																	<Delete
-																		color="secondary"
 																		style={{
+																			color: '#881254',
 																			width:
 																				'1rem',
 																			marginLeft: 10,
@@ -496,8 +496,8 @@ const AwaitingEvents = () => {
 																color="secondary"
 																icon={
 																	<ShoppingCart
-																		color="secondary"
 																		style={{
+																			color: '#881254',
 																			width:
 																				'1rem',
 																			marginLeft: 10,
@@ -528,7 +528,7 @@ const AwaitingEvents = () => {
 																	aria-hidden="true"
 																	width="24px"
 																	height="24px"
-																	fill="#4caf50"
+																	fill="#69aa17"
 																>
 																	<path d="M20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4C12.76,4 13.5,4.11 14.2, 4.31L15.77,2.74C14.61,2.26 13.34,2 12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0, 0 22,12M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z"></path>
 																</svg>

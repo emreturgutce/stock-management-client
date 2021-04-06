@@ -960,7 +960,7 @@ const Personel = () => {
 																	fontSize="small"
 																	style={{
 																		color:
-																			'#1769aa',
+																			'#881254',
 																	}}
 																/>
 															</IconButton>

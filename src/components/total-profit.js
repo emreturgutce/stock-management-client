@@ -18,15 +18,15 @@ const useStyles = makeStyles((theme) => ({
 		height: '100%',
 	},
 	avatar: {
-		backgroundColor: colors.teal['500'],
+		backgroundColor: '#1769aa',
 		height: 56,
 		width: 56,
 	},
 	differenceIcon: {
-		color: colors.green[900],
+		color: '#69aa17',
 	},
 	differenceValue: {
-		color: colors.green[900],
+		color: '#69aa17',
 		marginRight: theme.spacing(1),
 	},
 }));

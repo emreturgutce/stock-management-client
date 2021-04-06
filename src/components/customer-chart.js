@@ -12,7 +12,7 @@ const CustomerChart = () => {
 			{
 				label: 'Aylık Müşteri',
 				data: [...monthlyTotalCustomer.map((sale) => sale.count)],
-				backgroundColor: 'rgb(255, 99, 132)',
+				backgroundColor: '#cc73a5',
 			},
 		],
 	};

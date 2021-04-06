@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { loadCSS } from 'fg-loadcss';
 import {
 	createStyles,
 	makeStyles,
@@ -10,15 +11,17 @@ import {
 	Container,
 	Grid,
 	Tooltip,
+	Icon,
+	Typography,
 } from '@material-ui/core';
-import { Equalizer, Home, EventBusy, People } from '@material-ui/icons';
+import { Equalizer, EventBusy, People } from '@material-ui/icons';
 import LetterAvatar from './letter-avatar';
 import { useAuthState } from '../hooks';
 import AddDropDown from './add-dropdown';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
 	createStyles({
 		root: {
 			flexGrow: 1,
@@ -138,6 +141,18 @@ const Navbar = () => {
 		);
 	};
 
+
+	useEffect(() => {
+		const node = loadCSS(
+			'https://use.fontawesome.com/releases/v5.12.0/css/all.css',
+			document.querySelector('#font-awesome-css'),
+		);
+
+		return () => {
+			node.parentNode.removeChild(node);
+		};
+	}, []);
+
 	return (
 		<HideOnScroll>
 			<AppBar position='fixed'>
@@ -151,9 +166,13 @@ const Navbar = () => {
 									color='inherit'
 									aria-label='menu'
 								>
-									<Home
-										style={{ fill: '#EEE' }}
-										width='125%'
+									<Icon
+										className='fas fa-car'
+										style={{
+											color: '#EEE',
+											fontSize: '1.5rem',
+											width: '1.5rem',
+										}}
 									/>
 								</IconButton>
 							</RouterLink>

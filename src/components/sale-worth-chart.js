@@ -12,12 +12,12 @@ const SaleWorthChart = () => {
 			{
 				label: 'Ciro (Bin TL)',
 				data: [...monthlyTotalSale.map((sale) => sale.sum / 1000)],
-				backgroundColor: 'rgb(54, 162, 235)',
+				backgroundColor: '#2b91e2',
 			},
 			{
 				label: 'Kar (Bin TL)',
 				data: [...monthlyTotalWorth.map((sale) => sale.worth / 1000)],
-				backgroundColor: 'rgb(75, 192, 192)',
+				backgroundColor: '#17aaa2',
 			},
 		],
 	};
