@@ -157,7 +157,7 @@ const Navbar = () => {
 			<AppBar position='fixed'>
 				<Container>
 					<Grid container alignItems='center' justify='space-between'>
-						<Grid item>
+						<Grid item style={{ marginLeft: '.5rem' }}>
 							<RouterLink to='/'>
 								<IconButton
 									edge='start'
