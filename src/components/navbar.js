@@ -158,7 +158,7 @@ const Navbar = () => {
 				<Container>
 					<Grid container alignItems='center' justify='space-between'>
 						<Grid item style={{ marginLeft: '.5rem' }}>
-							<RouterLink to='/'>
+							<RouterLink to='/' style={{ textDecoration: 'none' }}>
 								<IconButton
 									edge='start'
 									className={classes.menuButton}
