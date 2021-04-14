@@ -303,20 +303,6 @@ export default function AddDropDown() {
 						</Button>
 					</DialogActions>
 				</Dialog>
-				<StyledMenuItem
-					style={{
-						lineHeight: 'normal',
-						fontSize: '.9rem',
-						paddingLeft: '1.5rem',
-						paddingRight: '1.5rem',
-					}}
-					onClick={() => {
-						handleClose();
-						history.push('/cars/add');
-					}}
-				>
-					<ListItemText disableTypography primary="Müşteri Ekle" />
-				</StyledMenuItem>
 			</StyledMenu>
 		</div>
 	);
